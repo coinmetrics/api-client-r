@@ -7,6 +7,7 @@
 #' @importFrom glue glue
 #' @importFrom magrittr %>%
 #' @importFrom readr parse_guess
+#' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
 ## usethis namespace: end
 NULL
