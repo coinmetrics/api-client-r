@@ -22,7 +22,7 @@ get_index_levels <- function(indexes,
                              start_inclusive = TRUE,
                              end_inclusive = TRUE,
                              timezone = "UTC",
-                             page_size = NULL,
+                             page_size = 100,
                              paging_from = "end",
                              limit_per_index = NULL,
                              pretty = FALSE,
@@ -58,7 +58,6 @@ get_index_levels <- function(indexes,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-levels",
-    pagination = TRUE,
     paging_from = paging_from
   )
   

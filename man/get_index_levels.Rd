@@ -12,7 +12,7 @@ get_index_levels(
   start_inclusive = TRUE,
   end_inclusive = TRUE,
   timezone = "UTC",
-  page_size = NULL,
+  page_size = 100,
   paging_from = "end",
   limit_per_index = NULL,
   pretty = FALSE,

@@ -11,7 +11,6 @@ import_api_key <- function() {
 
 get_coinmetrics_api_data <- function(api_response,
                                         endpoint,
-                                        pagination = TRUE,
                                         paging_from) {
   
   api_content <- api_response %>%
@@ -21,24 +20,22 @@ get_coinmetrics_api_data <- function(api_response,
     httr::content() %>%
     purrr::pluck("data")
   
-  if (pagination == TRUE) {
     
-    while (is.null(api_content[["next_page_url"]]) == FALSE) {
-      
-      # print(api_content[["next_page_url"]])
-      
-      api_content <- httr::GET(url = api_content[["next_page_url"]]) %>%
-        httr::content()
-      
-      if (paging_from == "end")
-        api_data <- c(api_content[["data"]], api_data)
-      
-      else if (paging_from == "start")
-        api_data <- c(api_data, api_content[["data"]])
-      
-    }
+  while (is.null(api_content[["next_page_url"]]) == FALSE) {
+    # print(api_content[["next_page_url"]])
+    
+    api_content <-
+      httr::GET(url = api_content[["next_page_url"]]) %>%
+      httr::content()
+    
+    if (paging_from == "end")
+      api_data <- c(api_content[["data"]], api_data)
+    
+    else if (paging_from == "start")
+      api_data <- c(api_data, api_content[["data"]])
     
   }
+    
   
   if (endpoint %in% c("asset-metrics", "pair-metrics", "exchange-metrics", "exchange-asset-metrics", "institution-metrics", "market-trades", "market-openinterest", "market-liquidations", "market-funding-rates", "market-quotes", "market-candles", "index-levels", "asset/blocks", "asset/accounts", "asset/transactions", "asset/balance-updates", "taxonomy/assets")) {
     
