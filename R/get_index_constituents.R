@@ -11,10 +11,9 @@ get_index_constituents <- function(indexes,
                                    start_inclusive = NULL,
                                    end_inclusive = NULL,
                                    timezone = NULL,
-                                   page_size = NULL,
+                                   page_size = 100,
                                    pretty = FALSE,
-                                   next_page_token = NULL
-) {
+                                   next_page_token = NULL) {
   cm_api_key <- import_api_key()
   # API Request
   if(identical(cm_api_key, "")) {
@@ -44,7 +43,6 @@ get_index_constituents <- function(indexes,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-constituents",
-    pagination = TRUE,
     paging_from = paging_from
   )
 }

@@ -18,7 +18,7 @@ get_asset_metrics(
   end_inclusive = TRUE,
   min_confirmations = NULL,
   timezone = "UTC",
-  page_size = NULL,
+  page_size = 100,
   paging_from = "end",
   sort = "asset",
   status = NULL,
@@ -26,7 +26,6 @@ get_asset_metrics(
   pretty = FALSE,
   format = "json",
   next_page_token = NULL,
-  pagination = TRUE,
   null_as_zero = NULL
 )
 }
@@ -73,9 +72,9 @@ get_asset_metrics(
 
 \item{next_page_token}{}
 
-\item{pagination}{}
-
 \item{null_as_zero}{}
+
+\item{pagination}{}
 }
 \description{
 Parses API response into tibble of metrics data

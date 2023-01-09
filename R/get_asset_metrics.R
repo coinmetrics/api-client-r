@@ -38,7 +38,7 @@ get_asset_metrics <- function(assets,
                               end_inclusive = TRUE,
                               min_confirmations = NULL,
                               timezone = "UTC",
-                              page_size = NULL,
+                              page_size = 100,
                               paging_from = "end",
                               sort = "asset",
                               status = NULL,
@@ -46,7 +46,6 @@ get_asset_metrics <- function(assets,
                               pretty = FALSE,
                               format = "json",
                               next_page_token = NULL,
-                              pagination = TRUE,
                               null_as_zero = NULL
                               ) {
   
@@ -92,7 +91,6 @@ get_asset_metrics <- function(assets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset-metrics",
-    pagination = TRUE,
     paging_from = paging_from
   )
 

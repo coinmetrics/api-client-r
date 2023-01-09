@@ -12,7 +12,7 @@ get_index_constituents(
   start_inclusive = NULL,
   end_inclusive = NULL,
   timezone = NULL,
-  page_size = NULL,
+  page_size = 100,
   pretty = FALSE,
   next_page_token = NULL
 )
