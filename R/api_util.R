@@ -15,13 +15,21 @@ sanitize_query_params <- function(...) {
       function_arguments[[i]] <- paste0(function_arguments[[i]], collapse = ",")
     } else if(class(function_arguments[[i]]) == "numeric") {
       function_arguments[[i]] <- format(function_arguments[[i]], scientific = FALSE)
-    } 
+    } else if(class(function_arguments[[i]]) == "logical") {
+      if(function_arguments[[i]] == TRUE) {
+        function_arguments[[i]] <- "true"
+      } else {
+        function_arguments[[i]] <- "false"
+      }
+    } else if(class(function_arguments[[i]]) == "character" && !assertthat::is.string(function_arguments[[i]])) {
+      function_arguments[[i]] <- paste0(function_arguments[[i]], collapse = ",")
+    }
   }
   result_arguments <- function_arguments |> purrr::discard(.p = is.null)
   return(result_arguments)
 }
 
-send_coinmetrics_request <- function(endpoint, query_args) {
+send_coinmetrics_request <- function(endpoint, query_args = NULL) {
   
   # read API key
   cm_api_key <- import_api_key()
@@ -36,13 +44,16 @@ send_coinmetrics_request <- function(endpoint, query_args) {
 #  query_args <- c(query_args, "api_key" = cm_api_key)
 #  query_args <- sanitize_query_params(list(...))
   message(stringr::str_interp("CM_API_KEY: ${cm_api_key}"))
-  query_args <- do.call(sanitize_query_params, query_args)
-  query_args <- c(query_args, api_key=cm_api_key)
-  print("QUERY ARGS:")
-  print(query_args)
+  if(!is.null(query_args)) {
+    query_args <- do.call(sanitize_query_params, query_args)
+    query_args <- c(query_args, api_key=cm_api_key)
+  } else {
+    query_args <- list(api_key=cm_api_key)
+  }
+
   headers <- c("Content-Type" = "application/json", "R-API-Client-Version" = packageVersion("coinmetrics"))
   
-  response <- httr::GET(url = construct_coinmetrics_api_http_url("timeseries/asset-metrics", api_environment),
+  response <- httr::GET(url = construct_coinmetrics_api_http_url(endpoint_path = endpoint, api_environment),
                         query = query_args, headers = headers)
   
   if (response$status_code != 200) {
@@ -126,11 +137,3 @@ construct_coinmetrics_api_http_url <- function(endpoint_path, environment = "pro
   
 }
 
-
-# send_coinmetrics_request("timeseries/asset-metrics", query_args = list(assets=list("algo", "eth", "btc"), metrics=list("ReferenceRateUSD")))
-# send_coinmetrics_request("timeseries/asset-metrics", query_args = list(assets=list("btc", "eth"), metrics="ReferenceRateUSD"))
-qp <- sanitize_query_params(assets=list("btc", "eth"), metrics="ReferenceRateUSD")
-print("Sanitized QP:")
-print(qp)
-
-print(send_coinmetrics_request(endpoint = "timeseries/asset-metrics", query_args = list(assets=list("btc", "eth"), metrics="ReferenceRateUSD")))
