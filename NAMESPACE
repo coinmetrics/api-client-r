@@ -3,6 +3,7 @@
 export(get_asset_metrics)
 export(get_index_constituents)
 export(get_index_levels)
+export(get_pair_metrics)
 importFrom(anytime,anytime)
 importFrom(data.table,rbindlist)
 importFrom(glue,glue)
