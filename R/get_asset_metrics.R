@@ -1,27 +1,18 @@
 #' @title  Get Coin Metrics API Data
 #' @description Parses API response into tibble of metrics data
+#' @inheritParams get_index_levels
 #' @param assets character vector of assets. Use "*" to get metrics for all supported assets.
 #' @param metrics 
 #' @param frequency 
-#' @param start_time 
-#' @param end_time 
 #' @param start_height 
 #' @param end_height 
 #' @param start_hash 
 #' @param end_hash 
-#' @param start_inclusive 
-#' @param end_inclusive 
 #' @param min_confirmations 
-#' @param timezone 
-#' @param page_size 
-#' @param paging_from 
-#' @param sort 
+#' @param sort Sort tabular data by asset, time, or metric
 #' @param status 
 #' @param limit_per_asset 
-#' @param pretty 
-#' @param format 
-#' @param next_page_token 
-#' @param pagination 
+#' @param format JSON or CSV
 #' @param null_as_zero 
 #'
 #' @export
@@ -45,22 +36,11 @@ get_asset_metrics <- function(assets,
                               limit_per_asset = NULL,
                               pretty = FALSE,
                               format = "json",
-                              next_page_token = NULL,
-                              null_as_zero = NULL
+                              null_as_zero = NULL,
+                              as_list = FALSE
                               ) {
   
-  # read API key
-  cm_api_key <- import_api_key()
-  # API Request
-  if(identical(cm_api_key, "")) {
-    api_environment <- 'community'
-    cm_api_key <- NULL
-  } else {
-    api_environment <- "production"
-  }
-  
   query_args <- list(
-    api_key = cm_api_key,
     assets = paste0(assets, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
     frequency = frequency,
@@ -75,23 +55,22 @@ get_asset_metrics <- function(assets,
     end_inclusive = end_inclusive,
     min_confirmations = min_confirmations,
     timezone = timezone,
-    page_size = format(page_size, scientific = FALSE),
+    page_size = page_size,
     paging_from = paging_from,
     sort = sort,
     limit_per_asset = limit_per_asset,
     pretty = pretty,
     format = format,
-    null_as_zero = null_as_zero,
-    next_page_token = next_page_token
-  ) |> purrr::discard(.p = is.null)
+    null_as_zero = null_as_zero
+  )
   
-  resp <- httr::GET(url = construct_coinmetrics_api_http_url("timeseries/asset-metrics", api_environment),
-                    query = query_args)
+  resp <- send_coinmetrics_request(endpoint = "timeseries/asset-metrics", query_args = query_args)
   
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset-metrics",
-    paging_from = paging_from
+    paging_from = paging_from,
+    as_list = as_list
   )
 
 }

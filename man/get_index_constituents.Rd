@@ -9,12 +9,13 @@ get_index_constituents(
   frequency = "1d",
   start_time = NULL,
   end_time = NULL,
-  start_inclusive = NULL,
-  end_inclusive = NULL,
-  timezone = NULL,
-  page_size = 100,
+  start_inclusive = TRUE,
+  end_inclusive = TRUE,
+  timezone = "UTC",
+  page_size = NULL,
+  paging_from = "end",
   pretty = FALSE,
-  next_page_token = NULL
+  as_list = FALSE
 )
 }
 \arguments{
@@ -34,9 +35,11 @@ get_index_constituents(
 
 \item{page_size}{Number of items per single page of results. Default is 100.}
 
+\item{paging_from}{Where first page starts: start or end of interval.}
+
 \item{pretty}{Human-readable JSON formatting. Default is false.}
 
-\item{next_page_token}{Token for receiving the results from the next page of a query. Should not be used directly.}
+\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble of constituents and weights for specified indexes.

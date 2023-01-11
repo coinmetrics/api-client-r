@@ -12,6 +12,7 @@
 #' @param limit_per_index How many entries per index result.
 #' @param pretty Human-readable JSON formatting. Default is false.
 #' @param next_page_token Token for receiving the results from the next page of a query. Should not be used directly.
+#' @param as_list Should API return list instead of tabular data
 #'
 #' @return Tibble of index levels for specified indexes and date range
 #' @export
@@ -26,15 +27,7 @@ get_index_levels <- function(indexes,
                              paging_from = "end",
                              limit_per_index = NULL,
                              pretty = FALSE,
-                             next_page_token = NULL) {
-  cm_api_key <- import_api_key()
-  # API Request
-  if(identical(cm_api_key, "")) {
-    api_environment <- 'community'
-    cm_api_key <- NULL
-  } else {
-    api_environment <- "production"
-  }
+                             as_list = FALSE) {
   
   query_args <- list(
     api_key = cm_api_key,
@@ -45,20 +38,19 @@ get_index_levels <- function(indexes,
     start_inclusive = start_inclusive,
     end_inclusive = end_inclusive,
     timezone = timezone,
-    page_size = format(page_size, scientific = FALSE),
+    page_size = page_size,
     paging_from = paging_from,
     limit_per_index = limit_per_index,
-    pretty = pretty,
-    next_page_token = next_page_token
-  ) |> purrr::discard(.p = is.null)
+    pretty = pretty
+  )
   
-  resp <- httr::GET(url = construct_coinmetrics_api_http_url("timeseries/index-levels", api_environment),
-                    query = query_args)
+  resp <- send_coinmetrics_request(endpoint = "timeseries/index-levels", query_args = query_args)
   
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-levels",
-    paging_from = paging_from
+    paging_from = paging_from,
+    as_list = as_list
   )
   
 }

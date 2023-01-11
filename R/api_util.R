@@ -66,7 +66,8 @@ send_coinmetrics_request <- function(endpoint, query_args = NULL) {
 
 get_coinmetrics_api_data <- function(api_response,
                                      endpoint,
-                                     paging_from) {
+                                     paging_from,
+                                     as_list = FALSE) {
   
   api_content <- api_response %>%
     httr::content()
@@ -83,45 +84,50 @@ get_coinmetrics_api_data <- function(api_response,
       httr::GET(url = api_content[["next_page_url"]]) %>%
       httr::content()
     
-    if (paging_from == "end")
+    if (paging_from == "end") {
       api_data <- c(api_content[["data"]], api_data)
-    
-    else if (paging_from == "start")
+    } else {
       api_data <- c(api_data, api_content[["data"]])
+    }
     
   }
   
-  
-  if (endpoint %in% c("asset-metrics", "pair-metrics", "exchange-metrics", "exchange-asset-metrics", "institution-metrics", "market-trades", "market-openinterest", "market-liquidations", "market-funding-rates", "market-quotes", "market-candles", "index-levels", "asset/blocks", "asset/accounts", "asset/transactions", "asset/balance-updates", "taxonomy/assets")) {
+  if(as_list) {
     
-    api_data <- api_data %>%
-      data.table::rbindlist(fill = TRUE) %>%
-      purrr::map_df(readr::parse_guess)
+    return(api_data)
     
-  }
-  
-  
-  if (endpoint == "index-constituents") {
+  } else {
+    if (endpoint %in% c("asset-metrics", "pair-metrics", "exchange-metrics", "exchange-asset-metrics", "institution-metrics", "market-trades", "market-openinterest", "market-liquidations", "market-funding-rates", "market-quotes", "market-candles", "index-levels", "asset/blocks", "asset/accounts", "asset/transactions", "asset/balance-updates", "taxonomy/assets")) {
+      
+      api_data <- api_data %>%
+        data.table::rbindlist(fill = TRUE) %>%
+        purrr::map_df(readr::parse_guess)
+      
+    }
     
-    api_data <- tibble::tibble(
-      index = purrr::map_chr(api_data, "index", .default = NA),
-      time = purrr::map_chr(api_data, "time", .default = NA),
-      constituents = purrr::map(api_data, "constituents", .default = NA)
-    ) %>%
-      tidyr::unnest(constituents) %>%
-      dplyr::mutate(
-        asset = purrr::map_chr(constituents, "asset", .default = NA),
-        weight = purrr::map_chr(constituents, "weight", .default = NA)
+    
+    if (endpoint == "index-constituents") {
+      
+      api_data <- tibble::tibble(
+        index = purrr::map_chr(api_data, "index", .default = NA),
+        time = purrr::map_chr(api_data, "time", .default = NA),
+        constituents = purrr::map(api_data, "constituents", .default = NA)
       ) %>%
-      dplyr::mutate(
-        time = anytime::anytime(time),
-        weight = as.numeric(weight)
-      ) %>%
-      dplyr::select(-constituents)
+        tidyr::unnest(constituents) %>%
+        dplyr::mutate(
+          asset = purrr::map_chr(constituents, "asset", .default = NA),
+          weight = purrr::map_chr(constituents, "weight", .default = NA)
+        ) %>%
+        dplyr::mutate(
+          time = anytime::anytime(time),
+          weight = as.numeric(weight)
+        ) %>%
+        dplyr::select(-constituents)
+      
+    }
     
+    return(api_data)
   }
-  
-  return(api_data)
   
 }
 

@@ -16,7 +16,7 @@ get_index_levels(
   paging_from = "end",
   limit_per_index = NULL,
   pretty = FALSE,
-  next_page_token = NULL
+  as_list = FALSE
 )
 }
 \arguments{
@@ -41,6 +41,8 @@ get_index_levels(
 \item{limit_per_index}{How many entries per index result.}
 
 \item{pretty}{Human-readable JSON formatting. Default is false.}
+
+\item{as_list}{Should API return list instead of tabular data}
 
 \item{next_page_token}{Token for receiving the results from the next page of a query. Should not be used directly.}
 }

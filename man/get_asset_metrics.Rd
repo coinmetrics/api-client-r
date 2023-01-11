@@ -25,8 +25,8 @@ get_asset_metrics(
   limit_per_asset = NULL,
   pretty = FALSE,
   format = "json",
-  next_page_token = NULL,
-  null_as_zero = NULL
+  null_as_zero = NULL,
+  as_list = FALSE
 )
 }
 \arguments{
@@ -36,9 +36,9 @@ get_asset_metrics(
 
 \item{frequency}{}
 
-\item{start_time}{}
+\item{start_time}{Start time of the timeseries. Multiple formats of ISO 8601 are supported.}
 
-\item{end_time}{}
+\item{end_time}{End time of the timeseries. Multiple formats of ISO 8601 are supported.}
 
 \item{start_height}{}
 
@@ -48,33 +48,31 @@ get_asset_metrics(
 
 \item{end_hash}{}
 
-\item{start_inclusive}{}
+\item{start_inclusive}{Flag to define if start timestamp must be included in the timeseries if present. True by default.}
 
-\item{end_inclusive}{}
+\item{end_inclusive}{Flag to define if end timestamp must be included in the timeseries if present. True by default.}
 
 \item{min_confirmations}{}
 
-\item{timezone}{}
+\item{timezone}{Timezone for \code{start_time} and \code{end_time} timestamps. Default is UTC. Example: America/New_York.}
 
-\item{page_size}{}
+\item{page_size}{Number of items per single page of results. Default is 100.}
 
-\item{paging_from}{}
+\item{paging_from}{Where first page starts: start or end of interval.}
 
-\item{sort}{}
+\item{sort}{Sort tabular data by asset, time, or metric}
 
 \item{status}{}
 
 \item{limit_per_asset}{}
 
-\item{pretty}{}
+\item{pretty}{Human-readable JSON formatting. Default is false.}
 
-\item{format}{}
-
-\item{next_page_token}{}
+\item{format}{JSON or CSV}
 
 \item{null_as_zero}{}
 
-\item{pagination}{}
+\item{as_list}{Should API return list instead of tabular data}
 }
 \description{
 Parses API response into tibble of metrics data
