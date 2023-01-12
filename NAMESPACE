@@ -3,6 +3,7 @@
 export(get_asset_metrics)
 export(get_exchange_asset_metrics)
 export(get_exchange_metrics)
+export(get_index_candles)
 export(get_index_constituents)
 export(get_index_levels)
 export(get_market_candles)
