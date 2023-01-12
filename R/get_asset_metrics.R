@@ -2,18 +2,18 @@
 #' @description Parses API response into tibble of metrics data
 #' @inheritParams get_index_levels
 #' @param assets character vector of assets. Use "*" to get metrics for all supported assets.
-#' @param metrics 
-#' @param frequency 
-#' @param start_height 
-#' @param end_height 
-#' @param start_hash 
-#' @param end_hash 
-#' @param min_confirmations 
+#' @param metrics Vector of metrics to request
+#' @param frequency Frequency of metrics. Supported values are `1b` (block by block), `1s`, `1m`, `10m`, `1h`, `1d`, `1d-ny-close`.
+#' @param start_height The beginning block height for the set of data returned. Mutually exclusive with `start_time` and `start_hash`.
+#' @param end_height The ending block height for the set of data returned. Mutually exclusive with `end_time` and `end_hash`.
+#' @param start_hash The beginning block height for the set of data returned. Mutually exclusive with `start_time` and `start_height`.
+#' @param end_hash The ending block height for the set of data returned. Mutually exclusive with `end_time` and `end_height`.
+#' @param min_confirmations [0, 1, ... 99] How many blocks behind the block by block metrics (`1b` frequency) are the data based
 #' @param sort Sort tabular data by asset, time, or metric
-#' @param status 
-#' @param limit_per_asset 
+#' @param status String for which metric values you want to see: "all", "flash", "reviewed", "revised"
+#' @param limit_per_asset Number of entries per asset
 #' @param format JSON or CSV
-#' @param null_as_zero 
+#' @param null_as_zero Represent nulls as zeros in the response (TRUE or FALSE)
 #'
 #' @export
 get_asset_metrics <- function(assets,
@@ -36,7 +36,7 @@ get_asset_metrics <- function(assets,
                               limit_per_asset = NULL,
                               pretty = FALSE,
                               format = "json",
-                              null_as_zero = NULL,
+                              null_as_zero = FALSE,
                               as_list = FALSE
                               ) {
   

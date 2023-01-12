@@ -25,34 +25,34 @@ get_asset_metrics(
   limit_per_asset = NULL,
   pretty = FALSE,
   format = "json",
-  null_as_zero = NULL,
+  null_as_zero = FALSE,
   as_list = FALSE
 )
 }
 \arguments{
 \item{assets}{character vector of assets. Use "*" to get metrics for all supported assets.}
 
-\item{metrics}{}
+\item{metrics}{Vector of metrics to request}
 
-\item{frequency}{}
+\item{frequency}{Frequency of metrics. Supported values are \verb{1b} (block by block), \verb{1s}, \verb{1m}, \verb{10m}, \verb{1h}, \verb{1d}, \verb{1d-ny-close}.}
 
 \item{start_time}{Start time of the timeseries. Multiple formats of ISO 8601 are supported.}
 
 \item{end_time}{End time of the timeseries. Multiple formats of ISO 8601 are supported.}
 
-\item{start_height}{}
+\item{start_height}{The beginning block height for the set of data returned. Mutually exclusive with \code{start_time} and \code{start_hash}.}
 
-\item{end_height}{}
+\item{end_height}{The ending block height for the set of data returned. Mutually exclusive with \code{end_time} and \code{end_hash}.}
 
-\item{start_hash}{}
+\item{start_hash}{The beginning block height for the set of data returned. Mutually exclusive with \code{start_time} and \code{start_height}.}
 
-\item{end_hash}{}
+\item{end_hash}{The ending block height for the set of data returned. Mutually exclusive with \code{end_time} and \code{end_height}.}
 
 \item{start_inclusive}{Flag to define if start timestamp must be included in the timeseries if present. True by default.}
 
 \item{end_inclusive}{Flag to define if end timestamp must be included in the timeseries if present. True by default.}
 
-\item{min_confirmations}{}
+\item{min_confirmations}{\link{0, 1, ... 99} How many blocks behind the block by block metrics (\verb{1b} frequency) are the data based}
 
 \item{timezone}{Timezone for \code{start_time} and \code{end_time} timestamps. Default is UTC. Example: America/New_York.}
 
@@ -62,15 +62,15 @@ get_asset_metrics(
 
 \item{sort}{Sort tabular data by asset, time, or metric}
 
-\item{status}{}
+\item{status}{String for which metric values you want to see: "all", "flash", "reviewed", "revised"}
 
-\item{limit_per_asset}{}
+\item{limit_per_asset}{Number of entries per asset}
 
 \item{pretty}{Human-readable JSON formatting. Default is false.}
 
 \item{format}{JSON or CSV}
 
-\item{null_as_zero}{}
+\item{null_as_zero}{Represent nulls as zeros in the response (TRUE or FALSE)}
 
 \item{as_list}{Should API return list instead of tabular data}
 }

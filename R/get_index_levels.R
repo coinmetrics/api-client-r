@@ -11,7 +11,6 @@
 #' @param paging_from Where first page starts: start or end of interval.
 #' @param limit_per_index How many entries per index result.
 #' @param pretty Human-readable JSON formatting. Default is false.
-#' @param next_page_token Token for receiving the results from the next page of a query. Should not be used directly.
 #' @param as_list Should API return list instead of tabular data
 #'
 #' @return Tibble of index levels for specified indexes and date range
