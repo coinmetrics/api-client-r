@@ -29,7 +29,6 @@ get_index_levels <- function(indexes,
                              as_list = FALSE) {
   
   query_args <- list(
-    api_key = cm_api_key,
     indexes = paste0(indexes, collapse = ','),
     frequency = frequency,
     start_time = start_time,
