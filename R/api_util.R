@@ -97,18 +97,6 @@ get_coinmetrics_api_data <- function(api_response,
     return(api_data)
     
   } else {
-    if (endpoint %in% c("asset-metrics", "pair-metrics", "exchange-metrics", "exchange-asset-metrics", "market-metrics",
-                        "institution-metrics", "market-trades", "market-openinterest", "market-liquidations", 
-                        "market-funding-rates", "market-quotes", "market-candles", "index-levels", "index-candles", 
-                        "asset/blocks", "asset/accounts", "asset/transactions", "asset/balance-updates", "taxonomy/assets")
-        ) {
-      
-      api_data <- api_data %>%
-        data.table::rbindlist(fill = TRUE) %>%
-        purrr::map_df(readr::parse_guess)
-      
-    }
-    
     
     if (endpoint == "index-constituents") {
       
@@ -127,6 +115,12 @@ get_coinmetrics_api_data <- function(api_response,
           weight = as.numeric(weight)
         ) %>%
         dplyr::select(-constituents)
+      
+    } else {
+      
+      api_data <- api_data %>%
+        data.table::rbindlist(fill = TRUE) %>%
+        purrr::map_df(readr::parse_guess)
       
     }
     
