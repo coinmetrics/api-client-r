@@ -120,3 +120,18 @@ get_catalog_exchange_assets <- function(exchange_assets=NULL, pretty=FALSE, as_l
   }
 
 }
+
+#' Get Available Indexes
+#' @param indexes Vector of index names. By default, all indexes are returned.
+#' @return Tibble of available indexes along with time ranges of available data
+#' @export
+get_catalog_indexes <- function(indexes=NULL) {
+  
+  resp <- send_coinmetrics_request(endpoint = "catalog/indexes", query_args = list(indexes=indexes))
+  ix_content <- httr::content(resp)[["data"]]
+  
+  data.table::rbindlist(ix_content, fill = TRUE) %>%
+    tidyr::unnest_wider(frequencies) %>%
+    dplyr::mutate(min_time = anytime::anytime(min_time),
+                  max_time = anytime::anytime(max_time))
+}
