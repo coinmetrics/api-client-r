@@ -25,15 +25,33 @@ get_catalog_assets <- function(assets = NULL,
 
 #' Available Asset Pairs
 #' @param pairs Vector of asset pairs. By default, all asset pairs are returned.
+#' @param as_list Return list instead of tibble.
 #' @return List of available asset pairs, along with key information like metrics and time ranges of available data.
 #' @export
-get_catalog_asset_pairs <- function(pairs=NULL) {
+get_catalog_asset_pairs <- function(pairs=NULL, as_list=TRUE) {
   
   resp <- send_coinmetrics_request(endpoint = "catalog/pairs", query_args = list(pairs = pairs))
   
   pairs_content <- httr::content(resp)[["data"]]
   
-  return(pairs_content)
+  if(as_list) {
+    return(pairs_content)
+  } else {
+    pairs_tbl <-
+      data.table::rbindlist(pairs_content) %>%
+      tidyr::hoist(metrics, "metric", "frequencies") %>%
+      tidyr::unnest_longer(frequencies) %>%
+      tidyr::hoist(
+        frequencies,
+        "frequency",
+        "min_time",
+        "max_time",
+        .transform = list(min_time = anytime::anytime, max_time = anytime::anytime)
+      )
+    
+    return(pairs_tbl)
+    
+  }
   
 }
 

@@ -4,10 +4,12 @@
 \alias{get_catalog_asset_pairs}
 \title{Available Asset Pairs}
 \usage{
-get_catalog_asset_pairs(pairs = NULL)
+get_catalog_asset_pairs(pairs = NULL, as_list = TRUE)
 }
 \arguments{
 \item{pairs}{Vector of asset pairs. By default, all asset pairs are returned.}
+
+\item{as_list}{Return list instead of tibble.}
 }
 \value{
 List of available asset pairs, along with key information like metrics and time ranges of available data.
