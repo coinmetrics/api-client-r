@@ -52,7 +52,7 @@ get_asset_metrics(
 
 \item{end_inclusive}{Flag to define if end timestamp must be included in the timeseries if present. True by default.}
 
-\item{min_confirmations}{\link{0, 1, ... 99} How many blocks behind the block by block metrics (\verb{1b} frequency) are the data based}
+\item{min_confirmations}{[0, 1, ... 99] How many blocks behind the block by block metrics (\verb{1b} frequency) are the data based}
 
 \item{timezone}{Timezone for \code{start_time} and \code{end_time} timestamps. Default is UTC. Example: America/New_York.}
 

@@ -8,7 +8,7 @@
 #' @param end_height The ending block height for the set of data returned. Mutually exclusive with `end_time` and `end_hash`.
 #' @param start_hash The beginning block height for the set of data returned. Mutually exclusive with `start_time` and `start_height`.
 #' @param end_hash The ending block height for the set of data returned. Mutually exclusive with `end_time` and `end_height`.
-#' @param min_confirmations [0, 1, ... 99] How many blocks behind the block by block metrics (`1b` frequency) are the data based
+#' @param min_confirmations \[0, 1, ... 99\] How many blocks behind the block by block metrics (`1b` frequency) are the data based
 #' @param sort Sort tabular data by asset, time, or metric
 #' @param status String for which metric values you want to see: "all", "flash", "reviewed", "revised"
 #' @param limit_per_asset Number of entries per asset
