@@ -40,9 +40,6 @@ send_coinmetrics_request <- function(endpoint, query_args = NULL) {
     api_environment <- "production"
   }
 
-  #  query_args <- c(query_args, "api_key" = cm_api_key)
-  #  query_args <- sanitize_query_params(list(...))
-  message(stringr::str_interp("CM_API_KEY: ${cm_api_key}"))
   if (!is.null(query_args)) {
     query_args <- do.call(sanitize_query_params, query_args)
     query_args <- c(query_args, api_key = cm_api_key)
@@ -78,7 +75,6 @@ get_coinmetrics_api_data <- function(api_response,
 
 
   while (is.null(api_content[["next_page_url"]]) == FALSE) {
-    # print(api_content[["next_page_url"]])
 
     api_content <-
       httr::GET(url = api_content[["next_page_url"]]) %>%
