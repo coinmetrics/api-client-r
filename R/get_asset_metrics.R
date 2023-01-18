@@ -37,9 +37,7 @@ get_asset_metrics <- function(assets,
                               pretty = FALSE,
                               format = "json",
                               null_as_zero = FALSE,
-                              as_list = FALSE
-                              ) {
-  
+                              as_list = FALSE) {
   query_args <- list(
     assets = paste0(assets, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -63,14 +61,13 @@ get_asset_metrics <- function(assets,
     format = format,
     null_as_zero = null_as_zero
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/asset-metrics", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset-metrics",
     paging_from = paging_from,
     as_list = as_list
   )
-
 }

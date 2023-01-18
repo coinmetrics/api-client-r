@@ -1,6 +1,6 @@
 #' Get Index Constituents
 #'
-#' @inheritParams get_index_levels 
+#' @inheritParams get_index_levels
 #'
 #' @return Tibble of constituents and weights for specified indexes.
 #' @export
@@ -15,7 +15,6 @@ get_index_constituents <- function(indexes,
                                    paging_from = "end",
                                    pretty = FALSE,
                                    as_list = FALSE) {
-  
   query_args <- list(
     indexes = paste0(indexes, collapse = ","),
     frequency = frequency,
@@ -28,14 +27,13 @@ get_index_constituents <- function(indexes,
     paging_from = paging_from,
     pretty = pretty
   )
-  
-  resp <- send_coinmetrics_request(endpoint = 'timeseries/index-constituents', query_args = query_args)
-  
+
+  resp <- send_coinmetrics_request(endpoint = "timeseries/index-constituents", query_args = query_args)
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-constituents",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }

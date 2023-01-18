@@ -21,7 +21,6 @@ get_market_metrics <- function(markets,
                                pretty = FALSE,
                                format = "json",
                                as_list = FALSE) {
-  
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -38,14 +37,13 @@ get_market_metrics <- function(markets,
     pretty = pretty,
     format = format
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-metrics", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-metrics",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }
