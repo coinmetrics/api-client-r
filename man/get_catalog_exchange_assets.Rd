@@ -4,16 +4,10 @@
 \alias{get_catalog_exchange_assets}
 \title{Get Available Exchange/Asset Pairs}
 \usage{
-get_catalog_exchange_assets(
-  exchange_assets = NULL,
-  pretty = FALSE,
-  as_list = TRUE
-)
+get_catalog_exchange_assets(exchange_assets = NULL, as_list = TRUE)
 }
 \arguments{
 \item{exchange_assets}{Vector of exchange-assets. By default, all exchange-asset pairs are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 
 \item{as_list}{Return content as list instead of tibble.}
 }
