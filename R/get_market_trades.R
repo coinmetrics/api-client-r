@@ -15,8 +15,6 @@ get_market_trades <- function(markets,
                               format = "json",
                               min_confirmations = NULL,
                               as_list = FALSE) {
-  
-  
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     start_time = start_time,
@@ -31,14 +29,13 @@ get_market_trades <- function(markets,
     format = format,
     min_confirmations = min_confirmations
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-trades", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-trades",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }

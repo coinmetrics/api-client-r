@@ -15,7 +15,6 @@ get_market_candles <- function(markets,
                                limit_per_market = NULL,
                                pretty = FALSE,
                                as_list = FALSE) {
-  
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     frequency = frequency,
@@ -29,16 +28,15 @@ get_market_candles <- function(markets,
     limit_per_market = limit_per_market,
     pretty = pretty,
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-candles", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-candles",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }
 
 #' Get Pair Candles
@@ -58,7 +56,6 @@ get_pair_candles <- function(pairs,
                              limit_per_pair = NULL,
                              pretty = FALSE,
                              as_list = FALSE) {
-  
   query_args <- list(
     pairs = paste0(pairs, collapse = ","),
     frequency = frequency,
@@ -72,16 +69,15 @@ get_pair_candles <- function(pairs,
     limit_per_pair = limit_per_pair,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/pair-candles", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "pair-candles",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }
 
 #' Get Index Candles
@@ -100,9 +96,7 @@ get_index_candles <- function(indexes,
                               paging_from = "end",
                               limit_per_index = NULL,
                               pretty = FALSE,
-                              as_list = FALSE
-                              ) {
-  
+                              as_list = FALSE) {
   query_args <- list(
     indexes = paste0(indexes, collapse = ","),
     frequency = frequency,
@@ -116,14 +110,13 @@ get_index_candles <- function(indexes,
     limit_per_index = limit_per_index,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/index-candles", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-candles",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }

@@ -21,7 +21,6 @@ get_pair_metrics <- function(pairs,
                              pretty = FALSE,
                              format = "json",
                              as_list = FALSE) {
-  
   query_args <- list(
     pairs = paste0(pairs, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -38,9 +37,9 @@ get_pair_metrics <- function(pairs,
     pretty = pretty,
     format = format
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/pair-metrics", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "pair-metrics",

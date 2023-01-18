@@ -19,9 +19,7 @@ get_exchange_metrics <- function(exchanges,
                                  limit_per_exchange = NULL,
                                  pretty = FALSE,
                                  format = "json",
-                                 as_list = FALSE
-) {
-  
+                                 as_list = FALSE) {
   query_args <- list(
     exchanges = paste0(exchanges, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -37,9 +35,9 @@ get_exchange_metrics <- function(exchanges,
     pretty = pretty,
     format = format
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/exchange-metrics", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "exchange-metrics",
@@ -70,7 +68,6 @@ get_exchange_asset_metrics <- function(exchange_assets,
                                        pretty = FALSE,
                                        format = "json",
                                        as_list = FALSE) {
-  
   query_args <- list(
     exchange_assets = paste0(exchange_assets, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -86,14 +83,13 @@ get_exchange_asset_metrics <- function(exchange_assets,
     pretty = pretty,
     format = format
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/exchange-asset-metrics", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "exchange-asset-metrics",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }

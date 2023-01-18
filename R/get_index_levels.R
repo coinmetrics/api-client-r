@@ -27,9 +27,8 @@ get_index_levels <- function(indexes,
                              limit_per_index = NULL,
                              pretty = FALSE,
                              as_list = FALSE) {
-  
   query_args <- list(
-    indexes = paste0(indexes, collapse = ','),
+    indexes = paste0(indexes, collapse = ","),
     frequency = frequency,
     start_time = start_time,
     end_time = end_time,
@@ -41,14 +40,13 @@ get_index_levels <- function(indexes,
     limit_per_index = limit_per_index,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/index-levels", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-levels",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }

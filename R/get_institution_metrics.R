@@ -1,7 +1,6 @@
-
 #' Get Institution Metrics
 #'
-#' @param institutions Vector of institutions. 
+#' @param institutions Vector of institutions.
 #' @param metrics Vector of metrics to request time series data.
 #' @param frequency Frequency of the institution metrics. Supported values are `1d`.
 #' @param start_time Start of the time interval.
@@ -34,7 +33,6 @@ get_institution_metrics <- function(institutions,
                                     pretty = FALSE,
                                     format = "json",
                                     as_list = FALSE) {
-  
   query_args <- list(
     institutions = paste0(institutions, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -50,14 +48,13 @@ get_institution_metrics <- function(institutions,
     pretty = pretty,
     format = format
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/institution-metrics", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "institution-metrics",
     paging_from = paging_from,
     as_list = as_list
   )
-  
 }
