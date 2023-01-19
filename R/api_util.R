@@ -90,6 +90,61 @@ get_coinmetrics_api_data <- function(api_response,
   if (as_list) {
     return(api_data)
   } else {
+    if (endpoint == "market-orderbooks") {
+      api_data <- tibble::tibble(
+        time = anytime::anytime(purrr::map_chr(api_data, "time", .default = NA)),
+        market = purrr::map_chr(api_data, "market", .default = NA),
+        coin_metrics_id = purrr::map_chr(api_data, "coin_metrics_id", .default = NA),
+        asks = purrr::map(api_data, "asks", .default = NA),
+        bids = purrr::map(api_data, "bids", .default = NA)
+      )
+      return(api_data)
+    }
+
+    if (endpoint == "taxonomy-metadata/assets") {
+      api_data <- api_data %>%
+        data.table::rbindlist(fill = TRUE) %>%
+        tidyr::hoist(
+          subsectors,
+          "class_id", "class", "sector_id", "sector", "subsector_id", "subsector"
+        ) %>%
+        purrr::map_df(readr::parse_guess)
+
+      return(api_data)
+    }
+
+    if (endpoint == "mining-pool-tips-summary") {
+      api_data <- tibble::tibble(
+        asset = purrr::map_chr(api_data, "asset", .default = NA),
+        time = purrr::map_chr(api_data, "time", .default = NA),
+        tips_count = purrr::map_chr(api_data, "tips_count", .default = NA),
+        block_hashes_at_tip = purrr::map_chr(api_data, "block_hashes_at_tip", .default = NA),
+        tips = purrr::map(api_data, "tips", .default = NA)
+      ) %>%
+        dplyr::mutate(
+          time = anytime::anytime(time),
+          dplyr::across(c("tips_count", "block_hashes_at_tip"), as.numeric)
+        ) %>%
+        tidyr::unnest_longer(tips) %>%
+        tidyr::hoist(tips, "last_time", "height", "hash", "pool_count",
+          .transform = list(
+            last_time = anytime::anytime,
+            height = as.numeric,
+            pool_count = as.numeric
+          )
+        )
+      return(api_data)
+    }
+
+    if (endpoint == "mempool-feerates") {
+      api_data <-
+        data.table::rbindlist(api_data) %>%
+        tidyr::hoist(feerates, "feerate", "count", "consensus_size", "fees") %>%
+        purrr::map_df(readr::parse_guess)
+
+      return(api_data)
+    }
+
     if (endpoint == "index-constituents") {
       api_data <- tibble::tibble(
         index = purrr::map_chr(api_data, "index", .default = NA),
