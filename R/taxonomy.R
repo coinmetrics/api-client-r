@@ -73,3 +73,29 @@ get_taxonomy_metadata <- function(version = "latest",
   
   get_coinmetrics_api_data(resp, "taxonomy-metadata/assets", paging_from)
 }
+
+#' Asset profiles data (experimental)
+#' @param assets Vector of assets.
+#' @param full_names Vector of asset full names. Mutually exclusive with `assets` parameter.
+#' @param page_size Number of items per single page of results.
+#' @param paging_from where the first page starts:  `start` or `end`.
+#' @param pretty Human-readable formatting of JSON responses.
+#' @return Profile data for assets. If `supply_cap` is not present then the theoretical maximum supply is infinite for that asset.
+#' @export
+get_asset_profiles <- function(assets = NULL,
+                               full_names = NULL,
+                               page_size = 1000,
+                               paging_from = "start",
+                               pretty = FALSE) {
+  query_args <- list(
+    assets = assets,
+    full_names = full_names,
+    page_size = page_size,
+    paging_from = paging_from,
+    pretty = pretty
+  )
+  
+  resp <- send_coinmetrics_request("profile/assets", query_args)
+  
+  get_coinmetrics_api_data(resp, "profile/assets", paging_from)
+}
