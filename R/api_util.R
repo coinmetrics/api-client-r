@@ -105,7 +105,19 @@ get_coinmetrics_api_data <- function(api_response,
       return(api_data)
     }
     
-    if(endpoint == "mining-pool-tips-summary") {
+    if (endpoint == "taxonomy-metadata/assets") {
+      api_data <- api_data %>%
+        data.table::rbindlist(fill = TRUE) %>%
+        tidyr::hoist(
+          subsectors,
+          "class_id", "class", "sector_id", "sector", "subsector_id", "subsector"
+        ) %>%
+        purrr::map_df(readr::parse_guess)
+      
+      return(api_data)
+    }
+    
+    if (endpoint == "mining-pool-tips-summary") {
       api_data <- tibble::tibble(
         asset = purrr::map_chr(api_data, "asset", .default = NA),
         time = purrr::map_chr(api_data, "time", .default = NA),
@@ -125,7 +137,7 @@ get_coinmetrics_api_data <- function(api_response,
       return(api_data)
     }
     
-    if(endpoint == "mempool-feerates") {
+    if (endpoint == "mempool-feerates") {
       api_data <- 
         data.table::rbindlist(api_data) %>%
         tidyr::hoist(feerates, "feerate", "count", "consensus_size", "fees") %>%
