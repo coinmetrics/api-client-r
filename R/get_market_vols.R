@@ -23,9 +23,9 @@ get_market_implied_vol <- function(markets,
     paging_from = paging_from,
     limit_per_market = limit_per_market
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-implied-volatility", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-implied-volatility",
@@ -59,9 +59,9 @@ get_market_greeks <- function(markets,
     limit_per_market = limit_per_market,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-greeks", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-greeks",

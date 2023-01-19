@@ -14,7 +14,6 @@ get_market_open_interest <- function(markets,
                                      paging_from = "end",
                                      limit_per_market = NULL,
                                      pretty = FALSE) {
-  
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     start_time = start_time,
@@ -26,14 +25,13 @@ get_market_open_interest <- function(markets,
     paging_from = paging_from,
     limit_per_market = limit_per_market
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-openinterest", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-openinterest",
     paging_from = paging_from,
     as_list = FALSE
   )
-  
 }

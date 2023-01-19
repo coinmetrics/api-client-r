@@ -23,15 +23,15 @@ get_mining_pool_tips <- function(assets,
     paging_from = paging_from,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/mining-pool-tips-summary", query_args = query_args)
-  
-  get_coinmetrics_api_data(api_response = resp, endpoint = "mining-pool-tips-summary", paging_from = paging_from, as_list=as_list)
+
+  get_coinmetrics_api_data(api_response = resp, endpoint = "mining-pool-tips-summary", paging_from = paging_from, as_list = as_list)
 }
 
 #' Get Mempool feerates
 #' @inheritParams get_mining_pool_tips
-#' @return Mempool feerates for specified assets. This is useful for those who want to explore the history of the feerate distribution and 
+#' @return Mempool feerates for specified assets. This is useful for those who want to explore the history of the feerate distribution and
 #' potentially select the time period with the lowest commissions.
 #' @export
 get_mempool_feerates <- function(assets,
@@ -55,9 +55,9 @@ get_mempool_feerates <- function(assets,
     paging_from = paging_from,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/mempool-feerates", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "mempool-feerates",

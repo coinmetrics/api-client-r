@@ -24,9 +24,9 @@ get_market_contract_prices <- function(markets,
     limit_per_market = limit_per_market,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-contract-prices", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-contract-prices",

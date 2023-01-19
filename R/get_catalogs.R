@@ -130,20 +130,20 @@ get_catalog_indexes <- function(indexes = NULL) {
 #' @return Available pair metrics along with information for them like descripion, category, and pairs for which a metric is available.
 #' @export
 get_catalog_pair_metrics <- function(metrics = NULL, as_list = FALSE) {
-  query_args = list(metrics = metrics)
+  query_args <- list(metrics = metrics)
   resp <- send_coinmetrics_request(endpoint = "catalog/pair-metrics", query_args = query_args)
-  
+
   api_data <- httr::content(resp)[["data"]]
-  
-  if(as_list)
+
+  if (as_list) {
     return(api_data)
+  }
 
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::hoist(frequencies, "frequency", "pairs") %>%
     tidyr::unnest_longer(pairs) %>%
     tibble::as_tibble()
-  
 }
 
 #' Get Available Institution Metrics
@@ -152,12 +152,13 @@ get_catalog_pair_metrics <- function(metrics = NULL, as_list = FALSE) {
 #' @export
 get_catalog_institution_metrics <- function(metrics = NULL, as_list = FALSE) {
   query_args <- list(metrics = metrics)
-  
+
   resp <- send_coinmetrics_request(endpoint = "catalog/institution-metrics", query_args = query_args)
   api_data <- httr::content(resp)[["data"]]
-  if(as_list)
+  if (as_list) {
     return(api_data)
-  
+  }
+
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::hoist(frequencies, "frequency", "institutions") %>%
@@ -171,18 +172,18 @@ get_catalog_institution_metrics <- function(metrics = NULL, as_list = FALSE) {
 #' @return Available exchanges along with available markets and metrics for them.
 #' @export
 get_catalog_exchanges <- function(exchanges = NULL, as_list = FALSE) {
-  
   query_args <- list(exchanges = exchanges)
   resp <- send_coinmetrics_request(endpoint = "catalog/exchanges", query_args = query_args)
   api_data <- httr::content(resp)[["data"]]
-  
-  if(as_list)
+
+  if (as_list) {
     return(api_data)
-  
+  }
+
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_longer(markets)
-  
+
   tibble::tibble(
     exchange = purrr::map_chr(api_data, "exchange", .default = NA),
     markets = purrr::map(api_data, "markets"),
@@ -202,12 +203,13 @@ get_catalog_exchanges <- function(exchanges = NULL, as_list = FALSE) {
 #' @export
 get_catalog_institutions <- function(institutions = NULL, as_list = FALSE) {
   query_args <- list(institutions = institutions)
-  
+
   resp <- send_coinmetrics_request(endpoint = "catalog/institutions", query_args = query_args)
   api_data <- httr::content(resp)[["data"]]
-  if(as_list)
+  if (as_list) {
     return(api_data)
-  
+  }
+
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::hoist(metrics, "metric", "frequencies") %>%
@@ -219,7 +221,6 @@ get_catalog_institutions <- function(institutions = NULL, as_list = FALSE) {
       "max_time",
       .transform = list(min_time = anytime::anytime, max_time = anytime::anytime)
     )
-  
 }
 
 #' Get Available Markets
@@ -230,11 +231,11 @@ get_catalog_institutions <- function(institutions = NULL, as_list = FALSE) {
 #' @param quote Quote asset of markets.
 #' @param asset Any asset of markets.
 #' @param symbol Symbol of derivative markets; the full instrument name.
-#' @param include Vector of fields to include in response. 
-#' Supported values are `trades`, `orderbooks`, `quotes`, `funding_rates`, `openinterest`, `liquidations`. 
+#' @param include Vector of fields to include in response.
+#' Supported values are `trades`, `orderbooks`, `quotes`, `funding_rates`, `openinterest`, `liquidations`.
 #' Included by default if omitted.
-#' @param exclude Vector of fields to exclude from response. 
-#' Supported values are `trades`, `orderbooks`, `quotes`, `funding_rates`, `openinterest`, `liquidations`. 
+#' @param exclude Vector of fields to exclude from response.
+#' Supported values are `trades`, `orderbooks`, `quotes`, `funding_rates`, `openinterest`, `liquidations`.
 #' Included by default if omitted.
 #' @param format Format of the response. Supported values are `json`, `json_stream`. Default is `json`.
 #' @param limit Number of response items.
@@ -267,12 +268,11 @@ get_catalog_markets <- function(markets = NULL,
     limit = limit,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "catalog/markets", query_args = query_args)
   api_data <- httr::content(resp)[["data"]]
-  
+
   return(api_data)
-  
 }
 
 #' Get Available Market Greeks
@@ -301,9 +301,9 @@ get_catalog_greeks <- function(markets = NULL,
     limit = limit,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "catalog/market-greeks", query_args = query_args)
-  
+
   get_coinmetrics_api_data(resp, "market-greeks", "end", F)
 }
 
@@ -313,12 +313,11 @@ get_catalog_greeks <- function(markets = NULL,
 #' @return available asset alerts along with their descriptions, thresholds, and constituents.
 #' @export
 get_catalog_asset_alerts <- function(assets = NULL, alert = NULL) {
-  
   query_args <- list(assets = assets, alert = alert)
-  
+
   resp <- send_coinmetrics_request(endpoint = "catalog/alerts", query_args = query_args)
   api_data <- httr::content(resp)[["data"]]
-  
+
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::hoist(

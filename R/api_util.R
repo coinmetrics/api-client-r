@@ -104,7 +104,7 @@ get_coinmetrics_api_data <- function(api_response,
       )
       return(api_data)
     }
-    
+
     if (endpoint == "taxonomy-metadata/assets") {
       api_data <- api_data %>%
         data.table::rbindlist(fill = TRUE) %>%
@@ -113,10 +113,10 @@ get_coinmetrics_api_data <- function(api_response,
           "class_id", "class", "sector_id", "sector", "subsector_id", "subsector"
         ) %>%
         purrr::map_df(readr::parse_guess)
-      
+
       return(api_data)
     }
-    
+
     if (endpoint == "mining-pool-tips-summary") {
       api_data <- tibble::tibble(
         asset = purrr::map_chr(api_data, "asset", .default = NA),
@@ -131,21 +131,24 @@ get_coinmetrics_api_data <- function(api_response,
         ) %>%
         tidyr::unnest_longer(tips) %>%
         tidyr::hoist(tips, "last_time", "height", "hash", "pool_count",
-                     .transform = list(last_time = anytime::anytime,
-                                       height = as.numeric,
-                                       pool_count = as.numeric))
+          .transform = list(
+            last_time = anytime::anytime,
+            height = as.numeric,
+            pool_count = as.numeric
+          )
+        )
       return(api_data)
     }
-    
+
     if (endpoint == "mempool-feerates") {
-      api_data <- 
+      api_data <-
         data.table::rbindlist(api_data) %>%
         tidyr::hoist(feerates, "feerate", "count", "consensus_size", "fees") %>%
         purrr::map_df(readr::parse_guess)
-      
+
       return(api_data)
     }
-    
+
     if (endpoint == "index-constituents") {
       api_data <- tibble::tibble(
         index = purrr::map_chr(api_data, "index", .default = NA),

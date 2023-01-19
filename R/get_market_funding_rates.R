@@ -24,14 +24,13 @@ get_market_funding_rates <- function(markets,
     limit_per_market = limit_per_market,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-funding-rates", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-funding-rates",
     paging_from = paging_from,
     as_list = FALSE
   )
-  
 }

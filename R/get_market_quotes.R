@@ -26,9 +26,9 @@ get_market_quotes <- function(markets,
     pretty = pretty,
     include_one_sided = include_one_sided
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-quotes", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-quotes",

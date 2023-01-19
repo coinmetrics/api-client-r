@@ -10,23 +10,22 @@
 #' @param start_inclusive inclusive or exclusive corresponding `start_*` parameters
 #' @param end_inclusive inclusive or exclusive corresponding `end_*` parameters
 #' @param page_size number of items per single page of results
-#' @param paging_from where the first page starts:  `start` or `end` 
+#' @param paging_from where the first page starts:  `start` or `end`
 #' @param pretty Human-readable formatting of JSON responses
 #' @return Taxonomy for assets, ordered by tuple `(asset, classification_start_time)`
 #' @export
-get_taxonomy <- function(assets=NULL,
-                         class_ids=NULL,
-                         sector_ids=NULL,
-                         subsector_ids=NULL,
-                         version="latest",
-                         classification_start_time=NULL,
-                         classification_end_time=NULL,
-                         start_inclusive=TRUE,
-                         end_inclusive=TRUE,
-                         page_size=500,
-                         paging_from="start",
-                         pretty=FALSE) {
-  
+get_taxonomy <- function(assets = NULL,
+                         class_ids = NULL,
+                         sector_ids = NULL,
+                         subsector_ids = NULL,
+                         version = "latest",
+                         classification_start_time = NULL,
+                         classification_end_time = NULL,
+                         start_inclusive = TRUE,
+                         end_inclusive = TRUE,
+                         page_size = 500,
+                         paging_from = "start",
+                         pretty = FALSE) {
   query_args <- list(
     assets = assets,
     class_ids = class_ids,
@@ -40,9 +39,9 @@ get_taxonomy <- function(assets=NULL,
     page_size = page_size,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "taxonomy/assets", query_args = query_args)
-  
+
   get_coinmetrics_api_data(resp, "taxonomy/assets", paging_from)
 }
 
@@ -68,9 +67,9 @@ get_taxonomy_metadata <- function(version = "latest",
     paging_from = paging_from,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "taxonomy-metadata/assets", query_args = query_args)
-  
+
   get_coinmetrics_api_data(resp, "taxonomy-metadata/assets", paging_from)
 }
 
@@ -94,8 +93,8 @@ get_asset_profiles <- function(assets = NULL,
     paging_from = paging_from,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request("profile/assets", query_args)
-  
+
   get_coinmetrics_api_data(resp, "profile/assets", paging_from)
 }
