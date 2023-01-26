@@ -104,7 +104,7 @@ get_coinmetrics_api_data <- function(api_response,
       api_data <- api_data %>%
         data.table::rbindlist(fill = TRUE) %>%
         tidyr::hoist(
-          subsectors,
+          .data$subsectors,
           "class_id", "class", "sector_id", "sector", "subsector_id", "subsector"
         ) %>%
         purrr::map_df(readr::parse_guess)
@@ -121,11 +121,11 @@ get_coinmetrics_api_data <- function(api_response,
         tips = purrr::map(api_data, "tips", .default = NA)
       ) %>%
         dplyr::mutate(
-          time = anytime::anytime(time),
+          time = anytime::anytime(.data$time),
           dplyr::across(c("tips_count", "block_hashes_at_tip"), as.numeric)
         ) %>%
-        tidyr::unnest_longer(tips) %>%
-        tidyr::hoist(tips, "last_time", "height", "hash", "pool_count",
+        tidyr::unnest_longer(.data$tips) %>%
+        tidyr::hoist(.data$tips, "last_time", "height", "hash", "pool_count",
           .transform = list(
             last_time = anytime::anytime,
             height = as.numeric,
@@ -138,7 +138,7 @@ get_coinmetrics_api_data <- function(api_response,
     if (endpoint == "mempool-feerates") {
       api_data <-
         data.table::rbindlist(api_data) %>%
-        tidyr::hoist(feerates, "feerate", "count", "consensus_size", "fees") %>%
+        tidyr::hoist(.data$feerates, "feerate", "count", "consensus_size", "fees") %>%
         purrr::map_df(readr::parse_guess)
 
       return(api_data)
@@ -150,16 +150,16 @@ get_coinmetrics_api_data <- function(api_response,
         time = purrr::map_chr(api_data, "time", .default = NA),
         constituents = purrr::map(api_data, "constituents", .default = NA)
       ) %>%
-        tidyr::unnest(constituents) %>%
+        tidyr::unnest(.data$constituents) %>%
         dplyr::mutate(
-          asset = purrr::map_chr(constituents, "asset", .default = NA),
-          weight = purrr::map_chr(constituents, "weight", .default = NA)
+          asset = purrr::map_chr(.data$constituents, "asset", .default = NA),
+          weight = purrr::map_chr(.data$constituents, "weight", .default = NA)
         ) %>%
         dplyr::mutate(
-          time = anytime::anytime(time),
-          weight = as.numeric(weight)
+          time = anytime::anytime(.data$time),
+          weight = as.numeric(.data$weight)
         ) %>%
-        dplyr::select(-constituents)
+        dplyr::select(-.data$constituents)
     } else {
       api_data <- api_data %>%
         data.table::rbindlist(fill = TRUE) %>%

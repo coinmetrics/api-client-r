@@ -36,10 +36,10 @@ get_catalog_asset_pairs <- function(pairs = NULL, as_list = TRUE) {
   } else {
     pairs_tbl <-
       data.table::rbindlist(pairs_content) %>%
-      tidyr::hoist(metrics, "metric", "frequencies") %>%
-      tidyr::unnest_longer(frequencies) %>%
+      tidyr::hoist(.data$metrics, "metric", "frequencies") %>%
+      tidyr::unnest_longer(.data$frequencies) %>%
       tidyr::hoist(
-        frequencies,
+        .data$frequencies,
         "frequency",
         "min_time",
         "max_time",
@@ -70,8 +70,8 @@ get_catalog_asset_metrics <- function(metrics = NULL, reviewable = TRUE, pretty 
   } else {
     metrics_tbl <-
       data.table::rbindlist(metrics_content) %>%
-      tidyr::hoist(frequencies, "frequency", "assets") %>%
-      tidyr::unnest_longer(assets) %>%
+      tidyr::hoist(.data$frequencies, "frequency", "assets") %>%
+      tidyr::unnest_longer(.data$assets) %>%
       tibble::as_tibble()
 
     return(metrics_tbl)
@@ -94,10 +94,10 @@ get_catalog_exchange_assets <- function(exchange_assets = NULL, as_list = TRUE) 
     return(ea_content)
   } else {
     ea <- data.table::rbindlist(ea_content, fill = TRUE) %>%
-      tidyr::hoist(metrics, "metric", "frequencies") %>%
-      tidyr::unnest_longer(frequencies) %>%
+      tidyr::hoist(.data$metrics, "metric", "frequencies") %>%
+      tidyr::unnest_longer(.data$frequencies) %>%
       tidyr::hoist(
-        frequencies,
+        .data$frequencies,
         "frequency",
         "min_time",
         "max_time",
@@ -118,10 +118,10 @@ get_catalog_indexes <- function(indexes = NULL) {
   ix_content <- httr::content(resp)[["data"]]
 
   data.table::rbindlist(ix_content, fill = TRUE) %>%
-    tidyr::unnest_wider(frequencies) %>%
+    tidyr::unnest_wider(.data$frequencies) %>%
     dplyr::mutate(
-      min_time = anytime::anytime(min_time),
-      max_time = anytime::anytime(max_time)
+      min_time = anytime::anytime(.data$min_time),
+      max_time = anytime::anytime(.data$max_time)
     )
 }
 
@@ -141,8 +141,8 @@ get_catalog_pair_metrics <- function(metrics = NULL, as_list = FALSE) {
 
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
-    tidyr::hoist(frequencies, "frequency", "pairs") %>%
-    tidyr::unnest_longer(pairs) %>%
+    tidyr::hoist(.data$frequencies, "frequency", "pairs") %>%
+    tidyr::unnest_longer(.data$pairs) %>%
     tibble::as_tibble()
 }
 
@@ -161,8 +161,8 @@ get_catalog_institution_metrics <- function(metrics = NULL, as_list = FALSE) {
 
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
-    tidyr::hoist(frequencies, "frequency", "institutions") %>%
-    tidyr::unnest_longer(institutions) %>%
+    tidyr::hoist(.data$frequencies, "frequency", "institutions") %>%
+    tidyr::unnest_longer(.data$institutions) %>%
     tibble::as_tibble()
 }
 
@@ -180,9 +180,9 @@ get_catalog_exchanges <- function(exchanges = NULL, as_list = FALSE) {
     return(api_data)
   }
 
-  api_data %>%
-    data.table::rbindlist(fill = TRUE) %>%
-    tidyr::unnest_longer(markets)
+  # api_data %>%
+  #   data.table::rbindlist(fill = TRUE) %>%
+  #   tidyr::unnest_longer(markets)
 
   tibble::tibble(
     exchange = purrr::map_chr(api_data, "exchange", .default = NA),
@@ -193,7 +193,7 @@ get_catalog_exchanges <- function(exchanges = NULL, as_list = FALSE) {
     dplyr::mutate(
       dplyr::across(c("min_time", "max_time"), anytime::anytime)
     ) %>%
-    tidyr::unnest_longer(markets)
+    tidyr::unnest_longer(.data$markets)
 }
 
 #' Get Available Institutions
@@ -212,10 +212,10 @@ get_catalog_institutions <- function(institutions = NULL, as_list = FALSE) {
 
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
-    tidyr::hoist(metrics, "metric", "frequencies") %>%
-    tidyr::unnest(frequencies) %>%
+    tidyr::hoist(.data$metrics, "metric", "frequencies") %>%
+    tidyr::unnest(.data$frequencies) %>%
     tidyr::hoist(
-      frequencies,
+      .data$frequencies,
       "frequency",
       "min_time",
       "max_time",
@@ -321,10 +321,10 @@ get_catalog_asset_alerts <- function(assets = NULL, alert = NULL) {
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::hoist(
-      conditions,
+      .data$conditions,
       "description",
       "threshold",
       "constituents"
     ) %>%
-    tidyr::unnest_longer(constituents)
+    tidyr::unnest_longer(.data$constituents)
 }

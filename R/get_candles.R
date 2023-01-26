@@ -26,7 +26,7 @@ get_market_candles <- function(markets,
     page_size = page_size,
     paging_from = paging_from,
     limit_per_market = limit_per_market,
-    pretty = pretty,
+    pretty = pretty
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-candles", query_args = query_args)

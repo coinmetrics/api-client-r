@@ -32,7 +32,6 @@ get_market_orderbooks <- function(markets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-orderbooks",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }

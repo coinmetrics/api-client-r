@@ -14,6 +14,7 @@ get_exchange_asset_metrics(
   end_inclusive = TRUE,
   timezone = "UTC",
   page_size = NULL,
+  paging_from = "end",
   sort = "exchange_asset",
   limit_per_exchange_asset = NULL,
   pretty = FALSE,
@@ -39,6 +40,8 @@ get_exchange_asset_metrics(
 \item{timezone}{Timezone for \code{start_time} and \code{end_time} timestamps. Default is UTC. Example: America/New_York.}
 
 \item{page_size}{Number of items per single page of results. Default is 100.}
+
+\item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{sort}{How results will be sorted. Metrics are sorted by \verb{(exchange_asset, time)} by default. Posible values are \emph{exchange_asset} or \emph{time}.}
 
