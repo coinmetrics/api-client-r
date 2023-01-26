@@ -10,22 +10,21 @@ import_api_key <- function() {
 
 sanitize_query_params <- function(...) {
   function_arguments <- list(...)
-  for (i in 1:length(function_arguments)) {
-    if (class(function_arguments[[i]]) == "list") {
+  for (i in seq_along(function_arguments)) {
+    if (is.list(function_arguments[[i]]) || is.character(function_arguments[[i]])) {
       function_arguments[[i]] <- paste0(function_arguments[[i]], collapse = ",")
-    } else if (class(function_arguments[[i]]) == "numeric") {
+    } else if (is.numeric(function_arguments[[i]])) {
       function_arguments[[i]] <- format(function_arguments[[i]], scientific = FALSE)
-    } else if (class(function_arguments[[i]]) == "logical") {
-      if (function_arguments[[i]] == TRUE) {
+    } else if (is.logical(function_arguments[[i]])) {
+      if (isTRUE(function_arguments[[i]])) {
         function_arguments[[i]] <- "true"
       } else {
         function_arguments[[i]] <- "false"
       }
-    } else if (class(function_arguments[[i]]) == "character" && !assertthat::is.string(function_arguments[[i]])) {
-      function_arguments[[i]] <- paste0(function_arguments[[i]], collapse = ",")
-    }
+    } 
   }
-  result_arguments <- function_arguments |> purrr::discard(.p = is.null)
+  result_arguments <- purrr::discard(function_arguments, .p = is.null)
+  
   return(result_arguments)
 }
 
@@ -55,7 +54,7 @@ send_coinmetrics_request <- function(endpoint, query_args = NULL) {
   )
 
   if (response$status_code != 200) {
-    stop(stringr::str_interp("HTTP Error ${response$status_code} returned when calling url: ${response$url}"), response)
+    stop(sprintf("HTTP Error %s returned when calling url: %s", response$status_code, response$url), response)
   }
 
   return(response)
