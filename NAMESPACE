@@ -3,6 +3,8 @@
 export(get_asset_chains)
 export(get_asset_metrics)
 export(get_asset_profiles)
+export(get_catalog_all_assets)
+export(get_catalog_all_metrics)
 export(get_catalog_asset_alerts)
 export(get_catalog_asset_metrics)
 export(get_catalog_assets)
