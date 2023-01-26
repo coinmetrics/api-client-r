@@ -4,7 +4,7 @@
 \alias{get_catalog_asset_alerts}
 \title{Available Asset Alerts}
 \usage{
-get_catalog_asset_alerts(assets = NULL, alert = NULL)
+get_catalog_asset_alerts(assets = NULL, alerts = NULL)
 }
 \arguments{
 \item{assets}{Vector of asets. By default all assets are returned.}

@@ -80,9 +80,9 @@ get_index_constituents <- function(indexes,
     paging_from = paging_from,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/index-constituents", query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-constituents",

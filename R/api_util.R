@@ -21,10 +21,10 @@ sanitize_query_params <- function(...) {
       } else {
         function_arguments[[i]] <- "false"
       }
-    } 
+    }
   }
   result_arguments <- purrr::discard(function_arguments, .p = is.null)
-  
+
   return(result_arguments)
 }
 
@@ -74,7 +74,6 @@ get_coinmetrics_api_data <- function(api_response,
 
 
   while (is.null(api_content[["next_page_url"]]) == FALSE) {
-
     api_content <-
       httr::GET(url = api_content[["next_page_url"]]) %>%
       httr::content()
@@ -143,13 +142,13 @@ get_coinmetrics_api_data <- function(api_response,
 
       return(api_data)
     }
-    
+
     if (endpoint == "asset-chains") {
       api_data <- api_data %>%
         data.table::rbindlist(fill = TRUE) %>%
         tidyr::unnest(.data$chains) %>%
-        tidyr::hoist(.data$chains, "hash", "height", "time", .transform = list(time=anytime::anytime))
-      
+        tidyr::hoist(.data$chains, "hash", "height", "time", .transform = list(time = anytime::anytime))
+
       return(api_data)
     }
 

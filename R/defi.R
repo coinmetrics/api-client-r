@@ -24,7 +24,6 @@ get_defi_balance_sheets <- function(defi_protocols,
                                     page_size = NULL,
                                     paging_from = "end",
                                     pretty = FALSE) {
-  
   query_args <- list(
     defi_protocols = paste0(defi_protocols, collapse = ","),
     start_time = start_time,
@@ -38,8 +37,8 @@ get_defi_balance_sheets <- function(defi_protocols,
     paging_from = paging_from,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/defi-balance-sheets", query_args = query_args)
-  
-  get_coinmetrics_api_data(api_response = resp, endpoint = "defi-balance-sheets", paging_from = paging_from, as_list=T)
+
+  get_coinmetrics_api_data(api_response = resp, endpoint = "defi-balance-sheets", paging_from = paging_from, as_list = T)
 }

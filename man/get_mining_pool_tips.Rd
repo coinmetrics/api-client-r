@@ -39,7 +39,7 @@ get_mining_pool_tips(
 \item{as_list}{Return the response as (nested) list or tibble.}
 }
 \value{
-Last tips we saw in all active mining pools during the past hour. See \link{API Documentation} (https://docs.coinmetrics.io/api/v4#operation/getTimeseriesMiningPoolTipsSummary) for more information.
+Last tips we saw in all active mining pools during the past hour. See \href{https://docs.coinmetrics.io/api/v4#operation/getTimeseriesMiningPoolTipsSummary}{API Documentation} for more information.
 }
 \description{
 Mining pool tips summary

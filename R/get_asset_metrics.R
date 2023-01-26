@@ -85,7 +85,6 @@ get_asset_chains <- function(assets,
                              page_size = NULL,
                              paging_from = "end",
                              pretty = FALSE) {
-  
   query_args <- list(
     assets = paste0(assets, collapse = ","),
     start_time = start_time,
@@ -97,8 +96,8 @@ get_asset_chains <- function(assets,
     paging_from = paging_from,
     pretty = pretty
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = "timeseries/asset-chains", query_args = query_args)
-  
+
   get_coinmetrics_api_data(api_response = resp, endpoint = "asset-chains", paging_from = paging_from)
 }

@@ -4,16 +4,16 @@
 #' @param limit_per_market Number of entries per market.
 #' @return Tibble of open interest for specified futures markets, ordered by tuple `(market, time)`.
 #' @export
-get_market_open_interest <- function(markets,
-                                     start_time = NULL,
-                                     end_time = NULL,
-                                     start_inclusive = TRUE,
-                                     end_inclusive = TRUE,
-                                     timezone = "UTC",
-                                     page_size = NULL,
-                                     paging_from = "end",
-                                     limit_per_market = NULL,
-                                     pretty = FALSE) {
+get_market_openinterest <- function(markets,
+                                    start_time = NULL,
+                                    end_time = NULL,
+                                    start_inclusive = TRUE,
+                                    end_inclusive = TRUE,
+                                    timezone = "UTC",
+                                    page_size = NULL,
+                                    paging_from = "end",
+                                    limit_per_market = NULL,
+                                    pretty = FALSE) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     start_time = start_time,

@@ -1,5 +1,5 @@
 #' Get Market Orderbooks
-#' @inheritParams get_market_open_interest
+#' @inheritParams get_market_openinterest
 #' @param depth_limit Book depth limit. Supported values are between 1 and 30000, `10pct_mid_price` or `full_book`.
 #' @return Tibble of orderbooks for specified markets, ordered by tuple `(market, time)`. `asks` and `bids` are nested list-columns.
 #' @export
