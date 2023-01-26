@@ -12,7 +12,7 @@ get_catalog_exchange_assets(exchange_assets = NULL, as_list = TRUE)
 \item{as_list}{Return content as list instead of tibble.}
 }
 \value{
-Tibble of Available exchange-asset pairs along with information like metrics and time ranges of available data.
+Tibble of available exchange-asset pairs along with information like metrics and time ranges of available data.
 }
 \description{
 Get Available Exchange/Asset Pairs

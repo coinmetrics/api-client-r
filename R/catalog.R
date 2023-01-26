@@ -81,7 +81,7 @@ get_catalog_asset_metrics <- function(metrics = NULL, reviewable = TRUE, pretty 
 #' Get Available Exchange/Asset Pairs
 #' @param exchange_assets Vector of exchange-assets. By default, all exchange-asset pairs are returned.
 #' @param as_list Return content as list instead of tibble.
-#' @return Tibble of Available exchange-asset pairs along with information like metrics and time ranges of available data.
+#' @return Tibble of available exchange-asset pairs along with information like metrics and time ranges of available data.
 #' @export
 get_catalog_exchange_assets <- function(exchange_assets = NULL, as_list = TRUE) {
   query_args <- list(exchange_assets = exchange_assets)
@@ -109,6 +109,25 @@ get_catalog_exchange_assets <- function(exchange_assets = NULL, as_list = TRUE) 
   }
 }
 
+#' Available Exchange Metrics
+#' @param metrics Vector of metrics. By default all metrics are returned.
+#' @param reviewable Limit to human-reviewable metrics. By default all metrics are returned.
+#' @param pretty Human-readable formatting of JSON responses
+#' @return Tibble of available exchange metrics along with information for them like description, category, and exchanges for which a metric is available.
+#' @export
+get_catalog_exchange_metrics <- function(metrics = NULL, reviewable = NULL, pretty = FALSE) {
+  
+  query_args <- list(metrics = metrics, reviewable = reviewable, pretty = pretty)
+  
+  resp <- send_coinmetrics_request(endpoint = "catalog/exchange-metrics", query_args = query_args)
+  
+  api_data <- httr::content(resp)[["data"]]
+  
+  data.table::rbindlist(api_data, fill = TRUE) %>%
+    tidyr::hoist(.data$frequencies, "frequency", "exchanges") %>%
+    tidyr::unnest("exchanges")
+  
+}
 #' Get Available Indexes
 #' @param indexes Vector of index names. By default, all indexes are returned.
 #' @return Tibble of available indexes along with time ranges of available data
