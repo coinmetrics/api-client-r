@@ -1,7 +1,7 @@
 #' Mining pool tips summary
 #' @inheritParams get_asset_metrics
 #' @param as_list Return the response as (nested) list or tibble.
-#' @return Last tips we saw in all active mining pools during the past hour. See [API Documentation] (https://docs.coinmetrics.io/api/v4#operation/getTimeseriesMiningPoolTipsSummary) for more information.
+#' @return Last tips we saw in all active mining pools during the past hour. See [API Documentation](https://docs.coinmetrics.io/api/v4#operation/getTimeseriesMiningPoolTipsSummary) for more information.
 #' @export
 get_mining_pool_tips <- function(assets,
                                  start_time = NULL,

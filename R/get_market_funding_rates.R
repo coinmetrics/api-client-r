@@ -1,5 +1,5 @@
 #' Get Market Funding Rates
-#' @inheritParams get_market_open_interest
+#' @inheritParams get_market_openinterest
 #' @return Tibble of funding rates for specified futures markets, ordered by tuple `(market, time)`.
 #' @export
 get_market_funding_rates <- function(markets,

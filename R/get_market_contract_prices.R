@@ -1,5 +1,5 @@
 #' Get Market Contract Prices
-#' @inheritParams get_market_open_interest
+#' @inheritParams get_market_openinterest
 #' @return Tibble of contract prices for specified markets. This includes index price and mark price that are used by the exchange for settlement and risk management purposes.
 #' @export
 get_market_contract_prices <- function(markets,

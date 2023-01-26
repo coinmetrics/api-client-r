@@ -1,5 +1,5 @@
 #' Get Market Quotes
-#' @inheritParams get_market_open_interest
+#' @inheritParams get_market_openinterest
 #' @param include_one_sided Include one-side and empty books in quotes response.
 #' @return Tibble of quotes for specified markets, ordered by tuple `(market, time)`.
 #' @export

@@ -1,5 +1,5 @@
 #' Get Market Liquidations
-#' @inheritParams get_market_open_interest
+#' @inheritParams get_market_openinterest
 #' @return Tible of liquidations for specified futures markets, ordered by tuple `(market, time)`.
 #' @export
 get_market_liquidations <- function(markets,

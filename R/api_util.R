@@ -10,22 +10,21 @@ import_api_key <- function() {
 
 sanitize_query_params <- function(...) {
   function_arguments <- list(...)
-  for (i in 1:length(function_arguments)) {
-    if (class(function_arguments[[i]]) == "list") {
+  for (i in seq_along(function_arguments)) {
+    if (is.list(function_arguments[[i]]) || is.character(function_arguments[[i]])) {
       function_arguments[[i]] <- paste0(function_arguments[[i]], collapse = ",")
-    } else if (class(function_arguments[[i]]) == "numeric") {
+    } else if (is.numeric(function_arguments[[i]])) {
       function_arguments[[i]] <- format(function_arguments[[i]], scientific = FALSE)
-    } else if (class(function_arguments[[i]]) == "logical") {
-      if (function_arguments[[i]] == TRUE) {
+    } else if (is.logical(function_arguments[[i]])) {
+      if (isTRUE(function_arguments[[i]])) {
         function_arguments[[i]] <- "true"
       } else {
         function_arguments[[i]] <- "false"
       }
-    } else if (class(function_arguments[[i]]) == "character" && !assertthat::is.string(function_arguments[[i]])) {
-      function_arguments[[i]] <- paste0(function_arguments[[i]], collapse = ",")
     }
   }
-  result_arguments <- function_arguments |> purrr::discard(.p = is.null)
+  result_arguments <- purrr::discard(function_arguments, .p = is.null)
+
   return(result_arguments)
 }
 
@@ -55,7 +54,7 @@ send_coinmetrics_request <- function(endpoint, query_args = NULL) {
   )
 
   if (response$status_code != 200) {
-    stop(stringr::str_interp("HTTP Error ${response$status_code} returned when calling url: ${response$url}"), response)
+    stop(sprintf("HTTP Error %s returned when calling url: %s", response$status_code, response$url), response)
   }
 
   return(response)
@@ -75,7 +74,6 @@ get_coinmetrics_api_data <- function(api_response,
 
 
   while (is.null(api_content[["next_page_url"]]) == FALSE) {
-
     api_content <-
       httr::GET(url = api_content[["next_page_url"]]) %>%
       httr::content()
@@ -105,7 +103,7 @@ get_coinmetrics_api_data <- function(api_response,
       api_data <- api_data %>%
         data.table::rbindlist(fill = TRUE) %>%
         tidyr::hoist(
-          subsectors,
+          .data$subsectors,
           "class_id", "class", "sector_id", "sector", "subsector_id", "subsector"
         ) %>%
         purrr::map_df(readr::parse_guess)
@@ -122,11 +120,11 @@ get_coinmetrics_api_data <- function(api_response,
         tips = purrr::map(api_data, "tips", .default = NA)
       ) %>%
         dplyr::mutate(
-          time = anytime::anytime(time),
+          time = anytime::anytime(.data$time),
           dplyr::across(c("tips_count", "block_hashes_at_tip"), as.numeric)
         ) %>%
-        tidyr::unnest_longer(tips) %>%
-        tidyr::hoist(tips, "last_time", "height", "hash", "pool_count",
+        tidyr::unnest_longer(.data$tips) %>%
+        tidyr::hoist(.data$tips, "last_time", "height", "hash", "pool_count",
           .transform = list(
             last_time = anytime::anytime,
             height = as.numeric,
@@ -139,8 +137,17 @@ get_coinmetrics_api_data <- function(api_response,
     if (endpoint == "mempool-feerates") {
       api_data <-
         data.table::rbindlist(api_data) %>%
-        tidyr::hoist(feerates, "feerate", "count", "consensus_size", "fees") %>%
+        tidyr::hoist(.data$feerates, "feerate", "count", "consensus_size", "fees") %>%
         purrr::map_df(readr::parse_guess)
+
+      return(api_data)
+    }
+
+    if (endpoint == "asset-chains") {
+      api_data <- api_data %>%
+        data.table::rbindlist(fill = TRUE) %>%
+        tidyr::unnest(.data$chains) %>%
+        tidyr::hoist(.data$chains, "hash", "height", "time", .transform = list(time = anytime::anytime))
 
       return(api_data)
     }
@@ -151,16 +158,16 @@ get_coinmetrics_api_data <- function(api_response,
         time = purrr::map_chr(api_data, "time", .default = NA),
         constituents = purrr::map(api_data, "constituents", .default = NA)
       ) %>%
-        tidyr::unnest(constituents) %>%
+        tidyr::unnest(.data$constituents) %>%
         dplyr::mutate(
-          asset = purrr::map_chr(constituents, "asset", .default = NA),
-          weight = purrr::map_chr(constituents, "weight", .default = NA)
+          asset = purrr::map_chr(.data$constituents, "asset", .default = NA),
+          weight = purrr::map_chr(.data$constituents, "weight", .default = NA)
         ) %>%
         dplyr::mutate(
-          time = anytime::anytime(time),
-          weight = as.numeric(weight)
+          time = anytime::anytime(.data$time),
+          weight = as.numeric(.data$weight)
         ) %>%
-        dplyr::select(-constituents)
+        dplyr::select(-.data$constituents)
     } else {
       api_data <- api_data %>%
         data.table::rbindlist(fill = TRUE) %>%
