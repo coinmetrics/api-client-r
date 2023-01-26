@@ -71,3 +71,34 @@ get_asset_metrics <- function(assets,
     as_list = as_list
   )
 }
+
+#' Asset chains (experimental)
+#' @inheritParams get_asset_metrics
+#' @return The Chains of blocks for specified assets
+#' @export
+get_asset_chains <- function(assets,
+                             start_time = NULL,
+                             end_time = NULL,
+                             start_inclusive = TRUE,
+                             end_inclusive = TRUE,
+                             timezone = "UTC",
+                             page_size = NULL,
+                             paging_from = "end",
+                             pretty = FALSE) {
+  
+  query_args <- list(
+    assets = paste0(assets, collapse = ","),
+    start_time = start_time,
+    end_time = end_time,
+    start_inclusive = start_inclusive,
+    end_inclusive = end_inclusive,
+    timezone = timezone,
+    page_size = page_size,
+    paging_from = paging_from,
+    pretty = pretty
+  )
+  
+  resp <- send_coinmetrics_request(endpoint = "timeseries/asset-chains", query_args = query_args)
+  
+  get_coinmetrics_api_data(api_response = resp, endpoint = "asset-chains", paging_from = paging_from)
+}
