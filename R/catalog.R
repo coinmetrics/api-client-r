@@ -332,13 +332,13 @@ catalog_markets <- function(markets = NULL,
 #' @return Tibble of markets with metrics support along with the time ranges of available data per metric.
 #' @export
 catalog_market_metrics <- function(markets = NULL,
-                                       exchange = NULL,
-                                       type = NULL,
-                                       base = NULL,
-                                       quote = NULL,
-                                       asset = NULL,
-                                       symbol = NULL,
-                                       as_list = TRUE) {
+                                   exchange = NULL,
+                                   type = NULL,
+                                   base = NULL,
+                                   quote = NULL,
+                                   asset = NULL,
+                                   symbol = NULL,
+                                   as_list = TRUE) {
   query_args <- list(
     markets = markets,
     exchange = exchange,
@@ -399,14 +399,13 @@ catalog_market_trades <- function(markets = NULL,
 #' @inheritParams catalog_markets
 #' @return Tibble of markets with candles support along with the time ranges of available data per candle duration.
 #' @export
-catalog_market_candles <- function(markets=NULL,
-                                   exchange=NULL,
-                                   type=NULL,
-                                   base=NULL,
-                                   quote=NULL,
-                                   asset=NULL,
-                                   symbol=NULL) {
-  
+catalog_market_candles <- function(markets = NULL,
+                                   exchange = NULL,
+                                   type = NULL,
+                                   base = NULL,
+                                   quote = NULL,
+                                   asset = NULL,
+                                   symbol = NULL) {
   query_args <- list(
     markets = markets,
     exchange = exchange,
@@ -416,17 +415,16 @@ catalog_market_candles <- function(markets=NULL,
     asset = asset,
     symbol = symbol
   )
-  
+
   resp <- send_coinmetrics_request("catalog/market-candles", query_args)
   api_data <- httr::content(resp)[["data"]]
-  
+
   api_data %>%
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider("frequencies") %>%
     dplyr::mutate(
       dplyr::across(c("min_time", "max_time"), anytime::anytime)
     )
-  
 }
 
 #' Available Market Liquidations
@@ -465,7 +463,7 @@ catalog_market_openinterest <- function(markets = NULL,
                                         base = NULL,
                                         quote = NULL,
                                         asset = NULL,
-                                        symbol = NULL){
+                                        symbol = NULL) {
   query_args <- list(
     markets = markets,
     exchange = exchange,
@@ -504,7 +502,7 @@ catalog_greeks <- function(markets = NULL,
 
   resp <- send_coinmetrics_request(endpoint = "catalog/market-greeks", query_args = query_args)
 
-  get_coinmetrics_api_data(resp, "market-greeks", "end", as_list=FALSE)
+  get_coinmetrics_api_data(resp, "market-greeks", "end", as_list = FALSE)
 }
 
 #' Available Asset Alerts

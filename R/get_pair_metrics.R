@@ -6,7 +6,7 @@
 #' @param frequency Frequency of the pair metrics. Supported values are `1h` and `1d`.
 #' @param limit_per_pair Number of entries per pair the result should contain.
 #' @param format Format of the response, `json` or `csv`. Default is `json`.
-#' @param sort How results will be sorted. Metrics are sorted by `(pair, time)` by default. 
+#' @param sort How results will be sorted. Metrics are sorted by `(pair, time)` by default.
 #' If you want to sort `1d` metrics by `(time, pair)`, choose `sort = "time"`.
 #' @return tibble or list of time series asset pairs
 #' @export
