@@ -28,8 +28,6 @@ catalog_greeks(
 \item{asset}{Any asset of markets.}
 
 \item{symbol}{Symbol of derivative markets; the full instrument name.}
-
-\item{as_list}{Return response as list instead of tibble.}
 }
 \value{
 Available option greeks.

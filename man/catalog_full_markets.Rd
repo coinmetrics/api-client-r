@@ -13,10 +13,7 @@ catalog_full_markets(
   asset = NULL,
   symbol = NULL,
   include = NULL,
-  exclude = NULL,
-  format = "json",
-  limit = NULL,
-  pretty = FALSE
+  exclude = NULL
 )
 }
 \arguments{

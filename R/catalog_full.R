@@ -231,10 +231,7 @@ catalog_full_markets <- function(markets=NULL,
                                  asset=NULL,
                                  symbol=NULL,
                                  include=NULL,
-                                 exclude=NULL,
-                                 format="json",
-                                 limit=NULL,
-                                 pretty=FALSE) {
+                                 exclude=NULL) {
   
   query_args <- list(
     markets = markets,
@@ -245,10 +242,7 @@ catalog_full_markets <- function(markets=NULL,
     asset = asset,
     symbol = symbol,
     include = include,
-    exclude = exclude,
-    format = format,
-    limit = limit,
-    pretty = pretty
+    exclude = exclude
   )
   
   resp <- send_coinmetrics_request("catalog-all/markets", query_args)
@@ -267,10 +261,7 @@ catalog_full_market_trades <- function(markets=NULL,
                                        base=NULL,
                                        quote=NULL,
                                        asset=NULL,
-                                       symbol=NULL,
-                                       format="json",
-                                       limit=NULL,
-                                       pretty=FALSE) {
+                                       symbol=NULL) {
   
   query_args <- list(
     markets = markets,
@@ -279,10 +270,7 @@ catalog_full_market_trades <- function(markets=NULL,
     base = base,
     quote = quote,
     asset = asset,
-    symbol = symbol,
-    format = format,
-    limit = limit,
-    pretty = pretty
+    symbol = symbol
   )
   
   resp <- send_coinmetrics_request(endpoint = "catalog-all/market-trades", query_args = query_args)
@@ -293,7 +281,8 @@ catalog_full_market_trades <- function(markets=NULL,
 
 #' Supported Market Candles
 #' @inheritParams catalog_markets
-#' @return Tibble of all markets with candles support along with the time ranges of available data per candle duration.
+#' @param as_list Return content as list instead of tibble.
+#' @return List of all markets with candles support along with the time ranges of available data per candle duration.
 #' @export
 catalog_full_market_candles <- function(markets=NULL,
                                         exchange=NULL,
@@ -302,8 +291,317 @@ catalog_full_market_candles <- function(markets=NULL,
                                         quote=NULL,
                                         asset=NULL,
                                         symbol=NULL,
-                                        format="json",
-                                        limit=NULL,
-                                        pretty=FALSE) {
+                                        as_list = TRUE) {
+  
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request("catalog-all/market-candles", query_args)
+  api_data <- httr::content(resp)["data"]
+  
+  if(isTRUE(as_list))
+    return(api_data)
+  
+  api_data %>%
+    data.table::rbindlist(fill = TRUE) %>%
+    tidyr::unnest_wider("frequencies") %>%
+    dplyr::mutate(
+      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+    )
+}
+
+#' Supported Market Orderbooks
+#' @inheritParams catalog_markets
+#' @return Tibble of all markets with orderbooks support along with the time ranges of available data.
+#' @export
+catalog_full_market_orderbooks <- function(markets=NULL,
+                                           exchange=NULL,
+                                           type=NULL,
+                                           base=NULL,
+                                           quote=NULL,
+                                           asset=NULL,
+                                           symbol=NULL) {
+  
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request("catalog-all/market-orderbooks", query_args)
+  api_data <- httr::content(resp)[["data"]]
+
+  api_data %>%
+    data.table::rbindlist(fill = TRUE) %>%
+    tidyr::hoist(
+      "depths", "depth", "min_time", "max_time",
+      .transform = list(min_time = anytime::anytime, max_time = anytime::anytime)
+    ) %>%
+    tibble::as_tibble()
+  
+}
+
+#' Supported Market Quotes
+#' @inheritParams catalog_markets
+#' @return Tibble of markets with quotes support along with the time ranges of available data.
+#' @export
+catalog_full_market_quotes <- function(markets=NULL,
+                                       exchange=NULL,
+                                       type=NULL,
+                                       base=NULL,
+                                       quote=NULL,
+                                       asset=NULL,
+                                       symbol=NULL) {
+  
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request("catalog-all/market-quotes", query_args)
+  api_data <- httr::content(resp)[["data"]]
+  
+  tibble::tibble(
+    market = purrr::map_chr(api_data, "market", .default = NA),
+    min_time = anytime::anytime(purrr::map_chr(api_data, "min_time", .default = NA)),
+    max_time = anytime::anytime(purrr::map_chr(api_data, "max_time", .default = NA))
+  )
+  
+}
+
+#' Supported Market Funding Rates
+#' @inheritParams catalog_markets
+#' @return Tibble of all markets with funding rates support along with the time ranges of available data.
+#' @export
+catalog_full_market_funding_rates <- function(markets=NULL,
+                                              exchange=NULL,
+                                              type=NULL,
+                                              base=NULL,
+                                              quote=NULL,
+                                              asset=NULL,
+                                              symbol=NULL) {
+  
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request("catalog-all/market-funding-rates", query_args)
+  api_data <- httr::content(resp)[["data"]]
+  
+  tibble::tibble(
+    market = purrr::map_chr(api_data, "market", .default = NA),
+    min_time = anytime::anytime(purrr::map_chr(api_data, "min_time", .default = NA)),
+    max_time = anytime::anytime(purrr::map_chr(api_data, "max_time", .default = NA))
+  )
+  
+}
+
+#' Supported Market Greeks
+#' @inheritParams catalog_markets
+#' @return Tibble of all market greeks for option market.
+#' @export
+catalog_full_greeks <- function(markets = NULL,
+                                exchange = NULL,
+                                type = NULL,
+                                base = NULL,
+                                quote = NULL,
+                                asset = NULL,
+                                symbol = NULL) {
+  
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request("catalog-all/market-greeks", query_args)
+  
+  get_coinmetrics_api_data(resp, "market-greeks", "end")
+  
+}
+
+#' Supported Market Open Interest
+#' @inheritParams catalog_markets
+#' @return Tibble of all markets with open interest support along with the time ranges of available data.
+#' @export
+catalog_full_market_openinterest <- function(markets = NULL,
+                                             exchange = NULL,
+                                             type = NULL,
+                                             base = NULL,
+                                             quote = NULL,
+                                             asset = NULL,
+                                             symbol = NULL) {
+  
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request("catalog-all/market-openinterest", query_args)
+  
+  get_coinmetrics_api_data(resp, "market-openinterest", "end")
+  
+}
+
+#' Supported Market Liquidations
+#' @inheritParams catalog_markets
+#' @return Tibble of all markets with liquidations support along with the time ranges of available data.
+#' @export
+catalog_full_market_liquidations <- function(markets = NULL,
+                                             exchange = NULL,
+                                             type = NULL,
+                                             base = NULL,
+                                             quote = NULL,
+                                             asset = NULL,
+                                             symbol = NULL) {
+  
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request("catalog-all/market-liquidations", query_args)
+  
+  get_coinmetrics_api_data(resp, "market-liquidations", "end")
+  
+}
+
+#' Supported Market Metrics
+#' @inheritParams catalog_markets
+#' @param as_list Return list or tibble. Default is list.
+#' @return List of all markets with metrics support along with the time ranges of available data per metric.
+#' @export
+catalog_full_market_metrics <- function(markets = NULL,
+                                   exchange = NULL,
+                                   type = NULL,
+                                   base = NULL,
+                                   quote = NULL,
+                                   asset = NULL,
+                                   symbol = NULL,
+                                   as_list = TRUE) {
+  query_args <- list(
+    markets = markets,
+    exchange = exchange,
+    type = type,
+    base = base,
+    quote = quote,
+    asset = asset,
+    symbol = symbol
+  )
+  
+  resp <- send_coinmetrics_request(endpoint = "catalog-all/market-metrics", query_args = query_args)
+  
+  api_data <- httr::content(resp)[["data"]]
+  if (as_list) {
+    return(api_data)
+  }
+  
+  api_data %>%
+    data.table::rbindlist(fill = TRUE) %>%
+    tidyr::hoist(.data$metrics, "metric", "frequencies") %>%
+    tidyr::unnest(.data$frequencies) %>%
+    tidyr::hoist(
+      .data$frequencies,
+      "frequency",
+      "min_time",
+      "max_time",
+      .transform = list(min_time = anytime::anytime, max_time = anytime::anytime)
+    )
+  
+}
+
+#' Supported Indexes
+#' @inheritParams catalog_indexes
+#' @return Tibble of all supported indexes along with time ranges of available data.
+#' @export
+catalog_full_indexes <- function(indexes = NULL) {
+  
+  resp <- send_coinmetrics_request("catalog-all/indexes", list(indexes=indexes))
+  api_data <- httr::content(resp)[["data"]]
+  
+  api_data %>%
+    data.table::rbindlist(fill = TRUE) %>%
+    tidyr::unnest_wider("frequencies") %>%
+    dplyr::mutate(
+      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+    )
+  
+}
+
+#' Supported Index Candles
+#' @inheritParams catalog_indexes
+#' @return Tibble of all supported index candles along with the time ranges of available data per index candle duration.
+#' @export
+catalog_full_index_candles <- function(indexes = NULL) {
+  
+  resp <- send_coinmetrics_request("catalog-all/index-candles", list(indexes=indexes))
+  api_data <- httr::content(resp)[["data"]]
+  
+  api_data %>%
+    data.table::rbindlist(fill = TRUE) %>%
+    tidyr::unnest_wider("frequencies") %>%
+    dplyr::mutate(
+      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+    )
+  
+}
+
+#' Supported Asset Alerts
+#' @param assets Vector of assets. By default, all assets are returned.
+#' @param alerts Vector of alert names. By default, all asset alerts are returned.
+#' @return Tibble of all supported asset alerts along with their descriptions, thresholds, and constituents.
+#' @export
+catalog_full_asset_alerts <- function(assets = NULL, alerts = NULL) {
+  
+  query_args <- list(assets = assets, alerts = alerts)
+  
+  resp <- send_coinmetrics_request(endpoint = "catalog-all/alerts", query_args = query_args)
+  api_data <- httr::content(resp)[["data"]]
+  
+  api_data %>%
+    data.table::rbindlist(fill = TRUE) %>%
+    tidyr::hoist(
+      .data$conditions,
+      "description",
+      "threshold",
+      "constituents"
+    ) %>%
+    tidyr::unnest_longer(.data$constituents)
   
 }

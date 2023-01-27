@@ -483,7 +483,6 @@ catalog_market_openinterest <- function(markets = NULL,
 
 #' Available Market Greeks
 #' @inheritParams catalog_markets
-#' @param as_list Return response as list instead of tibble.
 #' @return Available option greeks.
 #' @export
 catalog_greeks <- function(markets = NULL,
