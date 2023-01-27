@@ -18,6 +18,10 @@ get_taxonomy_metadata(
 \arguments{
 \item{version}{Taxonomy version. Defaults to \code{latest} when no \verb{*_time} parameters specified. Specify asterisk \code{*} to get all versions.}
 
+\item{start_time}{Start time of taxonomy version.}
+
+\item{end_time}{End time of taxonomy version.}
+
 \item{start_inclusive}{inclusive or exclusive corresponding \verb{start_*} parameters}
 
 \item{end_inclusive}{inclusive or exclusive corresponding \verb{end_*} parameters}

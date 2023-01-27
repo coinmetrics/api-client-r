@@ -43,9 +43,14 @@ get_market_metrics(
 
 \item{paging_from}{Where first page starts: start or end of interval.}
 
+\item{sort}{How results will be sorted. Metrics are sorted by \verb{(pair, time)} by default.
+If you want to sort \verb{1d} metrics by \verb{(time, pair)}, choose \code{sort = "time"}.}
+
 \item{limit_per_market}{Number of entries per market.}
 
 \item{pretty}{Human-readable JSON formatting. Default is false.}
+
+\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
 
 \item{as_list}{Should API return list instead of tabular data}
 }

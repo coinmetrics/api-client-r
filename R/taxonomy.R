@@ -47,6 +47,8 @@ get_taxonomy <- function(assets = NULL,
 
 #' Taxonomy Metadata
 #' @inheritParams get_taxonomy
+#' @param start_time Start time of taxonomy version.
+#' @param end_time End time of taxonomy version.
 #' @return Taxonomy metadata for assets
 #' @export
 get_taxonomy_metadata <- function(version = "latest",

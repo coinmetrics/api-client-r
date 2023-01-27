@@ -23,11 +23,11 @@ get_pair_metrics(
 )
 }
 \arguments{
-\item{pairs}{Vector of asset pairs, e.g. btc-usd}
+\item{pairs}{Vector of asset pairs, e.g. btc-usd.}
 
-\item{metrics}{Vector of metrics to request, e.g. volume_trusted_spot_usd_1d}
+\item{metrics}{Vector of metrics to request, e.g. volume_trusted_spot_usd_1d.}
 
-\item{frequency}{Frequency of the pair metrics. Supported values are \verb{1h} and \verb{1d}}
+\item{frequency}{Frequency of the pair metrics. Supported values are \verb{1h} and \verb{1d}.}
 
 \item{start_time}{Start time of the timeseries. Multiple formats of ISO 8601 are supported.}
 
@@ -43,7 +43,14 @@ get_pair_metrics(
 
 \item{paging_from}{Where first page starts: start or end of interval.}
 
+\item{sort}{How results will be sorted. Metrics are sorted by \verb{(pair, time)} by default.
+If you want to sort \verb{1d} metrics by \verb{(time, pair)}, choose \code{sort = "time"}.}
+
+\item{limit_per_pair}{Number of entries per pair the result should contain.}
+
 \item{pretty}{Human-readable JSON formatting. Default is false.}
+
+\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
 
 \item{as_list}{Should API return list instead of tabular data}
 }

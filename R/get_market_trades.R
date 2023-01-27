@@ -1,5 +1,7 @@
 #' Get Market Trades
 #' @inheritParams get_market_metrics
+#' @param min_confirmations Integer in `[0, 99]` with 2 as default. Specifies how many blocks behind the chain tip trades are based on.
+#' Currently only available for DeFi markets.
 #' @return Tibble or list of selected market trades.
 #' @export
 get_market_trades <- function(markets,

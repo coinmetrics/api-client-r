@@ -41,6 +41,11 @@ get_market_trades(
 
 \item{pretty}{Human-readable JSON formatting. Default is false.}
 
+\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
+
+\item{min_confirmations}{Integer in \verb{[0, 99]} with 2 as default. Specifies how many blocks behind the chain tip trades are based on.
+Currently only available for DeFi markets.}
+
 \item{as_list}{Should API return list instead of tabular data}
 }
 \value{
