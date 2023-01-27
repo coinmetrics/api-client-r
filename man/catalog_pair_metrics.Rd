@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_pair_metrics}
 \alias{catalog_pair_metrics}
-\title{Get Available Pair Metrics}
+\title{Available Pair Metrics}
 \usage{
 catalog_pair_metrics(metrics = NULL, as_list = FALSE)
 }
@@ -15,5 +15,5 @@ catalog_pair_metrics(metrics = NULL, as_list = FALSE)
 Available pair metrics along with information for them like descripion, category, and pairs for which a metric is available.
 }
 \description{
-Get Available Pair Metrics
+Available Pair Metrics
 }

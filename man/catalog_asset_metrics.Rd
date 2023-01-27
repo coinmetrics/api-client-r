@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_asset_metrics}
 \alias{catalog_asset_metrics}
-\title{Get Available Asset Metrics}
+\title{Available Asset Metrics}
 \usage{
 catalog_asset_metrics(
   metrics = NULL,
@@ -24,5 +24,5 @@ catalog_asset_metrics(
 Tibble of available asset metrics along with information like description, category, and assets for which a metric is available.
 }
 \description{
-Get Available Asset Metrics
+Available Asset Metrics
 }

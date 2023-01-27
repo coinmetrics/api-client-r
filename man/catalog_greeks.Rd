@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_greeks}
 \alias{catalog_greeks}
-\title{Get Available Market Greeks}
+\title{Available Market Greeks}
 \usage{
 catalog_greeks(
   markets = NULL,
@@ -11,11 +11,7 @@ catalog_greeks(
   base = NULL,
   quote = NULL,
   asset = NULL,
-  symbol = NULL,
-  format = "json",
-  limit = NULL,
-  pretty = FALSE,
-  as_list = FALSE
+  symbol = NULL
 )
 }
 \arguments{
@@ -33,17 +29,11 @@ catalog_greeks(
 
 \item{symbol}{Symbol of derivative markets; the full instrument name.}
 
-\item{format}{Format of the response. Supported values are \code{json}, \code{json_stream}. Default is \code{json}.}
-
-\item{limit}{Number of response items.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
-
 \item{as_list}{Return response as list instead of tibble.}
 }
 \value{
 Available option greeks.
 }
 \description{
-Get Available Market Greeks
+Available Market Greeks
 }

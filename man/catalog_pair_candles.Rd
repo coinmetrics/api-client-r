@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_pair_candles}
 \alias{catalog_pair_candles}
-\title{Get Available Asset Pair Candles}
+\title{Available Asset Pair Candles}
 \usage{
 catalog_pair_candles(pairs = NULL, pretty = FALSE, as_list = FALSE)
 }
@@ -17,5 +17,5 @@ catalog_pair_candles(pairs = NULL, pretty = FALSE, as_list = FALSE)
 Tibble of available asset pair candles along with the time ranges of available data per candle duration.
 }
 \description{
-Get Available Asset Pair Candles
+Available Asset Pair Candles
 }

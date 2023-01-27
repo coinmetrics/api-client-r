@@ -7,9 +7,9 @@
 catalog_full_metrics(metrics = NULL, reviewable = NULL, pretty = FALSE)
 }
 \arguments{
-\item{metrics}{Vector of metrics. By default all metrics are returned.}
+\item{metrics}{Vector of metrics. By default, all metrics are returned.}
 
-\item{reviewable}{Limit to human-reviewable metrics. By default all metrics are returned.}
+\item{reviewable}{Limit to human-reviewable metrics. By default, all metrics are returned.}
 
 \item{pretty}{Human-readable formatting of JSON responses.}
 }

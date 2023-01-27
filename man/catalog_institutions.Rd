@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_institutions}
 \alias{catalog_institutions}
-\title{Get Available Institutions}
+\title{Available Institutions}
 \usage{
 catalog_institutions(institutions = NULL, as_list = FALSE)
 }
@@ -15,5 +15,5 @@ catalog_institutions(institutions = NULL, as_list = FALSE)
 Available institutions along with information for them like metrics and time ranges of available data.
 }
 \description{
-Get Available Institutions
+Available Institutions
 }

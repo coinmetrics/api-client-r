@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_index_candles}
 \alias{catalog_index_candles}
-\title{Get Avilable Index Candles}
+\title{Avilable Index Candles}
 \usage{
 catalog_index_candles(indexes = NULL)
 }
@@ -13,5 +13,5 @@ catalog_index_candles(indexes = NULL)
 Tibble of available index candles along with the time ranges of available data per candle duration.
 }
 \description{
-Get Avilable Index Candles
+Avilable Index Candles
 }

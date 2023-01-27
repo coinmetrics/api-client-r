@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_market_trades}
 \alias{catalog_market_trades}
-\title{Get Available Market Trades}
+\title{Available Market Trades}
 \usage{
 catalog_market_trades(
   markets = NULL,
@@ -11,10 +11,7 @@ catalog_market_trades(
   base = NULL,
   quote = NULL,
   asset = NULL,
-  symbol = NULL,
-  format = "json",
-  limit = NULL,
-  pretty = FALSE
+  symbol = NULL
 )
 }
 \arguments{
@@ -31,16 +28,10 @@ catalog_market_trades(
 \item{asset}{Any asset of markets.}
 
 \item{symbol}{Symbol of derivative markets; the full instrument name.}
-
-\item{format}{Format of the response. Supported values are \code{json}, \code{json_stream}. Default is \code{json}.}
-
-\item{limit}{Number of response items.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 }
 \value{
 Tibble of markets with trades support along with the time ranges of available data
 }
 \description{
-Get Available Market Trades
+Available Market Trades
 }

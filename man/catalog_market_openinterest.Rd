@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_market_openinterest}
 \alias{catalog_market_openinterest}
-\title{Get Available Market Open Interest}
+\title{Available Market Open Interest}
 \usage{
 catalog_market_openinterest(
   markets = NULL,
@@ -11,10 +11,7 @@ catalog_market_openinterest(
   base = NULL,
   quote = NULL,
   asset = NULL,
-  symbol = NULL,
-  format = "json",
-  limit = NULL,
-  pretty = FALSE
+  symbol = NULL
 )
 }
 \arguments{
@@ -31,16 +28,10 @@ catalog_market_openinterest(
 \item{asset}{Any asset of markets.}
 
 \item{symbol}{Symbol of derivative markets; the full instrument name.}
-
-\item{format}{Format of the response. Supported values are \code{json}, \code{json_stream}. Default is \code{json}.}
-
-\item{limit}{Number of response items.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 }
 \value{
 Tibble of markets with open interest support along with the time ranges of available data.
 }
 \description{
-Get Available Market Open Interest
+Available Market Open Interest
 }

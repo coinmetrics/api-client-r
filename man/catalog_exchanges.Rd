@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_exchanges}
 \alias{catalog_exchanges}
-\title{Get Available Exchanges}
+\title{Available Exchanges}
 \usage{
 catalog_exchanges(exchanges = NULL, as_list = FALSE)
 }
@@ -15,5 +15,5 @@ catalog_exchanges(exchanges = NULL, as_list = FALSE)
 Available exchanges along with available markets and metrics for them.
 }
 \description{
-Get Available Exchanges
+Available Exchanges
 }

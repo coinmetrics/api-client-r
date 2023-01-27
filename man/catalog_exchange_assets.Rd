@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_exchange_assets}
 \alias{catalog_exchange_assets}
-\title{Get Available Exchange/Asset Pairs}
+\title{Available Exchange/Asset Pairs}
 \usage{
 catalog_exchange_assets(exchange_assets = NULL, as_list = TRUE)
 }
@@ -15,5 +15,5 @@ catalog_exchange_assets(exchange_assets = NULL, as_list = TRUE)
 Tibble of available exchange-asset pairs along with information like metrics and time ranges of available data.
 }
 \description{
-Get Available Exchange/Asset Pairs
+Available Exchange/Asset Pairs
 }

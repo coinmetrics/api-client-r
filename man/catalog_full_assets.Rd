@@ -12,7 +12,7 @@ catalog_full_assets(
 )
 }
 \arguments{
-\item{assets}{Vector of assets. By default all assets are returned.}
+\item{assets}{Vector of assets. By default, all assets are returned.}
 
 \item{include}{Vector of fields to include in response. Supported values are \code{metrics}, \code{markets}, \code{exchanges}.
 Included by default if omitted.,}

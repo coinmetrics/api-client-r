@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_institution_metrics}
 \alias{catalog_institution_metrics}
-\title{Get Available Institution Metrics}
+\title{Available Institution Metrics}
 \usage{
 catalog_institution_metrics(metrics = NULL, as_list = FALSE)
 }
@@ -15,5 +15,5 @@ catalog_institution_metrics(metrics = NULL, as_list = FALSE)
 Available institution metrics along with information for them like description, category, and institutions for which a metric is available.
 }
 \description{
-Get Available Institution Metrics
+Available Institution Metrics
 }

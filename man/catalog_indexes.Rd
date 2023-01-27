@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog_indexes}
 \alias{catalog_indexes}
-\title{Get Available Indexes}
+\title{Available Indexes}
 \usage{
 catalog_indexes(indexes = NULL)
 }
@@ -13,5 +13,5 @@ catalog_indexes(indexes = NULL)
 Tibble of available indexes along with time ranges of available data
 }
 \description{
-Get Available Indexes
+Available Indexes
 }
