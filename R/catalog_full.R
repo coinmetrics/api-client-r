@@ -8,7 +8,7 @@
 #' @return Tibble of supported assets along with information for them like metrics, markets, exchanges, and time ranges of available data.
 #' Metrics, markets, and exchanges outputted as list-columns.
 #' @export
-get_catalog_all_assets <- function(assets = NULL, include = NULL, exclude = NULL, pretty = FALSE) {
+catalog_full_assets <- function(assets = NULL, include = NULL, exclude = NULL, pretty = FALSE) {
   
   query_args <- list(
     assets = assets,
@@ -41,7 +41,7 @@ get_catalog_all_assets <- function(assets = NULL, include = NULL, exclude = NULL
 #' @return Tibble of supported asset metrics along with information for them 
 #' like description, category, and assets for which a metric is available.
 #' @export
-get_catalog_all_metrics <- function(metrics = NULL, reviewable = NULL, pretty = FALSE) {
+catalog_full_metrics <- function(metrics = NULL, reviewable = NULL, pretty = FALSE) {
   
   query_args <- list(
     metrics = metrics,
@@ -59,10 +59,10 @@ get_catalog_all_metrics <- function(metrics = NULL, reviewable = NULL, pretty = 
 
 ## Note, catalog-all/exchange-metrics returns nothing
 #' Supported Exchange Metrics
-#' @inheritParams get_catalog_all_metrics
+#' @inheritParams catalog_full_metrics
 #' @return Tibble of supported exchange metrics along with information for them 
 #' like description, category, and exchanges for which a metric is available.
-get_catalog_all_exchange_metrics <- function(metrics=NULL, reviewable=NULL, pretty=FALSE) {
+catalog_full_exchange_metrics <- function(metrics=NULL, reviewable=NULL, pretty=FALSE) {
   
   query_args <- list(
     metrics = metrics,

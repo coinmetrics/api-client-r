@@ -49,6 +49,8 @@ get_exchange_asset_metrics(
 
 \item{pretty}{Human-readable JSON formatting. Default is false.}
 
+\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
+
 \item{as_list}{Should API return list instead of tabular data}
 }
 \value{

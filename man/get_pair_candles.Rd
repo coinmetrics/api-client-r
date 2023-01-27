@@ -20,7 +20,7 @@ get_pair_candles(
 )
 }
 \arguments{
-\item{pairs}{Vector of asset pairs, e.g. btc-usd}
+\item{pairs}{Vector of asset pairs, e.g. btc-usd.}
 
 \item{frequency}{Candle duration. Supported values are \verb{1m}, \verb{5m}, \verb{10m}, \verb{15m}, \verb{30m}, \verb{1h}, \verb{4h}, \verb{1d}.}
 
@@ -37,6 +37,8 @@ get_pair_candles(
 \item{page_size}{Number of items per single page of results. Default is 100.}
 
 \item{paging_from}{Where first page starts: start or end of interval.}
+
+\item{limit_per_pair}{Number of entries per pair the result should contain.}
 
 \item{pretty}{Human-readable JSON formatting. Default is false.}
 

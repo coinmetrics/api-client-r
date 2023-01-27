@@ -27,7 +27,7 @@ get_exchange_metrics(
 
 \item{metrics}{Vector of metrics to request. Information on all available metrics can be found on page https://docs.coinmetrics.io/info/pair_metrics.}
 
-\item{frequency}{Frequency of the pair metrics. Supported values are \verb{1h} and \verb{1d}}
+\item{frequency}{Frequency of the pair metrics. Supported values are \verb{1h} and \verb{1d}.}
 
 \item{start_time}{Start time of the timeseries. Multiple formats of ISO 8601 are supported.}
 
@@ -43,9 +43,14 @@ get_exchange_metrics(
 
 \item{paging_from}{Where first page starts: start or end of interval.}
 
+\item{sort}{How results will be sorted. Metrics are sorted by \verb{(pair, time)} by default.
+If you want to sort \verb{1d} metrics by \verb{(time, pair)}, choose \code{sort = "time"}.}
+
 \item{limit_per_exchange}{Number of entries per institution.}
 
 \item{pretty}{Human-readable JSON formatting. Default is false.}
+
+\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
 
 \item{as_list}{Should API return list instead of tabular data}
 }
