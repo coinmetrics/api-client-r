@@ -219,9 +219,7 @@ catalog_full_markets <- function(markets = NULL,
                                  base = NULL,
                                  quote = NULL,
                                  asset = NULL,
-                                 symbol = NULL,
-                                 include = NULL,
-                                 exclude = NULL) {
+                                 symbol = NULL) {
   query_args <- list(
     markets = markets,
     exchange = exchange,
@@ -229,15 +227,26 @@ catalog_full_markets <- function(markets = NULL,
     base = base,
     quote = quote,
     asset = asset,
-    symbol = symbol,
-    include = include,
-    exclude = exclude
+    symbol = symbol
   )
 
   resp <- send_coinmetrics_request("catalog-all/markets", query_args)
   api_data <- httr::content(resp)[["data"]]
 
-  return(api_data)
+  #return(api_data)
+  tibble::tibble(
+    market = purrr::map_chr(api_data, "market", .default = NA),
+    min_time = purrr::map_chr(api_data, "min_time", .default = NA),
+    max_time = purrr::map_chr(api_data, "max_time", .default = NA),
+    exchange = purrr::map_chr(api_data, "exchange", .default = NA),
+    type = purrr::map_chr(api_data, "type", .default = NA),
+    base = purrr::map_chr(api_data, "base", .default = NA),
+    quote = purrr::map_chr(api_data, "quote", .default = NA),
+    symbol = purrr::map_chr(api_data, "symbol", .default = NA)
+  ) %>%
+    dplyr::mutate(
+      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+    )
 }
 
 #' Supported Market Trades
