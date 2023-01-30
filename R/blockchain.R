@@ -3,7 +3,7 @@
 #' @param block_hashes Optional vector of block hashes to filter a response.
 #' @param heights Optional vector of block heights to filter a response.
 #' @param start_time Start of the time interval. This field refers to the `time` field in the response.
-#' @param end_time End of the time interval. This field refers to the `time` field in the response. 
+#' @param end_time End of the time interval. This field refers to the `time` field in the response.
 #' @param start_height (int >= 0) Beginning block height for the set of data returned.  Inclusive by default. Mutually exclusive with `start_time`.
 #' @param end_height (int >= 0) Ending block height for the set of data returned. Inclusive by default. Mutually exclusive with `end_time`.
 #' @param start_inclusive Inclusive or exclusive corresponding `start_*` parameters.
@@ -25,7 +25,6 @@ get_list_of_blocks <- function(asset,
                                timezone = "UTC",
                                page_size = NULL,
                                paging_from = "end") {
-  
   query_args <- list(
     block_hashes = block_hashes,
     heights = heights,
@@ -39,15 +38,14 @@ get_list_of_blocks <- function(asset,
     page_size = page_size,
     paging_from = paging_from
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = paste("blockchain", asset, "blocks", sep = "/"), query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/blocks",
     paging_from = paging_from
   )
-  
 }
 
 #' Get List of Accounts
@@ -55,7 +53,7 @@ get_list_of_blocks <- function(asset,
 #' @param accounts Optional vector of accounts to filter a response.
 #' @param start_chain_sequence_number Non-negative integer, start of the `chain_sequence_number` interval.
 #' @param end_chain_sequence_number Non-negative integer, end of the `chain_sequence_number` interval.
-#' @return Tibble of blockchain accounts with their balances. 
+#' @return Tibble of blockchain accounts with their balances.
 #' Results are ordered by tuple `(creation_chain_sequence_number, account)`.
 #' @export
 get_list_of_accounts <- function(asset,
@@ -71,7 +69,6 @@ get_list_of_accounts <- function(asset,
                                  timezone = "UTC",
                                  page_size = NULL,
                                  paging_from = "end") {
-  
   query_args <- list(
     accounts = accounts,
     start_time = start_time,
@@ -86,9 +83,9 @@ get_list_of_accounts <- function(asset,
     page_size = page_size,
     paging_from = paging_from
   )
-  
+
   resp <- send_coinmetrics_request(endpoint = paste("blockchain", asset, "accounts", sep = "/"), query_args = query_args)
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/accounts",
@@ -114,7 +111,6 @@ get_list_of_transactions <- function(asset,
                                      timezone = "UTC",
                                      page_size = NULL,
                                      paging_from = "end") {
-  
   query_args <- list(
     transaction_hashes = transaction_hashes,
     block_hashes = block_hashes,
@@ -128,12 +124,12 @@ get_list_of_transactions <- function(asset,
     page_size = page_size,
     paging_from = paging_from
   )
-  
+
   resp <- send_coinmetrics_request(
     endpoint = paste("blockchain", asset, "transactions", sep = "/"),
     query_args = query_args
   )
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/transactions",
@@ -145,7 +141,7 @@ get_list_of_transactions <- function(asset,
 #' @inheritParams get_list_of_accounts
 #' @param block_hashes Optional vector of block hashes to filter a response.
 #' @param transaction_hashes Optional vector of transaction hashes to filter a response.
-#' @return Tibble of blockchain accounts balance updates. 
+#' @return Tibble of blockchain accounts balance updates.
 #' Results are ordered by tuple `(chain_sequence_number, block_hash)`.
 #' @export
 get_list_of_balance_updates <- function(asset,
@@ -163,7 +159,6 @@ get_list_of_balance_updates <- function(asset,
                                         timezone = "UTC",
                                         page_size = NULL,
                                         paging_from = "end") {
-  
   query_args <- list(
     accounts = accounts,
     transaction_hashes = transaction_hashes,
@@ -180,12 +175,12 @@ get_list_of_balance_updates <- function(asset,
     page_size = page_size,
     paging_from = paging_from
   )
-  
+
   resp <- send_coinmetrics_request(
     endpoint = paste("blockchain", asset, "balance-updates", sep = "/"),
     query_args = query_args
   )
-  
+
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/balance-updates",
@@ -199,5 +194,5 @@ get_list_of_balance_updates <- function(asset,
 #' @return Tibble of full blockchain block with all transactions and balance updates.
 
 # get_full_block <- function(asset, block_hashes) {
-#   
+#
 # }
