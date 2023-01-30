@@ -45,8 +45,7 @@ get_list_of_blocks <- function(asset,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/blocks",
-    paging_from = paging_from,
-    as_list = FALSE
+    paging_from = paging_from
   )
   
 }
@@ -93,8 +92,7 @@ get_list_of_accounts <- function(asset,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/accounts",
-    paging_from = paging_from,
-    as_list = FALSE
+    paging_from = paging_from
   )
 }
 
@@ -139,8 +137,7 @@ get_list_of_transactions <- function(asset,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/transactions",
-    paging_from = paging_from,
-    as_list = FALSE
+    paging_from = paging_from
   )
 }
 
@@ -192,8 +189,7 @@ get_list_of_balance_updates <- function(asset,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/balance-updates",
-    paging_from = paging_from,
-    as_list = FALSE
+    paging_from = paging_from
   )
 }
 
