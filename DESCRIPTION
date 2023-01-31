@@ -16,9 +16,9 @@ Imports:
     httr,
     magrittr,
     purrr,
+    RcppSimdJson,
     readr,
     rlang,
     tibble,
     tidyr,
-    tidyselect,
     utils

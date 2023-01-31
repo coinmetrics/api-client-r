@@ -11,8 +11,7 @@ catalog_full_market_metrics(
   base = NULL,
   quote = NULL,
   asset = NULL,
-  symbol = NULL,
-  as_list = TRUE
+  symbol = NULL
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ catalog_full_market_metrics(
 \item{asset}{Any asset of markets.}
 
 \item{symbol}{Symbol of derivative markets; the full instrument name.}
-
-\item{as_list}{Return list or tibble. Default is list.}
 }
 \value{
 List of all markets with metrics support along with the time ranges of available data per metric.

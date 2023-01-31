@@ -1,26 +1,24 @@
-catalogMarketsData <- function(api_data) {
+catalogMarketsData <- function(api_response) {
   
-  df_markets <- data.table::rbindlist(api_data, fill = TRUE)
+  df_markets <-
+    RcppSimdJson::fparse(httr::content(api_response, "raw"), "/data") %>%
+    data.table::setDT()
   
-  metadata <- c("funding_rates", "openinterest", "liquidations")
+  df_markets <- suppressMessages(readr::type_convert(df_markets))
   
-  for(col in metadata) {
-    if (col %in% colnames(df_markets)) {
-      df_markets <- tidyr::unnest(df_markets, tidyselect::any_of(col))
-    }
-  }
+  tibble::as_tibble(df_markets)
+}
+
+catalogAssetsData <- function(api_response) {
   
-  df_markets <- df_markets %>% 
-    dplyr::select(-tidyselect::any_of(c("trades", metadata))) %>%
-    tidyr::unnest_longer(tidyselect::any_of(c("orderbooks", "quotes")))
-  #list_cols <- which(sapply(df_markets, is.list))
+  df_assets <- 
+    RcppSimdJson::fparse(httr::content(api_response, "raw"), "/data") %>%
+    data.table::setDT()
+  df_assets <- suppressMessages(readr::type_convert(df_assets))
   
-  df_markets <- df_markets %>%
-    utils::type.convert(as.is = TRUE) %>%
-    dplyr::mutate(
-      dplyr::across(tidyselect::any_of(c("min_time", "max_time", "listing", "expiration", "orderbooks", "quotes")), 
-                    anytime::anytime)
-    )
-   
-  return(df_markets)
+  tibble::as_tibble(df_assets)
+}
+
+catalogMarketMetricsData <- function(api_response) {
+  RcppSimdJson::fparse(httr::content(api_response, "raw"), "/data") %>% tibble::as_tibble()
 }

@@ -1,36 +1,14 @@
 #' Supported Assets
 #' @param assets Vector of assets. By default, all assets are returned.
-#' @param include Vector of fields to include in response. Supported values are `metrics`, `markets`, `exchanges`.
-#' Included by default if omitted.,
-#' @param exclude Vector of fields to exclude in response. Supported values are `metrics`, `markets`, `exchanges`.
-#' Included by default if omitted.
-#' @param pretty Human-readable formatting of JSON responses.
 #' @return Tibble of supported assets along with information for them like metrics, markets, exchanges, and time ranges of available data.
 #' Metrics, markets, and exchanges outputted as list-columns.
 #' @export
-catalog_full_assets <- function(assets = NULL, include = NULL, exclude = NULL, pretty = FALSE) {
-  query_args <- list(
-    assets = assets,
-    include = include,
-    exclude = exclude,
-    pretty = pretty
-  )
+catalog_full_assets <- function(assets = NULL) {
+  query_args <- list(assets = assets)
 
   resp <- send_coinmetrics_request("catalog-all/assets", query_args)
-
-  api_data <- httr::content(resp)[["data"]]
-
-  catalog <- tibble::tibble(
-    asset = purrr::map_chr(api_data, "asset", .default = NA),
-    full_name = purrr::map_chr(api_data, "full_name", .default = NA),
-    metrics = purrr::map(api_data, "metrics", .default = NA),
-    markets = purrr::map(api_data, "markets", .default = NA),
-    exchanges = purrr::map(api_data, "exchanges", .default = NA)
-  )
-
-  all.names <- Reduce(union, sapply(api_data, names))
-
-  catalog[, which(colnames(catalog) %in% all.names)]
+  
+  catalogAssetsData(resp)
 }
 
 #' Supported Asset Metrics
@@ -231,22 +209,8 @@ catalog_full_markets <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request("catalog-all/markets", query_args)
-  api_data <- httr::content(resp)[["data"]]
-
-  #return(api_data)
-  tibble::tibble(
-    market = purrr::map_chr(api_data, "market", .default = NA),
-    min_time = purrr::map_chr(api_data, "min_time", .default = NA),
-    max_time = purrr::map_chr(api_data, "max_time", .default = NA),
-    exchange = purrr::map_chr(api_data, "exchange", .default = NA),
-    type = purrr::map_chr(api_data, "type", .default = NA),
-    base = purrr::map_chr(api_data, "base", .default = NA),
-    quote = purrr::map_chr(api_data, "quote", .default = NA),
-    symbol = purrr::map_chr(api_data, "symbol", .default = NA)
-  ) %>%
-    dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), anytime::anytime)
-    )
+  
+  catalogMarketsData(resp)
 }
 
 #' Supported Market Trades
@@ -488,7 +452,6 @@ catalog_full_market_liquidations <- function(markets = NULL,
 
 #' Supported Market Metrics
 #' @inheritParams catalog_markets
-#' @param as_list Return list or tibble. Default is list.
 #' @return List of all markets with metrics support along with the time ranges of available data per metric.
 #' @export
 catalog_full_market_metrics <- function(markets = NULL,
@@ -497,8 +460,7 @@ catalog_full_market_metrics <- function(markets = NULL,
                                         base = NULL,
                                         quote = NULL,
                                         asset = NULL,
-                                        symbol = NULL,
-                                        as_list = TRUE) {
+                                        symbol = NULL) {
   query_args <- list(
     markets = markets,
     exchange = exchange,
@@ -510,23 +472,8 @@ catalog_full_market_metrics <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request(endpoint = "catalog-all/market-metrics", query_args = query_args)
-
-  api_data <- httr::content(resp)[["data"]]
-  if (as_list) {
-    return(api_data)
-  }
-
-  api_data %>%
-    data.table::rbindlist(fill = TRUE) %>%
-    tidyr::hoist(.data$metrics, "metric", "frequencies") %>%
-    tidyr::unnest(.data$frequencies) %>%
-    tidyr::hoist(
-      .data$frequencies,
-      "frequency",
-      "min_time",
-      "max_time",
-      .transform = list(min_time = anytime::anytime, max_time = anytime::anytime)
-    )
+  
+  catalogMarketMetricsData(resp)
 }
 
 #' Supported Indexes

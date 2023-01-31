@@ -1,24 +1,14 @@
 #' Available Assets
 #'
 #' @param assets Vector of assets. By default all assets are returned.
-#' @param include Vector of fields to include in response. Supported values are `metrics`, `markets`, `exchanges`. Included by default if `NULL`.
-#' @param exclude Vector of fields to exclude from response. Supported values are `metrics`, `markets`, `exchanges`. Included by default if `NULL`.
 #' @return List of available assets along with information for them (metrics, markets, and exchanges) and time ranges of available data.
 #' @export
-get_catalog_assets <- function(assets = NULL,
-                               include = NULL,
-                               exclude = NULL) {
-  query_args <- list(
-    assets = assets,
-    include = include,
-    exclude = exclude
-  )
+catalog_assets <- function(assets = NULL) {
+  query_args <- list(assets = assets)
 
   resp <- send_coinmetrics_request(endpoint = "catalog/assets", query_args = query_args)
 
-  assets_content <- httr::content(resp)[["data"]]
-
-  return(assets_content)
+  catalogAssetsData(resp)
 }
 
 #' Available Asset Pairs
@@ -321,14 +311,12 @@ catalog_markets <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request(endpoint = "catalog/markets", query_args = query_args)
-  api_data <- httr::content(resp)[["data"]]
-
-  return(api_data)
+  
+  catalogMarketsData(resp)
 }
 
 #' Available Market Metrics
 #' @inheritParams catalog_markets
-#' @param as_list Return list or tibble. Default is list.
 #' @return Tibble of markets with metrics support along with the time ranges of available data per metric.
 #' @export
 catalog_market_metrics <- function(markets = NULL,
@@ -337,8 +325,7 @@ catalog_market_metrics <- function(markets = NULL,
                                    base = NULL,
                                    quote = NULL,
                                    asset = NULL,
-                                   symbol = NULL,
-                                   as_list = TRUE) {
+                                   symbol = NULL) {
   query_args <- list(
     markets = markets,
     exchange = exchange,
@@ -350,23 +337,8 @@ catalog_market_metrics <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request(endpoint = "catalog/market-metrics", query_args = query_args)
-
-  api_data <- httr::content(resp)[["data"]]
-  if (as_list) {
-    return(api_data)
-  }
-
-  api_data %>%
-    data.table::rbindlist(fill = TRUE) %>%
-    tidyr::hoist(.data$metrics, "metric", "frequencies") %>%
-    tidyr::unnest(.data$frequencies) %>%
-    tidyr::hoist(
-      .data$frequencies,
-      "frequency",
-      "min_time",
-      "max_time",
-      .transform = list(min_time = anytime::anytime, max_time = anytime::anytime)
-    )
+  
+  catalogMarketMetricsData(resp)
 }
 
 #' Available Market Trades
