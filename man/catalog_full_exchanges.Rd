@@ -4,12 +4,10 @@
 \alias{catalog_full_exchanges}
 \title{Supported Exchanges}
 \usage{
-catalog_full_exchanges(exchanges = NULL, pretty = FALSE)
+catalog_full_exchanges(exchanges = NULL)
 }
 \arguments{
 \item{exchanges}{Vector of exchanges. By default, all exchanges are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 }
 \value{
 Tibble of all supported exchanges along with available markets for them.

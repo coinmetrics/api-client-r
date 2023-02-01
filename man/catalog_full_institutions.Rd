@@ -4,12 +4,10 @@
 \alias{catalog_full_institutions}
 \title{Supported Institutions}
 \usage{
-catalog_full_institutions(institutions = NULL, pretty = FALSE)
+catalog_full_institutions(institutions = NULL)
 }
 \arguments{
-\item{institutions}{Vector of institutions. By default, all institutions are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
+\item{institutions}{Vector of institutions. By default all institutions are returned.}
 }
 \value{
 Tibble of supported institutions along with information for them like metrics and time ranges of available data.

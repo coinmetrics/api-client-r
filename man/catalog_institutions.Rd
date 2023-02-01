@@ -4,12 +4,10 @@
 \alias{catalog_institutions}
 \title{Available Institutions}
 \usage{
-catalog_institutions(institutions = NULL, as_list = FALSE)
+catalog_institutions(institutions = NULL)
 }
 \arguments{
 \item{institutions}{Vector of institutions. By default all institutions are returned.}
-
-\item{as_list}{Return content as list or tibble.}
 }
 \value{
 Available institutions along with information for them like metrics and time ranges of available data.

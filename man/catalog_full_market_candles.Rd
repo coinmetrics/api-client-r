@@ -11,8 +11,7 @@ catalog_full_market_candles(
   base = NULL,
   quote = NULL,
   asset = NULL,
-  symbol = NULL,
-  as_list = TRUE
+  symbol = NULL
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ catalog_full_market_candles(
 \item{asset}{Any asset of markets.}
 
 \item{symbol}{Symbol of derivative markets; the full instrument name.}
-
-\item{as_list}{Return content as list instead of tibble.}
 }
 \value{
 List of all markets with candles support along with the time ranges of available data per candle duration.

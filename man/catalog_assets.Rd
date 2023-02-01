@@ -10,7 +10,7 @@ catalog_assets(assets = NULL)
 \item{assets}{Vector of assets. By default all assets are returned.}
 }
 \value{
-List of available assets along with information for them (metrics, markets, and exchanges) and time ranges of available data.
+Tibble of available assets along with information for them (metrics, markets, and exchanges) and time ranges of available data.
 }
 \description{
 Available Assets

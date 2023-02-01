@@ -4,12 +4,12 @@
 \alias{catalog_pair_metrics}
 \title{Available Pair Metrics}
 \usage{
-catalog_pair_metrics(metrics = NULL, as_list = FALSE)
+catalog_pair_metrics(metrics = NULL, reviewable = NULL)
 }
 \arguments{
-\item{metrics}{Vector of metrics. By default all metrics are returned.}
+\item{metrics}{Vector of metrics. By default, all metrics are returned.}
 
-\item{as_list}{Return response as list instead of tibble.}
+\item{reviewable}{Boolean to limit to human-reviewable metrics. By default, all metrics are returned.}
 }
 \value{
 Available pair metrics along with information for them like descripion, category, and pairs for which a metric is available.
