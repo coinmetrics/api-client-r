@@ -82,7 +82,7 @@ catalogMarketCandlesData <- function(api_response) {
   
   df_candles <-
     RcppSimdJson::fparse(httr::content(api_response, "raw"), "/data") %>%
-    data.table::setDT(key = "market")
+    data.table::setDT()
   
   df_candles <- df_candles[, unlist(frequencies, recursive = FALSE), by="market"]
   df_candles[, c("min_time", "max_time") := lapply(.SD, anytime::anytime), .SDcols = c("min_time", "max_time")]
