@@ -7,7 +7,7 @@ catalog_full_assets <- function(assets = NULL) {
   query_args <- list(assets = assets)
 
   resp <- send_coinmetrics_request("catalog-all/assets", query_args)
-  
+
   catalogAssetsData(resp)
 }
 
@@ -65,7 +65,7 @@ catalog_full_exchanges <- function(exchanges = NULL) {
     endpoint = "catalog-all/exchanges",
     query_args = list(exchanges = exchanges)
   )
-  
+
   catalogExchangesData()
 }
 
@@ -79,7 +79,7 @@ catalog_full_exchange_assets <- function(exchange_assets = NULL) {
     endpoint = "catalog-all/exchange-assets",
     query_args = list(exchange_assets = exchange_assets)
   )
-  
+
   catalogExchangeAssetsData(resp)
 }
 
@@ -93,7 +93,7 @@ catalog_full_asset_pairs <- function(pairs = NULL) {
     endpoint = "catalog-all/pairs",
     query_args = list(pairs = pairs)
   )
-  
+
   catalogExchangeAssetsData(resp)
 }
 
@@ -106,7 +106,7 @@ catalog_full_asset_pair_candles <- function(pairs = NULL) {
     endpoint = "catalog-all/pair-candles",
     query_args = list(pairs = pairs)
   )
-  
+
   catalogPairsData(resp)
 }
 
@@ -119,7 +119,7 @@ catalog_full_institutions <- function(institutions = NULL) {
     endpoint = "catalog-all/institutions",
     query_args = list(institutions = institutions)
   )
-  
+
   catalogInstData(resp)
 }
 
@@ -145,7 +145,7 @@ catalog_full_markets <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request("catalog-all/markets", query_args)
-  
+
   catalogMarketsData(resp)
 }
 
@@ -197,7 +197,7 @@ catalog_full_market_candles <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request("catalog-all/market-candles", query_args)
-  
+
   catalogMarketCandlesData(resp)
 }
 
@@ -396,7 +396,7 @@ catalog_full_market_metrics <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request(endpoint = "catalog-all/market-metrics", query_args = query_args)
-  
+
   catalogMarketMetricsData(resp)
 }
 

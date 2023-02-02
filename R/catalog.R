@@ -17,7 +17,7 @@ catalog_assets <- function(assets = NULL) {
 #' @export
 catalog_asset_pairs <- function(pairs = NULL) {
   resp <- send_coinmetrics_request(endpoint = "catalog/pairs", query_args = list(pairs = pairs))
-  
+
   catalogExchangeAssetsData(resp)
 }
 
@@ -31,7 +31,7 @@ catalog_asset_metrics <- function(metrics = NULL, reviewable = NULL) {
   query_args <- list(metrics = metrics, reviewable = reviewable)
 
   resp <- send_coinmetrics_request(endpoint = "catalog/asset-metrics", query_args = query_args)
-  
+
   catalogMetricsData(resp, "assets")
 }
 
@@ -55,7 +55,7 @@ catalog_exchange_metrics <- function(metrics = NULL) {
   query_args <- list(metrics = metrics)
 
   resp <- send_coinmetrics_request(endpoint = "catalog/exchange-metrics", query_args = query_args)
-  
+
   catalogMetricsData(resp, "exchanges")
 }
 #' Available Indexes
@@ -94,10 +94,11 @@ catalog_index_candles <- function(indexes = NULL) {
 #' @return Tibble of available asset pair candles along with the time ranges of available data per candle duration.
 #' @export
 catalog_pair_candles <- function(pairs = NULL) {
+  resp <- send_coinmetrics_request(
+    endpoint = "catalog/pair-candles",
+    query_args = list(pairs = pairs)
+  )
 
-  resp <- send_coinmetrics_request(endpoint = "catalog/pair-candles",
-                                   query_args = list(pairs = pairs))
-  
   catalogPairsData(resp)
 }
 
@@ -108,7 +109,7 @@ catalog_pair_candles <- function(pairs = NULL) {
 catalog_pair_metrics <- function(metrics = NULL, reviewable = NULL) {
   query_args <- list(metrics = metrics, reviewable = reviewable)
   resp <- send_coinmetrics_request(endpoint = "catalog/pair-metrics", query_args = query_args)
-  
+
   catalogMetricsData(resp, "pairs")
 }
 
@@ -120,7 +121,7 @@ catalog_institution_metrics <- function(metrics = NULL, reviewable = NULL) {
   query_args <- list(metrics = metrics, reviewable = NULL)
 
   resp <- send_coinmetrics_request(endpoint = "catalog/institution-metrics", query_args = query_args)
-  
+
   catalogMetricsData(resp, "institutions")
 }
 
@@ -131,7 +132,7 @@ catalog_institution_metrics <- function(metrics = NULL, reviewable = NULL) {
 catalog_exchanges <- function(exchanges = NULL) {
   query_args <- list(exchanges = exchanges)
   resp <- send_coinmetrics_request(endpoint = "catalog/exchanges", query_args = query_args)
-  
+
   catalogExchangesData(resp)
 }
 
@@ -143,7 +144,7 @@ catalog_institutions <- function(institutions = NULL) {
   query_args <- list(institutions = institutions)
 
   resp <- send_coinmetrics_request(endpoint = "catalog/institutions", query_args = query_args)
-  
+
   catalogInstData(resp)
 }
 
@@ -185,7 +186,7 @@ catalog_markets <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request(endpoint = "catalog/markets", query_args = query_args)
-  
+
   catalogMarketsData(resp)
 }
 
@@ -211,7 +212,7 @@ catalog_market_metrics <- function(markets = NULL,
   )
 
   resp <- send_coinmetrics_request(endpoint = "catalog/market-metrics", query_args = query_args)
-  
+
   catalogMarketMetricsData(resp)
 }
 

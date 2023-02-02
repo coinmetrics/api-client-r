@@ -9,7 +9,13 @@
 This package provides an R client to Coin Metrics API.
 }
 \author{
-\strong{Maintainer}: Dorian Kandi \email{dorian.kandi@coinmetrics.io} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Dorian Kandi \email{dorian.kandi@coinmetrics.io}
+
+Authors:
+\itemize{
+  \item Ian McLaughlin \email{ian.mclaughlin@coinmetrics.io}
+  \item Kevin Lu \email{kevin@coinmetrics.io}
+}
 
 }
 \keyword{internal}
