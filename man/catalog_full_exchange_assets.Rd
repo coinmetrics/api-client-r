@@ -4,12 +4,10 @@
 \alias{catalog_full_exchange_assets}
 \title{Supported Exchange-Asset Pairs}
 \usage{
-catalog_full_exchange_assets(exchange_assets = NULL, pretty = FALSE)
+catalog_full_exchange_assets(exchange_assets = NULL)
 }
 \arguments{
 \item{exchange_assets}{Vector of exchange-assets. By default, all exchange-asset pairs are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 }
 \value{
 Tibble of all supported exchange-asset pairs along with information for them

@@ -4,21 +4,12 @@
 \alias{catalog_asset_metrics}
 \title{Available Asset Metrics}
 \usage{
-catalog_asset_metrics(
-  metrics = NULL,
-  reviewable = TRUE,
-  pretty = FALSE,
-  as_list = TRUE
-)
+catalog_asset_metrics(metrics = NULL, reviewable = NULL)
 }
 \arguments{
 \item{metrics}{Vector of metrics. By default, all metrics are returned.}
 
 \item{reviewable}{Boolean to limit to human-reviewable metrics. By default, all metrics are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
-
-\item{as_list}{Return list instead of tibble.}
 }
 \value{
 Tibble of available asset metrics along with information like description, category, and assets for which a metric is available.

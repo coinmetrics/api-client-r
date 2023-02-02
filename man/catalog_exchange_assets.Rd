@@ -4,12 +4,10 @@
 \alias{catalog_exchange_assets}
 \title{Available Exchange/Asset Pairs}
 \usage{
-catalog_exchange_assets(exchange_assets = NULL, as_list = TRUE)
+catalog_exchange_assets(exchange_assets = NULL)
 }
 \arguments{
 \item{exchange_assets}{Vector of exchange-assets. By default, all exchange-asset pairs are returned.}
-
-\item{as_list}{Return content as list instead of tibble.}
 }
 \value{
 Tibble of available exchange-asset pairs along with information like metrics and time ranges of available data.

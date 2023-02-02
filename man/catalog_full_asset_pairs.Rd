@@ -4,12 +4,10 @@
 \alias{catalog_full_asset_pairs}
 \title{Supported Asset Pairs}
 \usage{
-catalog_full_asset_pairs(pairs = NULL, pretty = FALSE)
+catalog_full_asset_pairs(pairs = NULL)
 }
 \arguments{
 \item{pairs}{Vector of asset pairs. By default, all asset pairs are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 }
 \value{
 Tibble of supported asset pairs along with information for them like

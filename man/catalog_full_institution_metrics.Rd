@@ -4,22 +4,10 @@
 \alias{catalog_full_institution_metrics}
 \title{Supported Institution Metrics}
 \usage{
-catalog_full_institution_metrics(
-  metrics = NULL,
-  reviewable = NULL,
-  pretty = FALSE
-)
+catalog_full_institution_metrics(metrics = NULL)
 }
 \arguments{
-\item{metrics}{Vector of metrics. By default, all metrics are returned.}
-
-\item{reviewable}{Limit to human-reviewable metrics. By default, all metrics are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
-}
-\value{
-Tibble of supported institution metrics along with information for them
-like description, category, and institutions for which a metric is available.
+\item{metrics}{.}
 }
 \description{
 Supported Institution Metrics

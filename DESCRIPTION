@@ -1,9 +1,11 @@
 Package: coinmetrics
 Title: An R Interface to Coin Metrics API
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
-    person("Dorian", "Kandi", , "dorian.kandi@coinmetrics.io", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    c(person("Dorian", "Kandi", , "dorian.kandi@coinmetrics.io", role = c("aut", "cre")),
+      person("Ian", "McLaughlin", , "ian.mclaughlin@coinmetrics.io", role = "aut"),
+      person("Kevin", "Lu", , "kevin@coinmetrics.io", role = "aut")
+      )
 Description: This package provides an R client to Coin Metrics API.
 License: file LICENSE
 Encoding: UTF-8
@@ -16,6 +18,7 @@ Imports:
     httr,
     magrittr,
     purrr,
+    RcppSimdJson,
     readr,
     rlang,
     tibble,

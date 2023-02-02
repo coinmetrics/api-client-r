@@ -4,14 +4,10 @@
 \alias{catalog_pair_candles}
 \title{Available Asset Pair Candles}
 \usage{
-catalog_pair_candles(pairs = NULL, pretty = FALSE, as_list = FALSE)
+catalog_pair_candles(pairs = NULL)
 }
 \arguments{
 \item{pairs}{Vector of asset pairs. By default, all asset pairs are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
-
-\item{as_list}{Return response as list instead of tibble.}
 }
 \value{
 Tibble of available asset pair candles along with the time ranges of available data per candle duration.

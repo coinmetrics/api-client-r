@@ -4,14 +4,10 @@
 \alias{catalog_exchange_metrics}
 \title{Available Exchange Metrics}
 \usage{
-catalog_exchange_metrics(metrics = NULL, reviewable = NULL, pretty = FALSE)
+catalog_exchange_metrics(metrics = NULL)
 }
 \arguments{
 \item{metrics}{Vector of metrics. By default all metrics are returned.}
-
-\item{reviewable}{Limit to human-reviewable metrics. By default all metrics are returned.}
-
-\item{pretty}{Human-readable formatting of JSON responses}
 }
 \value{
 Tibble of available exchange metrics along with information for them like description, category, and exchanges for which a metric is available.

@@ -4,12 +4,10 @@
 \alias{catalog_exchanges}
 \title{Available Exchanges}
 \usage{
-catalog_exchanges(exchanges = NULL, as_list = FALSE)
+catalog_exchanges(exchanges = NULL)
 }
 \arguments{
 \item{exchanges}{Vector of exchanges. By default all exchanges are returned.}
-
-\item{as_list}{Return content as list or tibble.}
 }
 \value{
 Available exchanges along with available markets and metrics for them.

@@ -11,9 +11,7 @@ catalog_full_markets(
   base = NULL,
   quote = NULL,
   asset = NULL,
-  symbol = NULL,
-  include = NULL,
-  exclude = NULL
+  symbol = NULL
 )
 }
 \arguments{
@@ -30,14 +28,6 @@ catalog_full_markets(
 \item{asset}{Any asset of markets.}
 
 \item{symbol}{Symbol of derivative markets; the full instrument name.}
-
-\item{include}{Vector of fields to include in response.
-Supported values are \code{trades}, \code{orderbooks}, \code{quotes}, \code{funding_rates}, \code{openinterest}, \code{liquidations}.
-Included by default if omitted.}
-
-\item{exclude}{Vector of fields to exclude from response.
-Supported values are \code{trades}, \code{orderbooks}, \code{quotes}, \code{funding_rates}, \code{openinterest}, \code{liquidations}.
-Included by default if omitted.}
 }
 \value{
 List of supported markets along with time ranges of available data.

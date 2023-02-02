@@ -4,23 +4,10 @@
 \alias{catalog_full_assets}
 \title{Supported Assets}
 \usage{
-catalog_full_assets(
-  assets = NULL,
-  include = NULL,
-  exclude = NULL,
-  pretty = FALSE
-)
+catalog_full_assets(assets = NULL)
 }
 \arguments{
 \item{assets}{Vector of assets. By default, all assets are returned.}
-
-\item{include}{Vector of fields to include in response. Supported values are \code{metrics}, \code{markets}, \code{exchanges}.
-Included by default if omitted.,}
-
-\item{exclude}{Vector of fields to exclude in response. Supported values are \code{metrics}, \code{markets}, \code{exchanges}.
-Included by default if omitted.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 }
 \value{
 Tibble of supported assets along with information for them like metrics, markets, exchanges, and time ranges of available data.
