@@ -1,6 +1,8 @@
 # Coin Metrics R API Client
 
-This is an official R API Client for the Coin Metetrics API v4.
+This is an official R API Client for the Coin Metetrics API v4. Please note this is an initial implementation and is considered a beta product, it is not fully tested 
+and intended be used for data analysis primarily. The [Coin Metrics Python API Client](https://github.com/coinmetrics/api-client-python) is tested and implemented more 
+thoroughly and is better suited for production workflows.  
 
 ## Installation
 
