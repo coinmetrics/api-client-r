@@ -11,13 +11,10 @@ get_market_trades(
   start_inclusive = TRUE,
   end_inclusive = TRUE,
   timezone = "UTC",
-  page_size = NULL,
+  page_size = 10000,
   paging_from = "end",
   limit_per_market = NULL,
-  pretty = FALSE,
-  format = "json",
-  min_confirmations = NULL,
-  as_list = FALSE
+  min_confirmations = NULL
 )
 }
 \arguments{
@@ -39,14 +36,8 @@ get_market_trades(
 
 \item{limit_per_market}{Number of entries per market.}
 
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
-
 \item{min_confirmations}{Integer in \verb{[0, 99]} with 2 as default. Specifies how many blocks behind the chain tip trades are based on.
 Currently only available for DeFi markets.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble or list of selected market trades.

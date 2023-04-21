@@ -13,8 +13,7 @@ get_market_implied_vol(
   timezone = "UTC",
   page_size = NULL,
   paging_from = "end",
-  limit_per_market = NULL,
-  pretty = pretty
+  limit_per_market = NULL
 )
 }
 \arguments{
@@ -35,11 +34,9 @@ get_market_implied_vol(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_market}{Number of entries per market.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
 }
 \value{
-Tibble of implied volatility for specified markets
+Data table of implied volatility for specified markets
 }
 \description{
 Get Implied Volatility

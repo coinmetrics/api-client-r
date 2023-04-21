@@ -12,7 +12,6 @@
 #' @param sort Sort tabular data by asset, time, or metric
 #' @param status String for which metric values you want to see: "all", "flash", "reviewed", "revised"
 #' @param limit_per_asset Number of entries per asset
-#' @param format JSON or CSV
 #' @param null_as_zero Represent nulls as zeros in the response (TRUE or FALSE)
 #'
 #' @export
@@ -29,15 +28,12 @@ get_asset_metrics <- function(assets,
                               end_inclusive = TRUE,
                               min_confirmations = NULL,
                               timezone = "UTC",
-                              page_size = 100,
+                              page_size = 10000,
                               paging_from = "end",
                               sort = "asset",
                               status = NULL,
                               limit_per_asset = NULL,
-                              pretty = FALSE,
-                              format = "json",
-                              null_as_zero = FALSE,
-                              as_list = FALSE) {
+                              null_as_zero = FALSE) {
   query_args <- list(
     assets = paste0(assets, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -57,8 +53,7 @@ get_asset_metrics <- function(assets,
     paging_from = paging_from,
     sort = sort,
     limit_per_asset = limit_per_asset,
-    pretty = pretty,
-    format = format,
+    format = "json",
     null_as_zero = null_as_zero
   )
 
@@ -67,8 +62,7 @@ get_asset_metrics <- function(assets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset-metrics",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }
 
@@ -82,9 +76,8 @@ get_asset_chains <- function(assets,
                              start_inclusive = TRUE,
                              end_inclusive = TRUE,
                              timezone = "UTC",
-                             page_size = NULL,
-                             paging_from = "end",
-                             pretty = FALSE) {
+                             page_size = 10000,
+                             paging_from = "end") {
   query_args <- list(
     assets = paste0(assets, collapse = ","),
     start_time = start_time,
@@ -93,8 +86,7 @@ get_asset_chains <- function(assets,
     end_inclusive = end_inclusive,
     timezone = timezone,
     page_size = page_size,
-    paging_from = paging_from,
-    pretty = pretty
+    paging_from = paging_from
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/asset-chains", query_args = query_args)

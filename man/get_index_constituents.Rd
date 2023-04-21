@@ -12,10 +12,8 @@ get_index_constituents(
   start_inclusive = TRUE,
   end_inclusive = TRUE,
   timezone = "UTC",
-  page_size = NULL,
-  paging_from = "end",
-  pretty = FALSE,
-  as_list = FALSE
+  page_size = 10000,
+  paging_from = "end"
 )
 }
 \arguments{
@@ -36,10 +34,6 @@ get_index_constituents(
 \item{page_size}{Number of items per single page of results. Default is 100.}
 
 \item{paging_from}{Where first page starts: start or end of interval.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble of constituents and weights for specified indexes.

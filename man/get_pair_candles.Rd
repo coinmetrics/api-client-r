@@ -14,9 +14,7 @@ get_pair_candles(
   timezone = "UTC",
   page_size = NULL,
   paging_from = "end",
-  limit_per_pair = NULL,
-  pretty = FALSE,
-  as_list = FALSE
+  limit_per_pair = NULL
 )
 }
 \arguments{
@@ -39,10 +37,6 @@ get_pair_candles(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_pair}{Number of entries per pair the result should contain.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble or list of candles for specified asset pairs.

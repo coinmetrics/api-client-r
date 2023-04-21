@@ -13,7 +13,6 @@ get_mempool_feerates(
   timezone = "UTC",
   page_size = NULL,
   paging_from = "end",
-  pretty = TRUE,
   as_list = FALSE
 )
 }
@@ -33,8 +32,6 @@ get_mempool_feerates(
 \item{page_size}{Number of items per single page of results. Default is 100.}
 
 \item{paging_from}{Where first page starts: start or end of interval.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
 
 \item{as_list}{Return the response as (nested) list or tibble.}
 }

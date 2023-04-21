@@ -11,9 +11,8 @@ get_asset_chains(
   start_inclusive = TRUE,
   end_inclusive = TRUE,
   timezone = "UTC",
-  page_size = NULL,
-  paging_from = "end",
-  pretty = FALSE
+  page_size = 10000,
+  paging_from = "end"
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ get_asset_chains(
 \item{page_size}{Number of items per single page of results. Default is 100.}
 
 \item{paging_from}{Where first page starts: start or end of interval.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
 }
 \value{
 The Chains of blocks for specified assets

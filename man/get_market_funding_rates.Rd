@@ -13,8 +13,7 @@ get_market_funding_rates(
   timezone = "UTC",
   page_size = NULL,
   paging_from = "end",
-  limit_per_market = NULL,
-  pretty = FALSE
+  limit_per_market = NULL
 )
 }
 \arguments{
@@ -35,8 +34,6 @@ get_market_funding_rates(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_market}{Number of entries per market.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
 }
 \value{
 Tibble of funding rates for specified futures markets, ordered by tuple \verb{(market, time)}.

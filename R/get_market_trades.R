@@ -10,13 +10,10 @@ get_market_trades <- function(markets,
                               start_inclusive = TRUE,
                               end_inclusive = TRUE,
                               timezone = "UTC",
-                              page_size = NULL,
+                              page_size = 10000,
                               paging_from = "end",
                               limit_per_market = NULL,
-                              pretty = FALSE,
-                              format = "json",
-                              min_confirmations = NULL,
-                              as_list = FALSE) {
+                              min_confirmations = NULL) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     start_time = start_time,
@@ -27,8 +24,6 @@ get_market_trades <- function(markets,
     page_size = page_size,
     paging_from = paging_from,
     limit_per_market = limit_per_market,
-    pretty = pretty,
-    format = format,
     min_confirmations = min_confirmations
   )
 
@@ -37,7 +32,6 @@ get_market_trades <- function(markets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-trades",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }

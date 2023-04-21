@@ -266,7 +266,6 @@ get_list_of_balance_updates_v2 <- function(asset,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "asset/balance-updates",
-    paging_from = paging_from,
-    as_list = TRUE
+    paging_from = paging_from
   )
 }

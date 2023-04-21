@@ -10,10 +10,9 @@ get_market_openinterest <- function(markets,
                                     start_inclusive = TRUE,
                                     end_inclusive = TRUE,
                                     timezone = "UTC",
-                                    page_size = NULL,
+                                    page_size = 10000,
                                     paging_from = "end",
-                                    limit_per_market = NULL,
-                                    pretty = FALSE) {
+                                    limit_per_market = NULL) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     start_time = start_time,
@@ -31,7 +30,6 @@ get_market_openinterest <- function(markets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-openinterest",
-    paging_from = paging_from,
-    as_list = FALSE
+    paging_from = paging_from
   )
 }

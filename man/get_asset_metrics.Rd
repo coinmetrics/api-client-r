@@ -18,15 +18,12 @@ get_asset_metrics(
   end_inclusive = TRUE,
   min_confirmations = NULL,
   timezone = "UTC",
-  page_size = 100,
+  page_size = 10000,
   paging_from = "end",
   sort = "asset",
   status = NULL,
   limit_per_asset = NULL,
-  pretty = FALSE,
-  format = "json",
-  null_as_zero = FALSE,
-  as_list = FALSE
+  null_as_zero = FALSE
 )
 }
 \arguments{
@@ -66,13 +63,7 @@ get_asset_metrics(
 
 \item{limit_per_asset}{Number of entries per asset}
 
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{format}{JSON or CSV}
-
 \item{null_as_zero}{Represent nulls as zeros in the response (TRUE or FALSE)}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \description{
 Parses API response into tibble of metrics data

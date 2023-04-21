@@ -14,9 +14,7 @@ get_market_candles(
   timezone = "UTC",
   page_size = NULL,
   paging_from = "end",
-  limit_per_market = NULL,
-  pretty = FALSE,
-  as_list = FALSE
+  limit_per_market = NULL
 )
 }
 \arguments{
@@ -39,10 +37,6 @@ get_market_candles(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_market}{Number of entries per market.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble or list of candles for specified markets
