@@ -10,8 +10,7 @@ get_market_liquidations <- function(markets,
                                     timezone = "UTC",
                                     page_size = NULL,
                                     paging_from = "end",
-                                    limit_per_market = NULL,
-                                    pretty = FALSE) {
+                                    limit_per_market = NULL) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     start_time = start_time,
@@ -29,7 +28,6 @@ get_market_liquidations <- function(markets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-liquidations",
-    paging_from = paging_from,
-    as_list = FALSE
+    paging_from = paging_from
   )
 }

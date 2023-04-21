@@ -11,7 +11,6 @@ get_mining_pool_tips <- function(assets,
                                  timezone = "UTC",
                                  page_size = NULL,
                                  paging_from = "end",
-                                 pretty = TRUE,
                                  as_list = TRUE) {
   query_args <- list(
     assets = paste0(assets, collapse = ","),
@@ -20,8 +19,7 @@ get_mining_pool_tips <- function(assets,
     start_inclusive = start_inclusive,
     timezone = timezone,
     page_size = page_size,
-    paging_from = paging_from,
-    pretty = pretty
+    paging_from = paging_from
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/mining-pool-tips-summary", query_args = query_args)
@@ -42,7 +40,6 @@ get_mempool_feerates <- function(assets,
                                  timezone = "UTC",
                                  page_size = NULL,
                                  paging_from = "end",
-                                 pretty = TRUE,
                                  as_list = FALSE) {
   query_args <- list(
     assets = paste0(assets, collapse = ","),
@@ -52,8 +49,7 @@ get_mempool_feerates <- function(assets,
     end_inclusive = end_inclusive,
     timezone = timezone,
     page_size = page_size,
-    paging_from = paging_from,
-    pretty = pretty
+    paging_from = paging_from
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/mempool-feerates", query_args = query_args)

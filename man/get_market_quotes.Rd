@@ -11,10 +11,9 @@ get_market_quotes(
   start_inclusive = TRUE,
   end_inclusive = TRUE,
   timezone = "UTC",
-  page_size = NULL,
+  page_size = 10000,
   paging_from = "end",
   limit_per_market = NULL,
-  pretty = FALSE,
   include_one_sided = FALSE
 )
 }
@@ -36,8 +35,6 @@ get_market_quotes(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_market}{Number of entries per market.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
 
 \item{include_one_sided}{Include one-side and empty books in quotes response.}
 }

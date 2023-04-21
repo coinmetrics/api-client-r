@@ -12,11 +12,9 @@ get_index_levels(
   start_inclusive = TRUE,
   end_inclusive = TRUE,
   timezone = "UTC",
-  page_size = 100,
+  page_size = 10000,
   paging_from = "end",
-  limit_per_index = NULL,
-  pretty = FALSE,
-  as_list = FALSE
+  limit_per_index = NULL
 )
 }
 \arguments{
@@ -39,10 +37,6 @@ get_index_levels(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_index}{How many entries per index result.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble of index levels for specified indexes and date range

@@ -16,10 +16,7 @@ get_exchange_asset_metrics(
   page_size = NULL,
   paging_from = "end",
   sort = "exchange_asset",
-  limit_per_exchange_asset = NULL,
-  pretty = FALSE,
-  format = "json",
-  as_list = FALSE
+  limit_per_exchange_asset = NULL
 )
 }
 \arguments{
@@ -46,12 +43,6 @@ get_exchange_asset_metrics(
 \item{sort}{How results will be sorted. Metrics are sorted by \verb{(exchange_asset, time)} by default. Posible values are \emph{exchange_asset} or \emph{time}.}
 
 \item{limit_per_exchange_asset}{Number of entries per exchange_asset.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble or list of metrics for specified exchange-asset.

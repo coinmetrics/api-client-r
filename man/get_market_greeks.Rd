@@ -13,8 +13,7 @@ get_market_greeks(
   timezone = "UTC",
   page_size = NULL,
   paging_from = "end",
-  limit_per_market = NULL,
-  pretty = FALSE
+  limit_per_market = NULL
 )
 }
 \arguments{
@@ -35,11 +34,9 @@ get_market_greeks(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_market}{Number of entries per market.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
 }
 \value{
-Tibble of greeks for option markets
+Data table of greeks for option markets
 }
 \description{
 Get Market Greeks

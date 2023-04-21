@@ -12,9 +12,7 @@ get_market_candles <- function(markets,
                                timezone = "UTC",
                                page_size = NULL,
                                paging_from = "end",
-                               limit_per_market = NULL,
-                               pretty = FALSE,
-                               as_list = FALSE) {
+                               limit_per_market = NULL) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     frequency = frequency,
@@ -25,8 +23,7 @@ get_market_candles <- function(markets,
     timezone = timezone,
     page_size = page_size,
     paging_from = paging_from,
-    limit_per_market = limit_per_market,
-    pretty = pretty
+    limit_per_market = limit_per_market
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-candles", query_args = query_args)
@@ -34,8 +31,7 @@ get_market_candles <- function(markets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-candles",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }
 
@@ -53,9 +49,7 @@ get_pair_candles <- function(pairs,
                              timezone = "UTC",
                              page_size = NULL,
                              paging_from = "end",
-                             limit_per_pair = NULL,
-                             pretty = FALSE,
-                             as_list = FALSE) {
+                             limit_per_pair = NULL) {
   query_args <- list(
     pairs = paste0(pairs, collapse = ","),
     frequency = frequency,
@@ -66,8 +60,7 @@ get_pair_candles <- function(pairs,
     timezone = timezone,
     page_size = page_size,
     paging_from = paging_from,
-    limit_per_pair = limit_per_pair,
-    pretty = pretty
+    limit_per_pair = limit_per_pair
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/pair-candles", query_args = query_args)
@@ -75,8 +68,7 @@ get_pair_candles <- function(pairs,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "pair-candles",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }
 
@@ -94,9 +86,7 @@ get_index_candles <- function(indexes,
                               timezone = "UTC",
                               page_size = NULL,
                               paging_from = "end",
-                              limit_per_index = NULL,
-                              pretty = FALSE,
-                              as_list = FALSE) {
+                              limit_per_index = NULL) {
   query_args <- list(
     indexes = paste0(indexes, collapse = ","),
     frequency = frequency,
@@ -107,8 +97,7 @@ get_index_candles <- function(indexes,
     timezone = timezone,
     page_size = page_size,
     paging_from = paging_from,
-    limit_per_index = limit_per_index,
-    pretty = pretty
+    limit_per_index = limit_per_index
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/index-candles", query_args = query_args)
@@ -116,7 +105,6 @@ get_index_candles <- function(indexes,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-candles",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }

@@ -16,10 +16,7 @@ get_exchange_metrics(
   page_size = NULL,
   paging_from = "end",
   sort = "exchange",
-  limit_per_exchange = NULL,
-  pretty = FALSE,
-  format = "json",
-  as_list = FALSE
+  limit_per_exchange = NULL
 )
 }
 \arguments{
@@ -47,12 +44,6 @@ get_exchange_metrics(
 If you want to sort \verb{1d} metrics by \verb{(time, pair)}, choose \code{sort = "time"}.}
 
 \item{limit_per_exchange}{Number of entries per institution.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 Tibble or list of metrics for specified exchanges. Results are ordered by tuple (exchange, time).

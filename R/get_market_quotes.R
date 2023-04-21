@@ -9,10 +9,9 @@ get_market_quotes <- function(markets,
                               start_inclusive = TRUE,
                               end_inclusive = TRUE,
                               timezone = "UTC",
-                              page_size = NULL,
+                              page_size = 10000,
                               paging_from = "end",
                               limit_per_market = NULL,
-                              pretty = FALSE,
                               include_one_sided = FALSE) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
@@ -23,7 +22,6 @@ get_market_quotes <- function(markets,
     page_size = page_size,
     paging_from = paging_from,
     limit_per_market = limit_per_market,
-    pretty = pretty,
     include_one_sided = include_one_sided
   )
 

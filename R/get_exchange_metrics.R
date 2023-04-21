@@ -16,10 +16,7 @@ get_exchange_metrics <- function(exchanges,
                                  page_size = NULL,
                                  paging_from = "end",
                                  sort = "exchange",
-                                 limit_per_exchange = NULL,
-                                 pretty = FALSE,
-                                 format = "json",
-                                 as_list = FALSE) {
+                                 limit_per_exchange = NULL) {
   query_args <- list(
     exchanges = paste0(exchanges, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -31,9 +28,7 @@ get_exchange_metrics <- function(exchanges,
     page_size = page_size,
     paging_from = paging_from,
     sort = sort,
-    limit_per_exchange = limit_per_exchange,
-    pretty = pretty,
-    format = format
+    limit_per_exchange = limit_per_exchange
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/exchange-metrics", query_args = query_args)
@@ -41,8 +36,7 @@ get_exchange_metrics <- function(exchanges,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "exchange-metrics",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }
 
@@ -65,10 +59,7 @@ get_exchange_asset_metrics <- function(exchange_assets,
                                        page_size = NULL,
                                        paging_from = "end",
                                        sort = "exchange_asset",
-                                       limit_per_exchange_asset = NULL,
-                                       pretty = FALSE,
-                                       format = "json",
-                                       as_list = FALSE) {
+                                       limit_per_exchange_asset = NULL) {
   query_args <- list(
     exchange_assets = paste0(exchange_assets, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -81,9 +72,7 @@ get_exchange_asset_metrics <- function(exchange_assets,
     page_size = page_size,
     paging_from = paging_from,
     sort = sort,
-    limit_per_exchange_asset = limit_per_exchange_asset,
-    pretty = pretty,
-    format = format
+    limit_per_exchange_asset = limit_per_exchange_asset
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/exchange-asset-metrics", query_args = query_args)
@@ -91,7 +80,6 @@ get_exchange_asset_metrics <- function(exchange_assets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "exchange-asset-metrics",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }

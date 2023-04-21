@@ -14,8 +14,7 @@ get_market_orderbooks(
   page_size = NULL,
   depth_limit = NULL,
   paging_from = "end",
-  limit_per_market = NULL,
-  pretty = FALSE
+  limit_per_market = NULL
 )
 }
 \arguments{
@@ -38,8 +37,6 @@ get_market_orderbooks(
 \item{paging_from}{Where first page starts: start or end of interval.}
 
 \item{limit_per_market}{Number of entries per market.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
 }
 \value{
 Tibble of orderbooks for specified markets, ordered by tuple \verb{(market, time)}. \code{asks} and \code{bids} are nested list-columns.

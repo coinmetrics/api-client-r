@@ -10,8 +10,6 @@
 #' @param page_size Number of items per single page of results. Default is 100.
 #' @param paging_from Where first page starts: start or end of interval.
 #' @param limit_per_index How many entries per index result.
-#' @param pretty Human-readable JSON formatting. Default is false.
-#' @param as_list Should API return list instead of tabular data
 #'
 #' @return Tibble of index levels for specified indexes and date range
 #' @export
@@ -22,11 +20,9 @@ get_index_levels <- function(indexes,
                              start_inclusive = TRUE,
                              end_inclusive = TRUE,
                              timezone = "UTC",
-                             page_size = 100,
+                             page_size = 10000,
                              paging_from = "end",
-                             limit_per_index = NULL,
-                             pretty = FALSE,
-                             as_list = FALSE) {
+                             limit_per_index = NULL) {
   query_args <- list(
     indexes = paste0(indexes, collapse = ","),
     frequency = frequency,
@@ -37,8 +33,7 @@ get_index_levels <- function(indexes,
     timezone = timezone,
     page_size = page_size,
     paging_from = paging_from,
-    limit_per_index = limit_per_index,
-    pretty = pretty
+    limit_per_index = limit_per_index
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/index-levels", query_args = query_args)
@@ -46,8 +41,7 @@ get_index_levels <- function(indexes,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-levels",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }
 
@@ -64,10 +58,8 @@ get_index_constituents <- function(indexes,
                                    start_inclusive = TRUE,
                                    end_inclusive = TRUE,
                                    timezone = "UTC",
-                                   page_size = NULL,
-                                   paging_from = "end",
-                                   pretty = FALSE,
-                                   as_list = FALSE) {
+                                   page_size = 10000,
+                                   paging_from = "end") {
   query_args <- list(
     indexes = paste0(indexes, collapse = ","),
     frequency = frequency,
@@ -77,8 +69,7 @@ get_index_constituents <- function(indexes,
     end_inclusive = end_inclusive,
     timezone = timezone,
     page_size = page_size,
-    paging_from = paging_from,
-    pretty = pretty
+    paging_from = paging_from
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/index-constituents", query_args = query_args)
@@ -86,7 +77,6 @@ get_index_constituents <- function(indexes,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "index-constituents",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }

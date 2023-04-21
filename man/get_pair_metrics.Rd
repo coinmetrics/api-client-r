@@ -16,10 +16,7 @@ get_pair_metrics(
   page_size = NULL,
   paging_from = "end",
   sort = "pair",
-  limit_per_pair = NULL,
-  pretty = FALSE,
-  format = "json",
-  as_list = FALSE
+  limit_per_pair = NULL
 )
 }
 \arguments{
@@ -47,12 +44,6 @@ get_pair_metrics(
 If you want to sort \verb{1d} metrics by \verb{(time, pair)}, choose \code{sort = "time"}.}
 
 \item{limit_per_pair}{Number of entries per pair the result should contain.}
-
-\item{pretty}{Human-readable JSON formatting. Default is false.}
-
-\item{format}{Format of the response, \code{json} or \code{csv}. Default is \code{json}.}
-
-\item{as_list}{Should API return list instead of tabular data}
 }
 \value{
 tibble or list of time series asset pairs

@@ -1,6 +1,6 @@
 Package: coinmetrics
 Title: An R Interface to Coin Metrics API
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     c(person("Dorian", "Kandi", , "dorian.kandi@coinmetrics.io", role = c("aut", "cre")),
       person("Ian", "McLaughlin", , "ian.mclaughlin@coinmetrics.io", role = "aut"),

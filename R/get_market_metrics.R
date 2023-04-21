@@ -17,10 +17,7 @@ get_market_metrics <- function(markets,
                                page_size = NULL,
                                paging_from = "end",
                                sort = "market",
-                               limit_per_market = NULL,
-                               pretty = FALSE,
-                               format = "json",
-                               as_list = FALSE) {
+                               limit_per_market = NULL) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
@@ -33,9 +30,7 @@ get_market_metrics <- function(markets,
     page_size = page_size,
     paging_from = paging_from,
     sort = sort,
-    limit_per_market = limit_per_market,
-    pretty = pretty,
-    format = format
+    limit_per_market = limit_per_market
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-metrics", query_args = query_args)
@@ -43,7 +38,6 @@ get_market_metrics <- function(markets,
   get_coinmetrics_api_data(
     api_response = resp,
     endpoint = "market-metrics",
-    paging_from = paging_from,
-    as_list = as_list
+    paging_from = paging_from
   )
 }

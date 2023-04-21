@@ -10,8 +10,7 @@ get_market_contract_prices <- function(markets,
                                        timezone = "UTC",
                                        page_size = NULL,
                                        paging_from = "end",
-                                       limit_per_market = NULL,
-                                       pretty = FALSE) {
+                                       limit_per_market = NULL) {
   query_args <- list(
     markets = paste0(markets, collapse = ","),
     start_time = start_time,
@@ -21,8 +20,7 @@ get_market_contract_prices <- function(markets,
     timezone = timezone,
     page_size = page_size,
     paging_from = paging_from,
-    limit_per_market = limit_per_market,
-    pretty = pretty
+    limit_per_market = limit_per_market
   )
 
   resp <- send_coinmetrics_request(endpoint = "timeseries/market-contract-prices", query_args = query_args)

@@ -12,10 +12,9 @@ get_market_orderbooks <- function(markets,
                                   page_size = NULL,
                                   depth_limit = NULL,
                                   paging_from = "end",
-                                  limit_per_market = NULL,
-                                  pretty = FALSE) {
+                                  limit_per_market = NULL) {
   query_args <- list(
-    markets = paste0(markets, collapse = ","),
+    markets = markets, 
     start_time = start_time,
     end_time = end_time,
     start_inclusive = start_inclusive,
