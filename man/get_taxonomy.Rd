@@ -15,8 +15,7 @@ get_taxonomy(
   start_inclusive = TRUE,
   end_inclusive = TRUE,
   page_size = 500,
-  paging_from = "start",
-  pretty = FALSE
+  paging_from = "start"
 )
 }
 \arguments{
@@ -41,8 +40,6 @@ get_taxonomy(
 \item{page_size}{number of items per single page of results}
 
 \item{paging_from}{where the first page starts:  \code{start} or \code{end}}
-
-\item{pretty}{Human-readable formatting of JSON responses}
 }
 \value{
 Taxonomy for assets, ordered by tuple \verb{(asset, classification_start_time)}

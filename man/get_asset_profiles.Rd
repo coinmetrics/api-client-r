@@ -8,8 +8,7 @@ get_asset_profiles(
   assets = NULL,
   full_names = NULL,
   page_size = 1000,
-  paging_from = "start",
-  pretty = FALSE
+  paging_from = "start"
 )
 }
 \arguments{
@@ -20,8 +19,6 @@ get_asset_profiles(
 \item{page_size}{Number of items per single page of results.}
 
 \item{paging_from}{where the first page starts:  \code{start} or \code{end}.}
-
-\item{pretty}{Human-readable formatting of JSON responses.}
 }
 \value{
 Profile data for assets. If \code{supply_cap} is not present then the theoretical maximum supply is infinite for that asset.

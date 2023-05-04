@@ -105,6 +105,9 @@ get_coinmetrics_api_data <- function(api_response,
   
   rm(api_data)
   
+  if (endpoint == "profile-assets")
+    return(out)
+  
   time_cols <- grep(x = colnames(out), pattern = "time$", value = TRUE)
   out[, (time_cols) := lapply(.SD, anytime::anytime), .SDcols = time_cols]
   
@@ -183,6 +186,21 @@ get_coinmetrics_api_data <- function(api_response,
       metric_cols <- setdiff(colnames(out), c("time", "exchange_asset"))
       out[, (metric_cols) := lapply(.SD, readr::parse_guess), .SDcols = metric_cols]
       
+    },
+    "taxonomy-assets" = {
+      out[, 
+          c('class_id', 'sector_id', 'subsector_id') := lapply(.SD, as.integer), 
+          .SDcols=c('class_id', 'sector_id', 'subsector_id')
+          ]
+    },
+    "taxonomy-metadata" = {
+      subsectors <- NULL
+      out[, c('class_id', 'class', 'sector_id', 'sector', 'subsector_id', 'subsector') := data.table::rbindlist(subsectors)]
+      out[, subsectors := NULL]
+      out[, 
+          c('class_id', 'sector_id', 'subsector_id') := lapply(.SD, as.integer), 
+          .SDcols=c('class_id', 'sector_id', 'subsector_id')
+      ]
     },
     # Default option
     {
