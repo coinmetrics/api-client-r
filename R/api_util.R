@@ -161,10 +161,23 @@ get_coinmetrics_api_data <- function(api_response,
       out[, (candle_cols) := lapply(.SD, as.numeric), .SDcols = candle_cols]
       
     },
+     
+    "index-candles" = {
+      
+      candle_cols <- c(
+        'price_open',
+        'price_close',
+        'price_high',
+        'price_low',
+        'candle_trades_count'
+      )
+      
+      out[, (candle_cols) := lapply(.SD, as.numeric), .SDcols = candle_cols]
+    },
     
     "market-trades" = {
       
-      out[, c('amount', 'price') := lapply(.SD, as.numeric), .SDcols = c('amount', 'price')]
+      out[, c('coin_metrics_id', 'amount', 'price') := lapply(.SD, as.numeric), .SDcols = c('coin_metrics_id', 'amount', 'price')]
       
     },
     
@@ -202,16 +215,9 @@ get_coinmetrics_api_data <- function(api_response,
           .SDcols=c('class_id', 'sector_id', 'subsector_id')
       ]
     },
-    # Default option
     {
-      # Might change this to just sapply(out, is.character)
-      
-      # list_cols_ix <- sapply(out, is.list)
-      # bool_cols_ix <- sapply(out, is.logical)
-      # 
-      # data_cols <- setdiff(colnames(out)[!(list_cols_ix | bool_cols_ix)], time_cols)
-      
-      data_cols <- sapply(out, is.character)
+      # Default option
+      data_cols <- which(sapply(out, is.character))
       
       out[, (data_cols) := lapply(.SD, readr::parse_guess), .SDcols = data_cols]
     }
