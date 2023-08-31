@@ -20,6 +20,7 @@ get_exchange_metrics <- function(exchanges,
   query_args <- list(
     exchanges = paste0(exchanges, collapse = ","),
     metrics = paste0(metrics, collapse = ","),
+    frequency = frequency,
     start_time = start_time,
     end_time = end_time,
     start_inclusive = start_inclusive,
