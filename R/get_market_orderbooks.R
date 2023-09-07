@@ -14,7 +14,7 @@ get_market_orderbooks <- function(markets,
                                   paging_from = "end",
                                   limit_per_market = NULL) {
   query_args <- list(
-    markets = markets, 
+    markets = markets,
     start_time = start_time,
     end_time = end_time,
     start_inclusive = start_inclusive,

@@ -70,169 +70,143 @@ get_coinmetrics_api_data <- function(api_response,
                                      endpoint,
                                      paging_from,
                                      as_list = NULL) {
-  
   api_content <- api_response |>
-    httr::content(as = 'raw') |>
+    httr::content(as = "raw") |>
     RcppSimdJson::fparse(
-      query = c(data = '/data', next_page_url = '/next_page_url'),
+      query = c(data = "/data", next_page_url = "/next_page_url"),
       query_error_ok = TRUE,
       on_query_error = character(),
       max_simplify_lvl = 3L
     )
-  
-  api_data <- api_content[['data']]
-  
-  while (length(api_content[['next_page_url']]) > 0) {
-    
+
+  api_data <- api_content[["data"]]
+
+  while (length(api_content[["next_page_url"]]) > 0) {
     api_content <-
-      httr::GET(api_content[['next_page_url']]) |>
-      httr::content(as = 'raw') |>
+      httr::GET(api_content[["next_page_url"]]) |>
+      httr::content(as = "raw") |>
       RcppSimdJson::fparse(
-        query = c(data = '/data', next_page_url = '/next_page_url'),
+        query = c(data = "/data", next_page_url = "/next_page_url"),
         query_error_ok = TRUE,
         on_query_error = character(),
         max_simplify_lvl = 3L
       )
-    
+
     api_data <- switch(paging_from,
-                       end = purrr::list_c(list(api_content[['data']], api_data)),
-                       start = purrr::list_c(list(api_data, api_content[['data']])))
+      end = purrr::list_c(list(api_content[["data"]], api_data)),
+      start = purrr::list_c(list(api_data, api_content[["data"]]))
+    )
   }
-  
+
   rm(api_content)
-  
+
   out <- data.table::rbindlist(api_data, fill = T)
-  
+
   rm(api_data)
-  
-  if (endpoint == "profile-assets")
+
+  if (endpoint %in% c("profile-assets", "reference-data")) {
     return(out)
-  
+  }
+
   time_cols <- grep(x = colnames(out), pattern = "time$", value = TRUE)
   out[, (time_cols) := lapply(.SD, anytime::anytime), .SDcols = time_cols]
-  
-  switch(
-    
-    endpoint,
 
+  switch(endpoint,
     "index-levels" = {
-
-      out[, c('level') := sapply(.SD, as.numeric), .SDcols = 'level']
-
+      out[, c("level") := sapply(.SD, as.numeric), .SDcols = "level"]
     },
-    
     "index-constituents" = {
-      
       constituents <- NULL # due to NSE notes in R CMD check (from data.table)
-      
+
       out[,
-          c('asset', 'weight') := list(
-            asset = vapply(
-              constituents,
-              "asset",
-              FUN = "[[",
-              FUN.VALUE = character(1)
-            ),
-            weight = vapply(
-              constituents,
-              FUN = function(x) as.numeric(x[["weight"]]),
-              FUN.VALUE = numeric(1)
-            )
+        c("asset", "weight") := list(
+          asset = vapply(
+            constituents,
+            "asset",
+            FUN = "[[",
+            FUN.VALUE = character(1)
           ),
-          by = c('time', 'index')]
-      
-      out[, c('constituents') := NULL]
-      
+          weight = vapply(
+            constituents,
+            FUN = function(x) as.numeric(x[["weight"]]),
+            FUN.VALUE = numeric(1)
+          )
+        ),
+        by = c("time", "index")
+      ]
+
+      out[, c("constituents") := NULL]
     },
-    
     "market-candles" = {
-      
       candle_cols <- c(
-        'price_open',
-        'price_close',
-        'price_high',
-        'price_low',
-        'vwap',
-        'volume',
-        'candle_usd_volume',
-        'candle_trades_count'
+        "price_open",
+        "price_close",
+        "price_high",
+        "price_low",
+        "vwap",
+        "volume",
+        "candle_usd_volume",
+        "candle_trades_count"
       )
-      
+
       out[, (candle_cols) := lapply(.SD, as.numeric), .SDcols = candle_cols]
-      
     },
-     
     "index-candles" = {
-      
       candle_cols <- c(
-        'price_open',
-        'price_close',
-        'price_high',
-        'price_low',
-        'candle_trades_count'
+        "price_open",
+        "price_close",
+        "price_high",
+        "price_low",
+        "candle_trades_count"
       )
-      
+
       out[, (candle_cols) := lapply(.SD, as.numeric), .SDcols = candle_cols]
     },
-    
     "market-trades" = {
-      
-      out[, c('coin_metrics_id', 'amount', 'price') := lapply(.SD, as.numeric), .SDcols = c('coin_metrics_id', 'amount', 'price')]
-      
+      out[, c("coin_metrics_id", "amount", "price") := lapply(.SD, as.numeric), .SDcols = c("coin_metrics_id", "amount", "price")]
     },
-    
-    "asset-metrics" = {
-      
-      metric_cols <- setdiff(colnames(out), c("time", "asset"))
-      out[, (metric_cols) := lapply(.SD, readr::parse_guess), .SDcols = metric_cols]
-    },
-    
+    # "asset-metrics" = {
+    #   metric_cols <- setdiff(colnames(out), c("time", "asset"))
+    #   out[, (metric_cols) := lapply(.SD, readr::parse_guess), .SDcols = metric_cols]
+    # },
     "market-metrics" = {
-      
       metric_cols <- setdiff(colnames(out), c("time", "market"))
       out[, (metric_cols) := lapply(.SD, readr::parse_guess), .SDcols = metric_cols]
-      
     },
-    
     "exchange-asset-metrics" = {
-      
       metric_cols <- setdiff(colnames(out), c("time", "exchange_asset"))
       out[, (metric_cols) := lapply(.SD, readr::parse_guess), .SDcols = metric_cols]
-      
     },
     "taxonomy-assets" = {
-      out[, 
-          c('class_id', 'sector_id', 'subsector_id') := lapply(.SD, as.integer), 
-          .SDcols=c('class_id', 'sector_id', 'subsector_id')
-          ]
+      out[,
+        c("class_id", "sector_id", "subsector_id") := lapply(.SD, as.integer),
+        .SDcols = c("class_id", "sector_id", "subsector_id")
+      ]
     },
     "taxonomy-metadata" = {
       subsectors <- NULL
-      out[, c('class_id', 'class', 'sector_id', 'sector', 'subsector_id', 'subsector') := data.table::rbindlist(subsectors)]
+      out[, c("class_id", "class", "sector_id", "sector", "subsector_id", "subsector") := data.table::rbindlist(subsectors)]
       out[, subsectors := NULL]
-      out[, 
-          c('class_id', 'sector_id', 'subsector_id') := lapply(.SD, as.integer), 
-          .SDcols=c('class_id', 'sector_id', 'subsector_id')
+      out[,
+        c("class_id", "sector_id", "subsector_id") := lapply(.SD, as.integer),
+        .SDcols = c("class_id", "sector_id", "subsector_id")
       ]
     },
     {
       # Default option
       data_cols <- which(sapply(out, is.character))
-      
+
       out[, (data_cols) := lapply(.SD, readr::parse_guess), .SDcols = data_cols]
     }
-   
-    
   )
-  
+
   return(out[])
-  
 }
 
 get_coinmetrics_api_data_legacy <- function(api_response,
-                                     endpoint,
-                                     paging_from,
-                                     as_list = FALSE) {
+                                            endpoint,
+                                            paging_from,
+                                            as_list = FALSE) {
   api_content <- api_response %>%
     httr::content()
 
