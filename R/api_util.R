@@ -104,12 +104,12 @@ get_coinmetrics_api_data <- function(api_response,
 
   rm(api_data)
 
-  if (endpoint %in% c("profile-assets", "reference-data")) {
+  if (endpoint %in% c("profile-assets", "reference-data", "catalog-v2")) {
     return(out)
   }
 
   time_cols <- grep(x = colnames(out), pattern = "time$", value = TRUE)
-  out[, (time_cols) := lapply(.SD, anytime::anytime), .SDcols = time_cols]
+  out[, (time_cols) := lapply(.SD, lubridate::ymd_hms), .SDcols = time_cols]
 
   switch(endpoint,
     "index-levels" = {
@@ -232,7 +232,7 @@ get_coinmetrics_api_data_legacy <- function(api_response,
   } else {
     if (endpoint == "market-orderbooks") {
       api_data <- tibble::tibble(
-        time = anytime::anytime(purrr::map_chr(api_data, "time", .default = NA)),
+        time = lubridate::ymd_hms(purrr::map_chr(api_data, "time", .default = NA)),
         market = purrr::map_chr(api_data, "market", .default = NA),
         coin_metrics_id = purrr::map_chr(api_data, "coin_metrics_id", .default = NA),
         asks = purrr::map(api_data, "asks", .default = NA),
@@ -262,13 +262,13 @@ get_coinmetrics_api_data_legacy <- function(api_response,
         tips = purrr::map(api_data, "tips", .default = NA)
       ) %>%
         dplyr::mutate(
-          time = anytime::anytime(.data$time),
+          time = lubridate::ymd_hms(.data$time),
           dplyr::across(c("tips_count", "block_hashes_at_tip"), as.numeric)
         ) %>%
         tidyr::unnest_longer(.data$tips) %>%
         tidyr::hoist(.data$tips, "last_time", "height", "hash", "pool_count",
           .transform = list(
-            last_time = anytime::anytime,
+            last_time = lubridate::ymd_hms,
             height = as.numeric,
             pool_count = as.numeric
           )
@@ -289,7 +289,7 @@ get_coinmetrics_api_data_legacy <- function(api_response,
       api_data <- api_data %>%
         data.table::rbindlist(fill = TRUE) %>%
         tidyr::unnest(.data$chains) %>%
-        tidyr::hoist(.data$chains, "hash", "height", "time", .transform = list(time = anytime::anytime))
+        tidyr::hoist(.data$chains, "hash", "height", "time", .transform = list(time = lubridate::ymd_hms))
 
       return(api_data)
     }
@@ -306,7 +306,7 @@ get_coinmetrics_api_data_legacy <- function(api_response,
           weight = purrr::map_chr(.data$constituents, "weight", .default = NA)
         ) %>%
         dplyr::mutate(
-          time = anytime::anytime(.data$time),
+          time = lubridate::ymd_hms(.data$time),
           weight = as.numeric(.data$weight)
         ) %>%
         dplyr::select(-.data$constituents)

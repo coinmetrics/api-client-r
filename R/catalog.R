@@ -69,7 +69,7 @@ catalog_indexes <- function(indexes = NULL) {
   data.table::rbindlist(api_data, fill = TRUE) %>%
     tidyr::unnest_wider(.data$frequencies) %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
     )
 }
 
@@ -85,7 +85,7 @@ catalog_index_candles <- function(indexes = NULL) {
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider(.data$frequencies) %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
     )
 }
 
@@ -270,7 +270,7 @@ catalog_market_candles <- function(markets = NULL,
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider("frequencies") %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
     )
 }
 
@@ -353,23 +353,24 @@ catalog_greeks <- function(markets = NULL,
 }
 
 #' Available Asset Alerts
-#' @param assets Vector of asets. By default all assets are returned.
-#' @param alerts Vector of asset alert names. By default all asset alerts are returned.
-#' @return available asset alerts along with their descriptions, thresholds, and constituents.
+#' @inheritParams catalog_assets
+#' @param alerts Character vector of asset alert names. By default all asset alerts are returned.
+#' @return Tibble of available asset alerts along with their descriptions, thresholds, and constituents.
 #' @export
 catalog_asset_alerts <- function(assets = NULL, alerts = NULL) {
-  query_args <- list(assets = assets, alerts = alerts)
+  
+  query_args <- list(
+      assets = assets,
+      alerts = alerts
+    )
 
-  resp <- send_coinmetrics_request(endpoint = "catalog/alerts", query_args = query_args)
-  api_data <- httr::content(resp)[["data"]]
+  resp <- send_coinmetrics_request(
+    endpoint = "/catalog/asset-alerts",
+    query_args = query_args
+  )
+  catalog_data <- get_catalog_v2_data(resp, paging_from = NULL)
 
-  api_data %>%
-    data.table::rbindlist(fill = TRUE) %>%
-    tidyr::hoist(
-      .data$conditions,
-      "description",
-      "threshold",
-      "constituents"
-    ) %>%
-    tidyr::unnest_longer(.data$constituents)
+  catalog_data |>
+    tidyr::unnest('conditions') |>
+    tidyr::unnest('constituents')
 }

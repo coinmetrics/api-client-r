@@ -188,11 +188,169 @@ get_list_of_balance_updates <- function(asset,
   )
 }
 
-#' Get Full Block
+#' Get Full Transaction
 #' @param asset Asset name.
-#' @param block_hashes Block hash.
-#' @return Tibble of full blockchain block with all transactions and balance updates.
+#' @param txid Transaction identifier.
+#' @return Full blockchain transaction with all balance updates. 
+#' The result is a list of two tibbles. The first element, `metadata`, contains summary information for the transaction.
+#' The second element, `balance_updates` lists the balance updates for the transaction.
+#' @export
+get_full_transaction <- function(asset, txid) {
+  
+  resp <- send_coinmetrics_request(
+    endpoint = paste("/blockchain", asset, "transactions", txid, sep = "/")
+  )
+  
+  tx_ls <- 
+    httr::content(resp, as = 'raw') |>
+    RcppSimdJson::fparse()
+  
+  tx_data <- 
+    tibble::new_tibble(tx_ls[-9]) |>
+    dplyr::mutate(
+      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across(
+        c('min_chain_sequence_number', 
+          'max_chain_sequence_number',
+          'n_balance_updates', 
+          'amount', 
+          'height'),
+        as.numeric
+      )
+    )
+  
+  tx_updates <-
+    tibble::new_tibble(tx_ls[[9]]) |>
+    dplyr::mutate(
+      dplyr::across(-'account', as.numeric)
+    )
+  
+  list(
+    metadata = tx_data,
+    balance_updates  = tx_updates
+  )
+}
 
-# get_full_block <- function(asset, block_hashes) {
-#
-# }
+#' Full block
+#' @param asset Asset name
+#' @param block_hash Block hash
+#' @return Full blockchain blok with all transactions and balance updates.
+#' The result is a list of threee tibbles. The first element, `metadata`, contains summary information for the block.
+#' The second element, `block_transactions` list the transactions for the block.
+#' The third element, `balance_updates` lists the balance updates the block.
+#' @export
+get_full_block <- function(asset, block_hash) {
+  
+  resp <- send_coinmetrics_request(
+    endpoint = paste("/blockchain", asset, "blocks", block_hash, sep = "/")
+  )
+  
+  block_ls <-
+    httr::content(resp, as = 'raw') |>
+    RcppSimdJson::fparse()
+  
+  block_metadata <- tibble::new_tibble(
+    block_ls[!names(block_ls) %in% c('transactions', 'balance_updates')]
+    ) |>
+    dplyr::mutate(dplyr::across(dplyr::any_of(
+      c(
+        'height',
+        'n_transactions',
+        'n_balance_updates',
+        'difficulty',
+        'physical_size',
+        'consensus_size',
+        'consensus_size_limit'
+      )
+    ),
+    as.numeric),
+    dplyr::across(c('consensus_time', 'miner_time'), lubridate::ymd_hms))
+  
+  block_transactions <- tibble::new_tibble(
+    block_ls[["transactions"]]
+  ) |>
+    dplyr::mutate(
+      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across(3:6, as.numeric)
+    )
+  
+  block_updates <- tibble::new_tibble(
+    block_ls[["balance_updates"]]
+  ) |>
+    dplyr::mutate(
+      dplyr::across(-'account', as.numeric)
+    )
+  
+  list(
+    metadata = block_metadata,
+    transactions = block_transactions,
+    balance_updates = block_updates
+  )
+}
+
+#' Full Transaction for Block
+#' @param asset Asset name
+#' @param block_hash Block hash
+#' @param txid Transaction identifier (txid)
+#' @return Full blockchain transaction with all balance updates for a specific block.
+#' The result is a list of two tibbles. The first element, `metadata`, contains summary information for the transaction.
+#' The second element, `balance_updates` lists the balance updates for the transaction.
+#' @export
+get_full_transaction_for_block <- function(asset, block_hash, txid) {
+  
+  resp <- send_coinmetrics_request(
+    endpoint = paste('blockchain', asset, 'blocks', block_hash, 'transactions', txid, sep = '/')
+  )
+  
+  tx_ls <-
+    httr::content(resp, as = 'raw') |>
+    RcppSimdJson::fparse()
+  
+  tx_data <- 
+    tibble::new_tibble(tx_ls[-9]) |>
+    dplyr::mutate(
+      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across(
+        c('min_chain_sequence_number', 
+          'max_chain_sequence_number',
+          'n_balance_updates', 
+          'amount', 
+          'height'),
+        as.numeric
+      )
+    )
+  
+  tx_updates <-
+    tibble::new_tibble(tx_ls[[9]]) |>
+    dplyr::mutate(
+      dplyr::across(-'account', as.numeric)
+    )
+  
+  list(
+    metadata = tx_data,
+    balance_updates  = tx_updates
+  )
+}
+
+#' Block Settlements
+#' @param asset Asset name.
+#' @return Tibble of block settlements
+#' @export
+get_block_settlements <- function(asset) {
+  
+  resp <- send_coinmetrics_request(paste('blockchain', asset, 'settlement', sep = '/'))
+  
+  settlements <- 
+    httr::content(resp, as = 'raw') |>
+    RcppSimdJson::fparse(query = '/data') |>
+    tibble::new_tibble() |>
+    dplyr::mutate(
+      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across(
+        dplyr::any_of(c('n_transactions', 'physical_size', 'feerate_min', 'feerate_max', 'feerate_mean')),
+        as.numeric
+      )
+    )
+  
+  return(settlements)
+}

@@ -7,9 +7,9 @@
 catalog_full_asset_alerts(assets = NULL, alerts = NULL)
 }
 \arguments{
-\item{assets}{Vector of assets. By default, all assets are returned.}
+\item{assets}{Vector of assets. By default all assets are returned.}
 
-\item{alerts}{Vector of alert names. By default, all asset alerts are returned.}
+\item{alerts}{Character vector of asset alert names. By default all asset alerts are returned.}
 }
 \value{
 Tibble of all supported asset alerts along with their descriptions, thresholds, and constituents.

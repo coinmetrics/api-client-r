@@ -13,7 +13,7 @@ reference_data_exchange_asset_metrics(
 \arguments{
 \item{metrics}{Vector of metrics. By default all metrics are returned.}
 
-\item{page_size}{Number of items per single page of results, default is 100.}
+\item{page_size}{Number of items per single page of results, default is \code{100}.}
 
 \item{paging_from}{Enum: \code{start} or \code{end}. Where does the first page start, at the start of the interval or at the end.}
 }

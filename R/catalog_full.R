@@ -229,7 +229,7 @@ catalog_full_market_orderbooks <- function(markets = NULL,
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::hoist(
       "depths", "depth", "min_time", "max_time",
-      .transform = list(min_time = anytime::anytime, max_time = anytime::anytime)
+      .transform = list(min_time = lubridate::ymd_hms, max_time = lubridate::ymd_hms)
     ) %>%
     tibble::as_tibble()
 }
@@ -260,8 +260,8 @@ catalog_full_market_quotes <- function(markets = NULL,
 
   tibble::tibble(
     market = purrr::map_chr(api_data, "market", .default = NA),
-    min_time = anytime::anytime(purrr::map_chr(api_data, "min_time", .default = NA)),
-    max_time = anytime::anytime(purrr::map_chr(api_data, "max_time", .default = NA))
+    min_time = lubridate::ymd_hms(purrr::map_chr(api_data, "min_time", .default = NA)),
+    max_time = lubridate::ymd_hms(purrr::map_chr(api_data, "max_time", .default = NA))
   )
 }
 
@@ -291,8 +291,8 @@ catalog_full_market_funding_rates <- function(markets = NULL,
 
   tibble::tibble(
     market = purrr::map_chr(api_data, "market", .default = NA),
-    min_time = anytime::anytime(purrr::map_chr(api_data, "min_time", .default = NA)),
-    max_time = anytime::anytime(purrr::map_chr(api_data, "max_time", .default = NA))
+    min_time = lubridate::ymd_hms(purrr::map_chr(api_data, "min_time", .default = NA)),
+    max_time = lubridate::ymd_hms(purrr::map_chr(api_data, "max_time", .default = NA))
   )
 }
 
@@ -412,7 +412,7 @@ catalog_full_indexes <- function(indexes = NULL) {
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider("frequencies") %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
     )
 }
 
@@ -428,28 +428,28 @@ catalog_full_index_candles <- function(indexes = NULL) {
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider("frequencies") %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), anytime::anytime)
+      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
     )
 }
 
 #' Supported Asset Alerts
-#' @param assets Vector of assets. By default, all assets are returned.
-#' @param alerts Vector of alert names. By default, all asset alerts are returned.
+#' @inheritParams catalog_asset_alerts
 #' @return Tibble of all supported asset alerts along with their descriptions, thresholds, and constituents.
 #' @export
 catalog_full_asset_alerts <- function(assets = NULL, alerts = NULL) {
-  query_args <- list(assets = assets, alerts = alerts)
+  
+  query_args <- list(
+    assets = assets,
+    alerts = alerts
+  )
 
-  resp <- send_coinmetrics_request(endpoint = "catalog-all/alerts", query_args = query_args)
-  api_data <- httr::content(resp)[["data"]]
-
-  api_data %>%
-    data.table::rbindlist(fill = TRUE) %>%
-    tidyr::hoist(
-      .data$conditions,
-      "description",
-      "threshold",
-      "constituents"
-    ) %>%
-    tidyr::unnest_longer(.data$constituents)
+  resp <- send_coinmetrics_request(
+    endpoint = "catalog-all/asset-alerts", 
+    query_args = query_args
+  )
+  catalog_data <- get_catalog_v2_data(resp, paging_from = NULL)
+  
+  catalog_data |>
+    tidyr::unnest('conditions') |>
+    tidyr::unnest('constituents')
 }
