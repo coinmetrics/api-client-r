@@ -23,7 +23,7 @@ catalogExchangesData <- function(api_response) {
     data.table::setDT()
 
   df_exchanges[,
-    c("min_time", "max_time") := lapply(.SD, lubridate::ymd_hms),
+    c("min_time", "max_time") := lapply(.SD, lubridate::as_datetime),
     .SDcols = c("min_time", "max_time")
   ]
 
@@ -38,7 +38,7 @@ catalogExchangeAssetsData <- function(api_response) {
   df_ea %>%
     tidyr::unnest("metrics") %>%
     tidyr::unnest("frequencies") %>%
-    dplyr::mutate(dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms))
+    dplyr::mutate(dplyr::across(c("min_time", "max_time"), lubridate::as_datetime))
 }
 
 catalogPairsData <- function(api_response) {
@@ -48,7 +48,7 @@ catalogPairsData <- function(api_response) {
 
   df_pairs %>%
     tidyr::unnest("frequencies") %>%
-    dplyr::mutate(dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms))
+    dplyr::mutate(dplyr::across(c("min_time", "max_time"), lubridate::as_datetime))
 }
 
 catalogMetricsData <- function(api_response, level) {
@@ -69,7 +69,7 @@ catalogInstData <- function(api_response) {
   df_inst %>%
     tidyr::unnest("metrics") %>%
     tidyr::unnest("frequencies") %>%
-    dplyr::mutate(dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms))
+    dplyr::mutate(dplyr::across(c("min_time", "max_time"), lubridate::as_datetime))
 }
 
 catalogMarketCandlesData <- function(api_response) {
@@ -80,7 +80,7 @@ catalogMarketCandlesData <- function(api_response) {
     data.table::setDT()
 
   df_candles <- df_candles[, unlist(frequencies, recursive = FALSE), by = "market"]
-  df_candles[, c("min_time", "max_time") := lapply(.SD, lubridate::ymd_hms), .SDcols = c("min_time", "max_time")]
+  df_candles[, c("min_time", "max_time") := lapply(.SD, lubridate::as_datetime), .SDcols = c("min_time", "max_time")]
 
   tibble::as_tibble(df_candles)
 }

@@ -69,7 +69,7 @@ catalog_indexes <- function(indexes = NULL) {
   data.table::rbindlist(api_data, fill = TRUE) %>%
     tidyr::unnest_wider(.data$frequencies) %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
+      dplyr::across(c("min_time", "max_time"), lubridate::as_datetime)
     )
 }
 
@@ -85,7 +85,7 @@ catalog_index_candles <- function(indexes = NULL) {
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider(.data$frequencies) %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
+      dplyr::across(c("min_time", "max_time"), lubridate::as_datetime)
     )
 }
 
@@ -270,7 +270,7 @@ catalog_market_candles <- function(markets = NULL,
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider("frequencies") %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
+      dplyr::across(c("min_time", "max_time"), lubridate::as_datetime)
     )
 }
 

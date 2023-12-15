@@ -229,7 +229,7 @@ catalog_full_market_orderbooks <- function(markets = NULL,
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::hoist(
       "depths", "depth", "min_time", "max_time",
-      .transform = list(min_time = lubridate::ymd_hms, max_time = lubridate::ymd_hms)
+      .transform = list(min_time = lubridate::as_datetime, max_time = lubridate::as_datetime)
     ) %>%
     tibble::as_tibble()
 }
@@ -260,8 +260,8 @@ catalog_full_market_quotes <- function(markets = NULL,
 
   tibble::tibble(
     market = purrr::map_chr(api_data, "market", .default = NA),
-    min_time = lubridate::ymd_hms(purrr::map_chr(api_data, "min_time", .default = NA)),
-    max_time = lubridate::ymd_hms(purrr::map_chr(api_data, "max_time", .default = NA))
+    min_time = lubridate::as_datetime(purrr::map_chr(api_data, "min_time", .default = NA)),
+    max_time = lubridate::as_datetime(purrr::map_chr(api_data, "max_time", .default = NA))
   )
 }
 
@@ -291,8 +291,8 @@ catalog_full_market_funding_rates <- function(markets = NULL,
 
   tibble::tibble(
     market = purrr::map_chr(api_data, "market", .default = NA),
-    min_time = lubridate::ymd_hms(purrr::map_chr(api_data, "min_time", .default = NA)),
-    max_time = lubridate::ymd_hms(purrr::map_chr(api_data, "max_time", .default = NA))
+    min_time = lubridate::as_datetime(purrr::map_chr(api_data, "min_time", .default = NA)),
+    max_time = lubridate::as_datetime(purrr::map_chr(api_data, "max_time", .default = NA))
   )
 }
 
@@ -412,7 +412,7 @@ catalog_full_indexes <- function(indexes = NULL) {
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider("frequencies") %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
+      dplyr::across(c("min_time", "max_time"), lubridate::as_datetime)
     )
 }
 
@@ -428,7 +428,7 @@ catalog_full_index_candles <- function(indexes = NULL) {
     data.table::rbindlist(fill = TRUE) %>%
     tidyr::unnest_wider("frequencies") %>%
     dplyr::mutate(
-      dplyr::across(c("min_time", "max_time"), lubridate::ymd_hms)
+      dplyr::across(c("min_time", "max_time"), lubridate::as_datetime)
     )
 }
 

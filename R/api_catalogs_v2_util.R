@@ -41,7 +41,7 @@ catalogV2MetricsData <- function(api_data) {
     tidyr::unnest('frequencies') |>
     data.table::setDT()
   
-  df_metrics[, c('min_time', 'max_time') := lapply(.SD, lubridate::ymd_hms), .SDcols = c('min_time', 'max_time')]
+  df_metrics[, c('min_time', 'max_time') := lapply(.SD, lubridate::as_datetime), .SDcols = c('min_time', 'max_time')]
   
   return(df_metrics[])
 }
@@ -49,7 +49,7 @@ catalogV2MetricsData <- function(api_data) {
 catalogV2MarketsData <- function(api_data) {
   
   data.table::setDT(api_data)
-  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::ymd_hms), .SDcols = c('min_time', 'max_time')]
+  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::as_datetime), .SDcols = c('min_time', 'max_time')]
   
   return(api_data[])
 }
@@ -59,7 +59,7 @@ catalogV2MarketCandlesData <- function(api_data) {
   data.table::setDT(api_data)
   api_data <- api_data[, unlist(get('frequencies'), recursive = FALSE, use.names = TRUE), by = 'market']
   
-  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::ymd_hms), .SDcols = c('min_time', 'max_time')]
+  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::as_datetime), .SDcols = c('min_time', 'max_time')]
   
   return(api_data[])
 }
@@ -69,7 +69,7 @@ catalogV2PairCandlesData <- function(api_data) {
   data.table::setDT(api_data)
   api_data <- api_data[, unlist(get('frequencies'), recursive = FALSE, use.names = TRUE), by = 'pair']
   
-  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::ymd_hms), .SDcols = c('min_time', 'max_time')]
+  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::as_datetime), .SDcols = c('min_time', 'max_time')]
   
   return(api_data[])
 }
@@ -79,7 +79,7 @@ catalogV2OrderbooksData <- function(api_data) {
   data.table::setDT(api_data)
   api_data <- api_data[, unlist(get('depths'), recursive = FALSE, use.names = TRUE), by = 'market']
   
-  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::ymd_hms), .SDcols = c('min_time', 'max_time')]
+  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::as_datetime), .SDcols = c('min_time', 'max_time')]
   
   return(api_data[])
 }
@@ -92,7 +92,7 @@ catalogV2MarketMetricsData <- function(api_data) {
     tidyr::unnest('frequencies') |>
     data.table::setDT()
   
-  df_market_metrics[, c('min_time', 'max_time') := lapply(.SD, lubridate::ymd_hms), .SDcols = c('min_time', 'max_time')]
+  df_market_metrics[, c('min_time', 'max_time') := lapply(.SD, lubridate::as_datetime), .SDcols = c('min_time', 'max_time')]
   
   return(df_market_metrics[])
 }
@@ -102,7 +102,7 @@ catalogV2IndexData <- function(api_data) {
   data.table::setDT(api_data)
   
   api_data <- api_data[, unlist(get('frequencies'), recursive = F, use.names = T), by = 'index']
-  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::ymd_hms), .SDcols = c('min_time', 'max_time')]
+  api_data[, c('min_time', 'max_time') := lapply(.SD, lubridate::as_datetime), .SDcols = c('min_time', 'max_time')]
   
   return(api_data[])
 }

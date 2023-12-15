@@ -208,7 +208,7 @@ get_full_transaction <- function(asset, txid) {
   tx_data <- 
     tibble::new_tibble(tx_ls[-9]) |>
     dplyr::mutate(
-      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across('consensus_time', lubridate::as_datetime),
       dplyr::across(
         c('min_chain_sequence_number', 
           'max_chain_sequence_number',
@@ -264,13 +264,13 @@ get_full_block <- function(asset, block_hash) {
       )
     ),
     as.numeric),
-    dplyr::across(c('consensus_time', 'miner_time'), lubridate::ymd_hms))
+    dplyr::across(c('consensus_time', 'miner_time'), lubridate::as_datetime))
   
   block_transactions <- tibble::new_tibble(
     block_ls[["transactions"]]
   ) |>
     dplyr::mutate(
-      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across('consensus_time', lubridate::as_datetime),
       dplyr::across(3:6, as.numeric)
     )
   
@@ -309,7 +309,7 @@ get_full_transaction_for_block <- function(asset, block_hash, txid) {
   tx_data <- 
     tibble::new_tibble(tx_ls[-9]) |>
     dplyr::mutate(
-      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across('consensus_time', lubridate::as_datetime),
       dplyr::across(
         c('min_chain_sequence_number', 
           'max_chain_sequence_number',
@@ -345,7 +345,7 @@ get_block_settlements <- function(asset) {
     RcppSimdJson::fparse(query = '/data') |>
     tibble::new_tibble() |>
     dplyr::mutate(
-      dplyr::across('consensus_time', lubridate::ymd_hms),
+      dplyr::across('consensus_time', lubridate::as_datetime),
       dplyr::across(
         dplyr::any_of(c('n_transactions', 'physical_size', 'feerate_min', 'feerate_max', 'feerate_mean')),
         as.numeric
